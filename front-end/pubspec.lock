@@ -63,7 +63,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_config:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_config
       sha256: "8e2be2d560a52e06d2ef53a31913a11fc80ef708a442571c96194fd32e29fb1a"
