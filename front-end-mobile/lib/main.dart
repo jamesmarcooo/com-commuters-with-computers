@@ -2,7 +2,7 @@
 import 'package:front_end_mobile/login/login.dart';
 // import 'package:front_end_mobile/map/map.dart';
 // import 'package:front_end_mobile/signup/signup.dart';
-// import 'package:front_end_mobile/homepage/homepage.dart';
+import 'package:front_end_mobile/homepage/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 
@@ -12,7 +12,7 @@ void main() {
     routes: {
       '/login': (context) => Login(),
       //   '/register': (context) => Signup(),
-      //   '/homepage': (context) => HomePage(),
+      '/homepage': (context) => HomePage(),
       //   '/livelocation': (context) => MapPage()
     },
     home: new MyApp(),
@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return new SplashScreen(
         seconds: 1,
-        navigateAfterSeconds: new Login(),
+        navigateAfterSeconds: new HomePage(),
         title: new Text(
           'Welcome to BusTracker',
           style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
