@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
         ),
         backgroundColor: const Color(0xff5644B2),
         styleTextUnderTheLoader: const TextStyle(),
-        photoSize: 120.0,
+        photoSize: 140.0,
         loaderColor: const Color(0xff2A2563));
   }
 }
