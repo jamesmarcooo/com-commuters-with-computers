@@ -31,12 +31,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return SplashScreen(
         seconds: 4,
-        navigateAfterSeconds: HomePage(),
+        navigateAfterSeconds: const HomePage(),
         // title: new Text(
         //   'Welcome to BusTracker',
         //   style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
         // ),
-        image: Image.network('https://i.imgur.com/TyCSG9A.png'),
+        image: const Image(
+          image: AssetImage('assets/images/com-02.png'),
+          width: 300,
+          height: 300,
+        ),
         backgroundColor: const Color(0xff2a9d8f),
         styleTextUnderTheLoader: const TextStyle(),
         photoSize: 100.0,
