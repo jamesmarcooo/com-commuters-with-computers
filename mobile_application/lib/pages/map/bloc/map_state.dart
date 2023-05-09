@@ -1,30 +1,33 @@
 part of 'map_bloc.dart';
 
-abstract class MapEvent extends Equatable {
-  const MapEvent();
+abstract class MapState extends Equatable {
+  const MapState();
 
   @override
   List<Object> get props => [];
 }
 
-class LoadMyPosition extends MapEvent {
-  final LatLng? latLng;
-  const LoadMyPosition({this.latLng});
+class MapInitial extends MapState {}
+
+class LoadingCurrentPosition extends MapState {
+  const LoadingCurrentPosition();
 }
 
-class LoadPositionBetweenPoints extends MapEvent {
-  final LatLng startLatLng;
-  final LatLng endLatLng;
-  const LoadPositionBetweenPoints(this.startLatLng, this.endLatLng);
+class LoadedCurrentPosition extends MapState {
+  final Address? address;
+  const LoadedCurrentPosition(this.address);
 }
 
-class LoadRouteCoordinates extends MapEvent {
-  final LatLng startLatLng;
-  final LatLng endLatLng;
-  const LoadRouteCoordinates(this.startLatLng, this.endLatLng);
+class LoadingAddress extends MapState {}
+
+class LoadedSearchAddressResults extends MapState {
+  final List<Address>? address;
+  const LoadedSearchAddressResults(this.address);
 }
 
-class SearchAddress extends MapEvent {
-  final String query;
-  const SearchAddress(this.query);
+class LoadedRoutes extends MapState {
+  final Address startAddress;
+  final Address endAddress;
+
+  const LoadedRoutes(this.startAddress, this.endAddress);
 }
