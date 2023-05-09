@@ -1,5 +1,5 @@
 import 'package:mobile_application/pages/auth/bloc/auth_bloc.dart';
-// import 'package:mobile_application/pages/home/home.dart';
+import 'package:mobile_application/pages/home/home.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
       create: (context) => bloc,
       child: MaterialApp(
         title: 'City Cab',
-        theme: CityTheme.theme,
+        theme: ComAppTeme.theme,
         home: HomePage(),
       ),
     );
