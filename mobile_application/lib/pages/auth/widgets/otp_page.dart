@@ -1,56 +1,23 @@
-import 'dart:async';
-
-import 'package:mobile_application/pages/auth/bloc/auth_bloc.dart';
+import 'package:mobile_application/pages/auth/auth_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../../ui/theme.dart';
 
 class OtpPage extends StatefulWidget {
-  const OtpPage({
-    Key? key,
-    required TextEditingController otpController,
-    required this.bloc,
-    required this.phoneNumber,
-  })  : _otpController = otpController,
-        super(key: key);
-
-  final TextEditingController _otpController;
-  final AuthBloc bloc;
-  final String phoneNumber;
+  const OtpPage({Key? key});
 
   @override
   _OtpPageState createState() => _OtpPageState();
 }
 
 class _OtpPageState extends State<OtpPage> {
-  int count = 30;
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void _startCountDown() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      if (timer.tick > 30) {
-        timer.cancel();
-      } else {
-        setState(() {
-          --count;
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
-      listener: (_, state) {
-        if (state is CodeSentState) {
-          _startCountDown();
-        }
-      },
-      builder: (context, state) {
+    final state = Provider.of<AuthState>(context);
+    return Builder(
+      builder: (context) {
         return Container(
           color: Colors.white,
           child: Padding(
@@ -68,14 +35,14 @@ class _OtpPageState extends State<OtpPage> {
                   style: Theme.of(context).textTheme.bodyText1,
                 ).paddingBottom(8),
                 Text(
-                  '+63 ${widget.phoneNumber}',
+                  '+63 ${state.phoneController.text}',
                   style: Theme.of(context)
                       .textTheme
                       .headline6!
                       .copyWith(fontWeight: FontWeight.bold),
                 ).paddingBottom(ComAppTheme.elementSpacing),
                 PinFieldAutoFill(
-                  controller: widget._otpController,
+                  controller: state.otpController,
                   decoration: BoxLooseDecoration(
                     textStyle: TextStyle(fontSize: 20, color: Colors.black),
                     strokeColorBuilder: FixedColorBuilder(Colors.grey),
@@ -89,7 +56,7 @@ class _OtpPageState extends State<OtpPage> {
                   },
                 ),
                 Spacer(),
-                state is LoadingAuthState
+                state.phoneAuthState == PhoneAuthState.loading
                     ? Text(
                         'Verifying...',
                         style: Theme.of(context)
@@ -98,7 +65,7 @@ class _OtpPageState extends State<OtpPage> {
                             .copyWith(fontWeight: FontWeight.w400),
                       ).paddingBottom(8)
                     : SizedBox.shrink(),
-                state is CodeSentState
+                state.phoneAuthState == PhoneAuthState.codeSent
                     ? Row(
                         children: [
                           Text(
@@ -109,7 +76,7 @@ class _OtpPageState extends State<OtpPage> {
                                 .copyWith(fontWeight: FontWeight.w400),
                           ),
                           Text(
-                            '0:$count',
+                            '0:${state.timeOut}',
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle1!

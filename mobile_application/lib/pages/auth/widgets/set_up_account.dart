@@ -1,21 +1,15 @@
+import 'package:mobile_application/pages/auth/auth_state.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/textfields/cab_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SetUpAccount extends StatelessWidget {
-  final TextEditingController? firstnameController;
-  final TextEditingController? lastnameController;
-  final TextEditingController? emailController;
-
-  const SetUpAccount({
-    Key? key,
-    this.firstnameController,
-    this.lastnameController,
-    this.emailController,
-  }) : super(key: key);
+  const SetUpAccount({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<AuthState>(context);
     return Container(
       color: Colors.white,
       child: Padding(
@@ -37,21 +31,21 @@ class SetUpAccount extends StatelessWidget {
                 Expanded(
                   child: CityTextField(
                     label: 'First Name',
-                    controller: firstnameController,
+                    controller: state.firstNameController,
                   ),
                 ),
                 SizedBox(width: ComAppTheme.elementSpacing),
                 Expanded(
                   child: CityTextField(
                     label: 'Last Name',
-                    controller: lastnameController,
+                    controller: state.lastNameController,
                   ),
                 ),
               ],
             ).paddingBottom(ComAppTheme.elementSpacing),
             CityTextField(
               label: 'Email',
-              controller: emailController,
+              controller: state.emailController,
             ),
           ],
         ),

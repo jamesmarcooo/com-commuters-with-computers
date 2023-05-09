@@ -16,7 +16,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:ui' as ui;
 import 'dart:convert';
-
 import 'code_generator.dart';
 
 class Deley {
@@ -26,7 +25,7 @@ class Deley {
 
   Deley({this.milliseconds});
   run(VoidCallback action) {
-    if (null != _timer) {
+    if (_timer != null) {
       _timer?.cancel();
     }
     _timer = Timer(Duration(microseconds: milliseconds ?? 400), action);
@@ -35,9 +34,7 @@ class Deley {
 
 class MapService {
   MapService._();
-
   static MapService? _instance;
-
   static MapService? get instance {
     if (_instance == null) {
       _instance = MapService._();
@@ -46,16 +43,14 @@ class MapService {
   }
 
   final String baseUrl = "https://maps.googleapis.com/maps/api/directions/json";
-
   Duration duration = Duration();
   final _deley = Deley(milliseconds: 2000);
 
-  ValueNotifier<Address?>? currentPosition = ValueNotifier<Address?>(null);
+  ValueNotifier<Address?> currentPosition = ValueNotifier<Address?>(null);
   ValueNotifier<Set<Marker>> markers = ValueNotifier<Set<Marker>>({});
   List<Address> searchedAddress = [];
 
   CustomInfoWindowController controller = CustomInfoWindowController();
-
   Future<Set<Marker>> addMarker(
       String markerId, Address? address, BitmapDescriptor icon,
       {required DateTime time, required InfoWindowType type}) async {
@@ -66,7 +61,6 @@ class MapService {
               : ImagesAsset.pin,
           65);
       final icon = BitmapDescriptor.fromBytes(markerIcon);
-
       final marker = Marker(
           markerId: MarkerId(markerId),
           position: address.latLng!,
@@ -141,13 +135,14 @@ class MapService {
 
       final address = await getAddressFromCoodinate(
           LatLng(position.latitude, position.longitude));
-      currentPosition?.value = address;
+      currentPosition.value = address;
+      currentPosition.notifyListeners();
 
       final icon = await getMapIcon(ImagesAsset.circlePin);
       addMarker(CodeGenerator.instance!.generateCode('m'),
-          currentPosition!.value, icon,
+          currentPosition.value, icon,
           time: DateTime.now(), type: InfoWindowType.position);
-      return currentPosition?.value;
+      return currentPosition.value;
     } else {
       return null;
     }
@@ -172,7 +167,6 @@ class MapService {
   Future<Address> getRouteCoordinates(
       LatLng? startLatLng, LatLng? endLatLng) async {
     markers.value.clear();
-
     var uri = Uri.parse(
         "$baseUrl?origin=${startLatLng?.latitude},${startLatLng?.longitude}&destination=${endLatLng?.latitude},${endLatLng?.longitude}&key=${GoogleMapKey.key}");
     http.Response response = await http.get(uri);
@@ -180,7 +174,6 @@ class MapService {
     final points = values['routes'][0]['overview_polyline']['points'];
     final legs = values['routes'][0]['legs'];
     final polylines = PolylinePoints().decodePolyline(points);
-
     if (legs != null) {
       final DateTime time = DateTime.fromMillisecondsSinceEpoch(
           values['routes'][0]['legs'][0]['duration']['value']);
@@ -199,7 +192,6 @@ class MapService {
         LatLng(endLatLng!.latitude, endLatLng.longitude),
         polylines: polylines);
     BitmapDescriptor icon = await getMapIcon(ImagesAsset.pin);
-
     await addMarker(
         CodeGenerator.instance!.generateCode('m2'), endAddress, icon,
         time: DateTime.now(), type: InfoWindowType.destination);
@@ -207,11 +199,11 @@ class MapService {
     final startAddress = await getAddressFromCoodinate(
         LatLng(startLatLng!.latitude, startLatLng.longitude),
         polylines: polylines);
-    currentPosition?.value = startAddress;
+    currentPosition.value = startAddress;
 
     BitmapDescriptor icon2 = await getMapIcon(ImagesAsset.circlePin);
     await addMarker(CodeGenerator.instance!.generateCode('m1'),
-        currentPosition?.value, icon2,
+        currentPosition.value, icon2,
         time: DateTime.now(), type: InfoWindowType.position);
 
     return endAddress;
@@ -236,7 +228,7 @@ class MapService {
           currentPositionMarker.copyWith(
               positionParam: LatLng(position.latitude, position.longitude));
         } catch (_) {}
-        currentPosition?.value = await getAddressFromCoodinate(
+        currentPosition.value = await getAddressFromCoodinate(
             LatLng(position.latitude, position.longitude));
       });
     }
@@ -274,13 +266,12 @@ class MapService {
 
   Future<Address?> getPosition(LatLng latLng) async {
     final address = await getAddressFromCoodinate(latLng);
-
     markers.value.clear();
     controller.hideInfoWindow!();
 
     final icon = await getMapIcon(ImagesAsset.circlePin);
-    await addMarker(CodeGenerator.instance!.generateCode('m1'),
-        currentPosition?.value, icon,
+    await addMarker(
+        CodeGenerator.instance!.generateCode('m1'), currentPosition.value, icon,
         time: DateTime.now(), type: InfoWindowType.position);
 
     return address;

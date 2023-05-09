@@ -1,5 +1,6 @@
-import 'package:mobile_application/pages/auth/auth_page.dart';
 import 'package:mobile_application/models/user.dart';
+import 'package:mobile_application/pages/auth/auth_page.dart';
+import 'package:mobile_application/pages/map/map_view.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -10,19 +11,21 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: ValueListenableBuilder<User?>(
-        valueListenable: UserRepository.instance.userNotifier,
+        valueListenable: UserRepository.instance!.userNotifier,
         builder: (context, value, child) {
-          if (value != null && value.email != null) {
-            return Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.white,
-              child: Center(child: Text('Successfully Logged In')),
+          if (value != null) {
+            return Builder(
+              builder: (context) {
+                if (!value.isVerified!) {
+                  return AuthPageWidget(page: 2, uid: value.uid);
+                } else {
+                  return MapViewWidget();
+                }
+              },
             );
-          } else if (value?.email == null) {
-            return AuthPage(page: 2, uid: value!.uid);
+          } else {
+            return AuthPageWidget(page: 0);
           }
-          return AuthPage();
         },
       ),
     );
