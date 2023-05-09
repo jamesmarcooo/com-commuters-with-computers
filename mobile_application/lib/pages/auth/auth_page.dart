@@ -1,27 +1,40 @@
 import 'package:mobile_application/pages/auth/bloc/auth_bloc.dart';
 import 'package:mobile_application/pages/auth/widgets/otp_page.dart';
 import 'package:mobile_application/pages/auth/widgets/phone_page.dart';
+import 'package:mobile_application/ui/widget/textfields/cab_textfield.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({Key? key}) : super(key: key);
+  final int? page;
+  final String? uid;
+  const AuthPage({
+    Key? key,
+    this.page = 0,
+    this.uid,
+  }) : super(key: key);
 
   @override
   _AuthPageState createState() => _AuthPageState();
 }
 
 class _AuthPageState extends State<AuthPage> {
-  PageController _controller = PageController();
+  PageController? _controller;
+
+  int _pageIndex = 0;
 
   @override
   void initState() {
+    _controller = PageController(initialPage: widget.page!);
     super.initState();
   }
 
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _otpController = TextEditingController();
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +43,7 @@ class _AuthPageState extends State<AuthPage> {
         bloc: context.watch<AuthBloc>(),
         listener: (_, state) {
           if (state is LoggedInState) {
-            _controller.animateToPage(2,
+            _controller!.animateToPage(2,
                 duration: Duration(milliseconds: 400), curve: Curves.easeIn);
           }
         },
@@ -44,6 +57,7 @@ class _AuthPageState extends State<AuthPage> {
                 color: Colors.white,
                 child: PageView(
                   controller: _controller,
+                  onPageChanged: onPageChanged,
                   physics: NeverScrollableScrollPhysics(),
                   children: [
                     PhonePage(numnberController: _phoneController),
@@ -52,16 +66,10 @@ class _AuthPageState extends State<AuthPage> {
                       bloc: context.watch<AuthBloc>(),
                       phoneNumber: _phoneController.text,
                     ),
-                    //Create acount or if user already exit navigate to home
-                    Container(
-                      child: Center(
-                        child: Text(
-                          state is LoggedInState
-                              ? 'Welcome User with UID\n ${state.uid}'
-                              : '',
-                          style: Theme.of(context).textTheme.subtitle1,
-                        ),
-                      ),
+                    SetUpAccount(
+                      firstnameController: _firstNameController,
+                      lastnameController: _lastNameController,
+                      emailController: _emailController,
                     ),
                   ],
                 ),
@@ -82,26 +90,99 @@ class _AuthPageState extends State<AuthPage> {
           backgroundColor: state is LoadingAuthState
               ? Colors.grey[300]
               : ComAppTheme.comPurple,
-          child: Icon(Icons.arrow_forward_ios),
+          child: Icon(
+              _pageIndex == 2 ? Icons.check_rounded : Icons.arrow_forward_ios),
           onPressed: state is LoadingAuthState
               ? null
               : () {
                   if (_phoneController.text.isNotEmpty &&
-                      state is AuthInitialState) {
+                      state is AuthInitialState &&
+                      _pageIndex == 0) {
                     BlocProvider.of<AuthBloc>(context).add(
                         PhoneNumberVerificationEvent(
-                            '+63${_phoneController.text}'));
-                    _controller.animateToPage(1,
+                            '+234${_phoneController.text}'));
+                    _controller!.animateToPage(1,
                         duration: Duration(milliseconds: 400),
                         curve: Curves.easeIn);
-                  } else if (state is CodeSentState) {
+                  } else if (state is CodeSentState && _pageIndex == 1) {
                     BlocProvider.of<AuthBloc>(context).add(
                         PhoneAuthCodeVerifiedEvent(
                             _otpController.text,
                             state.verificationId,
-                            '+63${_phoneController.text}'));
+                            '+234${_phoneController.text}'));
+                  } else if (_pageIndex == 2) {
+                    BlocProvider.of<AuthBloc>(context).add(SignUpEvent(
+                      _firstNameController.text,
+                      _lastNameController.text,
+                      _emailController.text,
+                      state is LoggedInState ? state.uid : widget.uid,
+                    ));
                   }
                 },
+        ),
+      ),
+    );
+  }
+
+  void onPageChanged(int value) {
+    setState(() {
+      _pageIndex = value;
+    });
+  }
+}
+
+class SetUpAccount extends StatelessWidget {
+  final TextEditingController? firstnameController;
+  final TextEditingController? lastnameController;
+  final TextEditingController? emailController;
+
+  const SetUpAccount({
+    Key? key,
+    this.firstnameController,
+    this.lastnameController,
+    this.emailController,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: kToolbarHeight * 0.6),
+            Text(
+              'Set Up Account',
+              style: Theme.of(context).textTheme.headline5,
+            ).paddingBottom(ComAppTheme.elementSpacing / 2),
+            Text(
+              'Fill the details below...',
+              style: Theme.of(context).textTheme.bodyText1,
+            ).paddingBottom(ComAppTheme.elementSpacing),
+            Row(
+              children: [
+                Expanded(
+                  child: CityTextField(
+                    label: 'First Name',
+                    controller: firstnameController!,
+                  ),
+                ),
+                SizedBox(width: ComAppTheme.elementSpacing),
+                Expanded(
+                  child: CityTextField(
+                    label: 'Last Name',
+                    controller: lastnameController!,
+                  ),
+                ),
+              ],
+            ).paddingBottom(ComAppTheme.elementSpacing),
+            CityTextField(
+              label: 'Email',
+              controller: emailController!,
+            ),
+          ],
         ),
       ),
     );

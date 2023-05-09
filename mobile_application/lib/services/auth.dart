@@ -42,6 +42,8 @@ class AuthService {
         await FirebaseFirestore.instance.collection('users').doc(uid).set({
           'uid': uid,
           'phone': phone,
+          'createdAt': DateTime.now(),
+          'isVerified': false,
         });
       }
       return uid;

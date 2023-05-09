@@ -2,20 +2,17 @@ part of 'auth_bloc.dart';
 
 abstract class AuthEvent extends Equatable {
   const AuthEvent();
-
   @override
   List<Object> get props => [];
 }
 
 class SignUpEvent extends AuthEvent {
-  final String uid;
-  final String firstname;
-  final String lastname;
-  final String email;
-  final String phone;
+  final String? uid;
+  final String? firstname;
+  final String? lastname;
+  final String? email;
 
-  const SignUpEvent(
-      this.firstname, this.lastname, this.email, this.phone, this.uid);
+  const SignUpEvent(this.firstname, this.lastname, this.email, this.uid);
 }
 
 class PhoneNumberVerificationEvent extends AuthEvent {
@@ -46,3 +43,5 @@ class CodeSentEvent extends AuthEvent {
   final String verificationId;
   const CodeSentEvent(this.verificationId, this.token);
 }
+
+class LoginCurrentUserEvent extends AuthEvent {}
