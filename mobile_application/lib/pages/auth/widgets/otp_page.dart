@@ -62,7 +62,7 @@ class _OtpPageState extends State<OtpPage> {
                 Text(
                   'Enter Code',
                   style: Theme.of(context).textTheme.headline5,
-                ).paddingBottom(ComAppTeme.elementSpacing),
+                ).paddingBottom(ComAppTheme.elementSpacing),
                 Text(
                   'A 6 digit code has been sent to',
                   style: Theme.of(context).textTheme.bodyText1,
@@ -73,7 +73,7 @@ class _OtpPageState extends State<OtpPage> {
                       .textTheme
                       .headline6!
                       .copyWith(fontWeight: FontWeight.bold),
-                ).paddingBottom(ComAppTeme.elementSpacing),
+                ).paddingBottom(ComAppTheme.elementSpacing),
                 PinFieldAutoFill(
                   controller: widget._otpController,
                   decoration: BoxLooseDecoration(

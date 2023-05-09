@@ -34,7 +34,7 @@ class CityTextField extends StatelessWidget {
         ),
         hintText: label,
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: ComAppTeme.comPurple),
+          borderSide: BorderSide(color: ComAppTheme.comPurple),
           borderRadius: BorderRadius.circular(6),
         ),
         border: OutlineInputBorder(

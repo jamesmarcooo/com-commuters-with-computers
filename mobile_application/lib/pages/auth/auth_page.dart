@@ -81,7 +81,7 @@ class _AuthPageState extends State<AuthPage> {
         child: FloatingActionButton(
           backgroundColor: state is LoadingAuthState
               ? Colors.grey[300]
-              : ComAppTeme.comPurple,
+              : ComAppTheme.comPurple,
           child: Icon(Icons.arrow_forward_ios),
           onPressed: state is LoadingAuthState
               ? null
@@ -90,14 +90,16 @@ class _AuthPageState extends State<AuthPage> {
                       state is AuthInitialState) {
                     BlocProvider.of<AuthBloc>(context).add(
                         PhoneNumberVerificationEvent(
-                            '+63 ${_phoneController.text}'));
+                            '+63${_phoneController.text}'));
                     _controller.animateToPage(1,
                         duration: Duration(milliseconds: 400),
                         curve: Curves.easeIn);
                   } else if (state is CodeSentState) {
                     BlocProvider.of<AuthBloc>(context).add(
                         PhoneAuthCodeVerifiedEvent(
-                            _otpController.text, state.verificationId));
+                            _otpController.text,
+                            state.verificationId,
+                            '+63${_phoneController.text}'));
                   }
                 },
         ),

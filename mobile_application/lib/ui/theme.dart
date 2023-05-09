@@ -53,7 +53,7 @@ extension XPadding on Widget {
   }
 }
 
-class ComAppTeme {
+class ComAppTheme {
   static double elementSpacing = 18;
 
   static Color comPurple = Color(0xFF5644B2);
