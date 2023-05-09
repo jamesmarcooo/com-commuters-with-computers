@@ -24,8 +24,10 @@ class HomePage extends StatelessWidget {
               },
             );
           } else {
+            // return MapViewWidget();
             return AuthPageWidget(page: 0);
           }
+          // return MapViewWidget();
         },
       ),
     );
