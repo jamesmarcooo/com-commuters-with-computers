@@ -1,22 +1,66 @@
+import 'package:mobile_application/constant/ride_options.dart';
 import 'package:mobile_application/models/address.dart';
+import 'package:mobile_application/models/ride_option.dart';
 import 'package:mobile_application/services/map_services.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+enum RideState {
+  initial,
+  searchingAddress,
+  confirmAddress,
+  selectRide,
+  requestRide,
+  driverIsComing,
+  inMotion,
+  arrived
+}
+
 class MapState extends ChangeNotifier {
   GoogleMapController? controller;
   final currentPosition = MapService.instance?.currentPosition;
-
   final currentAddressController = TextEditingController();
   final destinationAddressController = TextEditingController();
-
   Address? startAddress;
   Address? endAddress;
 
+  RideOption? selectedOption;
+
   List<Address> searchedAddress = [];
+  List<bool> isSelectedOptions = [];
 
   FocusNode? focusNode;
+  RideState _rideState = RideState.initial;
+
+  RideState get rideState {
+    return _rideState;
+  }
+
+  set changeRideState(RideState state) {
+    _rideState = state;
+    notifyListeners();
+  }
+
+  final pageController = PageController();
+
+  int pageIndex = 0;
+
+  MapState() {
+    focusNode = FocusNode();
+    isSelectedOptions = List.generate(3, (index) => index == 0 ? true : false);
+    selectedOption = rideOptions[0];
+    destinationAddressController
+      ..addListener(() {
+        if (destinationAddressController.text.isEmpty) {
+          searchedAddress.clear();
+          notifyListeners();
+        }
+        endAddress = null;
+        notifyListeners();
+      });
+    getCurrentLocation();
+  }
 
   Set<Polyline> get polylines {
     return {
@@ -31,11 +75,6 @@ class MapState extends ChangeNotifier {
               [],
         ),
     };
-  }
-
-  MapState() {
-    focusNode = FocusNode();
-    getCurrentLocation();
   }
 
   @override
@@ -54,7 +93,7 @@ class MapState extends ChangeNotifier {
   Future<void> loadMyPosition(LatLng? position) async {
     if (position == null) {
       final position = await MapService.instance?.getCurrentPosition();
-      MapService.instance?.listenToPositionChanges();
+      MapService.instance?.listenToPositionChanges().listen((event) {});
       startAddress = position;
       notifyListeners();
     } else {
@@ -73,14 +112,16 @@ class MapState extends ChangeNotifier {
   }
 
   Future<void> searchAddress(String query) async {
-    await MapService.instance!.getAddressFromQuery(query);
-    searchedAddress = MapService.instance?.searchedAddress
-            .where((q) =>
-                query.contains("${q.street}") || query.contains("${q.city}"))
-            .toList() ??
-        [];
+    if (query.length >= 3) {
+      await MapService.instance!.getAddressFromQuery(query);
+      searchedAddress = MapService.instance?.searchedAddress
+              .where((q) =>
+                  query.contains("${q.street}") || query.contains("${q.city}"))
+              .toList() ??
+          [];
+    }
+
     notifyListeners();
-    print('searching..');
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -105,12 +146,14 @@ class MapState extends ChangeNotifier {
       currentAddressController.text = "${address.street}, ${address.city}";
       MapService.instance?.currentPosition.value = address;
       notifyListeners();
-      animateCamera(address.latLng!);
+      animateCamera(address.latLng);
     } else if (currentAddressController.text.isNotEmpty &&
         destinationAddressController.text.isNotEmpty) {
+      destinationAddressController.text = "${address.street}, ${address.city}";
+      notifyListeners();
       loadRouteCoordinates(
-          MapService.instance!.currentPosition.value!.latLng!, address.latLng!);
-      animateCamera(address.latLng!);
+          MapService.instance!.currentPosition.value!.latLng, address.latLng);
+      animateCamera(address.latLng);
     }
   }
 
@@ -118,5 +161,59 @@ class MapState extends ChangeNotifier {
     final address = await MapService.instance?.getCurrentPosition();
     currentAddressController.text = "${address?.street}, ${address?.city}";
     notifyListeners();
+  }
+
+  void onTapRideOption(RideOption option, int index) {
+    for (var i = 0; i < isSelectedOptions.length; i++) {
+      isSelectedOptions[i] = false;
+    }
+    isSelectedOptions[index] = true;
+    selectedOption = option;
+    notifyListeners();
+  }
+
+  void onPageChanged(int value) {
+    pageIndex = value;
+    notifyListeners();
+  }
+
+  void animateToPage({required int pageIndex, required RideState state}) {
+    pageController.jumpToPage(pageIndex);
+    changeRideState = state;
+  }
+
+  void searchLocation() {
+    animateToPage(pageIndex: 1, state: RideState.searchingAddress);
+  }
+
+  void proceedRide() {
+    animateToPage(pageIndex: 3, state: RideState.confirmAddress);
+  }
+
+  void confirmRide() {
+    animateToPage(pageIndex: 4, state: RideState.confirmAddress);
+  }
+
+  void callDriver() {}
+
+  void cancelRide() {
+    animateToPage(pageIndex: 0, state: RideState.initial);
+  }
+
+  void closeSearching() {
+    animateToPage(pageIndex: 0, state: RideState.initial);
+  }
+
+  void requestRide() {
+    animateToPage(pageIndex: 2, state: RideState.requestRide);
+  }
+
+  void onTapMyAddresses(Address address) {
+    destinationAddressController.text = "${address.street}, ${address.city}";
+    notifyListeners();
+    loadRouteCoordinates(
+        MapService.instance!.currentPosition.value!.latLng, address.latLng);
+    animateCamera(address.latLng);
+    searchLocation();
   }
 }
