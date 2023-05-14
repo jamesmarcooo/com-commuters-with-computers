@@ -33,7 +33,7 @@ class AuthState extends ChangeNotifier {
   int pageIndex = 0;
   String uid = '';
 
-  int timeOut = 30;
+  int timeOut = 5;
 
   bool get isRoleDriver => role == Roles.driver;
 
@@ -82,7 +82,8 @@ class AuthState extends ChangeNotifier {
         createdAt: DateTime.now(),
         isVerified: true,
         licensePlate: licensePlateController.text,
-        phone: "234${phoneController.text}",
+        // phone: "63${phoneController.text}",
+        phone: "1${phoneController.text}",
         vehicleType: vehicleTypeController.text,
         vehicleColor: vehicleColorController.text,
         vehicleManufacturer: vehicleManufacturersController.text,

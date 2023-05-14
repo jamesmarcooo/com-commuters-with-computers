@@ -19,7 +19,7 @@ class MapView extends StatelessWidget {
       child: Builder(
         builder: (context) {
           if (state.currentPosition?.value == null) {
-            return Center(child: const CircularProgressIndicator());
+            // return const Center(child: CircularProgressIndicator());
           }
 
           return Stack(
@@ -45,7 +45,8 @@ class MapView extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.4,
                 offset: 50,
               ),
-              Positioned(top: 10, left: 15, right: 15, child: SearchMapBar()),
+              const Positioned(
+                  top: 10, left: 15, right: 15, child: SearchMapBar()),
             ],
           );
         },
@@ -62,7 +63,7 @@ class MapViewWidget extends StatelessWidget {
     final state = MapState();
     return ChangeNotifierProvider(
       create: (_) => state,
-      child: MapView(key: ValueKey('map')),
+      child: const MapView(key: ValueKey('map')),
     );
   }
 }

@@ -19,15 +19,14 @@ class HomePage extends StatelessWidget {
                 if (!value.isVerified!) {
                   return AuthPageWidget(page: 2, uid: value.uid);
                 } else {
-                  return MapViewWidget();
+                  return const MapViewWidget();
                 }
               },
             );
           } else {
-            // return MapViewWidget();
-            return AuthPageWidget(page: 0);
+            return const MapViewWidget();
+            // return const AuthPageWidget(page: 0);
           }
-          // return MapViewWidget();
         },
       ),
     );
