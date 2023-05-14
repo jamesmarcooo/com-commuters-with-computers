@@ -54,10 +54,14 @@ extension XPadding on Widget {
 }
 
 class ComAppTheme {
-  static double elementSpacing = 18;
+  static const double elementSpacing = 16;
 
-  static Color comPurple = Color(0xFF5644B2);
-  static Color comWhite = Color(0xFFFFFFFF);
+  static const Color comPurple = const Color(0xFF5644B2);
+  static const Color comWhite = const Color(0xFFFFFFFF);
+  static const Color cityBlack = const Color(0xFF3E3D3D);
+  static const Color cityLightGrey = const Color(0xFFE6E7E8);
+  static const Color cityGrey = Color(0xFF707070);
+  static const Color cityOrange = Color(0xFFE39219);
 
   static ThemeData theme = ThemeData(
     primaryColor: comPurple,

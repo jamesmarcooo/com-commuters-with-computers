@@ -63,7 +63,7 @@ class MapService {
       final icon = BitmapDescriptor.fromBytes(markerIcon);
       final marker = Marker(
           markerId: MarkerId(markerId),
-          position: address.latLng!,
+          position: address.latLng,
           icon: icon,
           onTap: () {
             controller.addInfoWindow!(
@@ -75,7 +75,7 @@ class MapService {
                   time: duration,
                 ),
               ),
-              address.latLng!,
+              address.latLng,
             );
           });
       try {
@@ -83,7 +83,7 @@ class MapService {
             .firstWhere((marker) => marker.markerId.value == markerId);
         markerPosition.copyWith(
             positionParam:
-                LatLng(address.latLng!.latitude, address.latLng!.longitude));
+                LatLng(address.latLng.latitude, address.latLng.longitude));
         return markers.value;
       } catch (e) {
         markers.value.add(marker);
@@ -117,12 +117,13 @@ class MapService {
         await placemarkFromCoordinates(position.latitude, position.longitude);
     final placemark = placemarks.first;
     final address = Address(
-      street: placemark.street,
-      city: placemark.locality,
-      state: placemark.administrativeArea,
-      country: placemark.country,
+      street: placemark.street ?? '',
+      city: placemark.locality ?? '',
+      state: placemark.administrativeArea ?? '',
+      country: placemark.country ?? '',
       latLng: position,
       polylines: polylines ?? [],
+      postcode: placemark.postalCode ?? '',
     );
     return address;
   }
@@ -246,12 +247,13 @@ class MapService {
             for (var i = 0; i < placemarks.length; i++) {
               final placemark = placemarks[i];
               final address = Address(
-                street: placemark.street,
-                city: placemark.locality,
-                state: placemark.administrativeArea,
-                country: placemark.country,
+                street: placemark.street ?? '',
+                city: placemark.locality ?? '',
+                state: placemark.administrativeArea ?? '',
+                country: placemark.country ?? '',
                 latLng: LatLng(location.latitude, location.longitude),
                 polylines: [],
+                postcode: placemark.postalCode ?? '',
               );
               searchedAddress.add(address);
             }
