@@ -153,12 +153,14 @@ class MapService {
     final permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       final request = await Geolocator.requestPermission();
-      if (request == LocationPermission.always) {
+      if (request == LocationPermission.always ||
+          request == LocationPermission.whileInUse) {
         return true;
       } else {
         return false;
       }
-    } else if (permission == LocationPermission.always) {
+    } else if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
       return true;
     } else {
       return false;
