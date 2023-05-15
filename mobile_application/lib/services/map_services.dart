@@ -167,8 +167,9 @@ class MapService {
               searchedAddress.add(address);
             }
           }
-        } catch (_) {
-          print('Failed to get address');
+        } catch (e, stackTrace) {
+          print('Failed to get address: $e');
+          print('Stack trace: $stackTrace');
         }
       });
     }

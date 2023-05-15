@@ -1,4 +1,3 @@
-
 import 'package:mobile_application/pages/home/home.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
 import 'package:mobile_application/ui/theme.dart';
