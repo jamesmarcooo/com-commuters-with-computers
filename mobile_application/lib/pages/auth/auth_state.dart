@@ -33,7 +33,7 @@ class AuthState extends ChangeNotifier {
   int pageIndex = 0;
   String uid = '';
 
-  int timeOut = 5;
+  int timeOut = 30;
 
   bool get isRoleDriver => role == Roles.driver;
 
@@ -82,8 +82,7 @@ class AuthState extends ChangeNotifier {
         createdAt: DateTime.now(),
         isVerified: true,
         licensePlate: licensePlateController.text,
-        phone: "63${phoneController.text}",
-        // phone: "1${phoneController.text}",
+        phone: "234${phoneController.text}",
         vehicleType: vehicleTypeController.text,
         vehicleColor: vehicleColorController.text,
         vehicleManufacturer: vehicleManufacturersController.text,
@@ -153,7 +152,7 @@ class AuthState extends ChangeNotifier {
 
   void _startCountDown() {
     Timer.periodic(Duration(seconds: 1), (timer) {
-      if (timer.tick > 5) {
+      if (timer.tick > 30) {
         timer.cancel();
       } else {
         --timeOut;

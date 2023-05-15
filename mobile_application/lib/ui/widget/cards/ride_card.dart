@@ -25,20 +25,19 @@ class RideOptionCard extends StatelessWidget {
         width: 100,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-            color: isSelected
-                ? ComAppTheme.comPurple.withOpacity(.02)
-                : Colors.white,
+            color:
+                isSelected ? CityTheme.cityblue.withOpacity(.02) : Colors.white,
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
               width: 1,
-              color: isSelected ? ComAppTheme.comPurple : Colors.grey.shade400,
+              color: isSelected ? CityTheme.cityblue : Colors.grey.shade400,
             )),
         child: Column(
           children: [
             Expanded(
               child: Image.asset(
                 option.icon,
-                color: isSelected ? ComAppTheme.comPurple : Colors.grey[600],
+                color: isSelected ? CityTheme.cityblue : Colors.grey[600],
               ),
             ),
             Text(
@@ -50,10 +49,10 @@ class RideOptionCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              '${option.timeOfArrival.inMinutes} min',
+              '${option.timeOfArrival.difference(DateTime.now()).inMinutes} min',
               style: TextStyle(
                 fontSize: 12,
-                color: isSelected ? ComAppTheme.comPurple : Colors.grey[800],
+                color: isSelected ? CityTheme.cityblue : Colors.grey[800],
               ),
             ),
             const SizedBox(height: 4),

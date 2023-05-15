@@ -1,3 +1,4 @@
+
 import 'package:mobile_application/pages/home/home.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
 import 'package:mobile_application/ui/theme.dart';
@@ -25,9 +26,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Commuter with Computer',
-      theme: ComAppTheme.theme,
-      home: const HomePage(),
+      title: 'City Cab',
+      theme: CityTheme.theme,
+      home: HomePage(),
     );
   }
 }

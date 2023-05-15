@@ -21,7 +21,7 @@ class PhonePage extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(ImagesAsset.cabBg),
-                        fit: BoxFit.fitWidth)),
+                        fit: BoxFit.cover)),
               ),
             ),
             Container(

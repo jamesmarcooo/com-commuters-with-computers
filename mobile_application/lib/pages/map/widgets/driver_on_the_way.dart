@@ -24,7 +24,7 @@ class DriverOnTheWay extends StatelessWidget {
           padding: const EdgeInsets.only(left: 16),
           child: BottomSliderTitle(title: 'YOUR DRIVER IS ON THE WAY'),
         ),
-        const SizedBox(height: ComAppTheme.elementSpacing),
+        const SizedBox(height: CityTheme.elementSpacing),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
@@ -40,7 +40,7 @@ class DriverOnTheWay extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: ComAppTheme.comPurple,
+                  color: CityTheme.cityblue,
                 ),
               ),
             ],
@@ -59,7 +59,7 @@ class DriverOnTheWay extends StatelessWidget {
                     backgroundColor: Colors.grey[300],
                     child: Icon(
                       Icons.person,
-                      color: ComAppTheme.cityBlack,
+                      color: CityTheme.cityBlack,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -68,7 +68,7 @@ class DriverOnTheWay extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: ComAppTheme.cityBlack,
+                      color: CityTheme.cityBlack,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -88,7 +88,7 @@ class DriverOnTheWay extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: ComAppTheme.cityBlack,
+                      color: CityTheme.cityBlack,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -97,7 +97,7 @@ class DriverOnTheWay extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: ComAppTheme.comPurple,
+                      color: CityTheme.cityblue,
                     ),
                   ),
                 ],
@@ -114,9 +114,9 @@ class DriverOnTheWay extends StatelessWidget {
               Expanded(
                 child: CityCabButton(
                   title: 'Call',
-                  color: ComAppTheme.comPurple,
-                  textColor: ComAppTheme.comWhite,
-                  disableColor: ComAppTheme.cityLightGrey,
+                  color: CityTheme.cityblue,
+                  textColor: CityTheme.cityWhite,
+                  disableColor: CityTheme.cityLightGrey,
                   buttonState: ButtonState.initial,
                   onTap: () {
                     state.callDriver();
@@ -127,9 +127,9 @@ class DriverOnTheWay extends StatelessWidget {
               Expanded(
                 child: CityCabButton(
                   title: 'Cancel',
-                  color: ComAppTheme.comWhite,
-                  textColor: ComAppTheme.cityBlack,
-                  disableColor: ComAppTheme.cityLightGrey,
+                  color: CityTheme.cityWhite,
+                  textColor: CityTheme.cityBlack,
+                  disableColor: CityTheme.cityLightGrey,
                   buttonState: ButtonState.initial,
                   borderColor: Colors.grey[800],
                   onTap: () {

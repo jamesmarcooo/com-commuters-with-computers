@@ -25,7 +25,7 @@ class InMotion extends StatelessWidget {
           height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            color: ComAppTheme.comPurple.withOpacity(.08),
+            color: CityTheme.cityblue.withOpacity(.08),
           ),
           child: Column(
             children: [
@@ -66,7 +66,7 @@ class InMotion extends StatelessWidget {
                             'Drop-off in 20 mins',
                             style: TextStyle(
                               fontSize: 12,
-                              color: ComAppTheme.comPurple,
+                              color: CityTheme.cityblue,
                             ),
                           ),
                         ],
@@ -97,7 +97,7 @@ class InMotion extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: ComAppTheme.comPurple,
+                      color: CityTheme.cityblue,
                     ),
                   ),
                 ],
@@ -105,7 +105,7 @@ class InMotion extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: ComAppTheme.elementSpacing),
+        const SizedBox(height: CityTheme.elementSpacing),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Stack(
@@ -125,7 +125,7 @@ class InMotion extends StatelessWidget {
                   Row(
                     children: [
                       Icon(CupertinoIcons.circle_fill,
-                          color: ComAppTheme.comPurple),
+                          color: CityTheme.cityblue),
                       const SizedBox(width: 8),
                       Expanded(
                         child: SizedBox(
@@ -146,11 +146,11 @@ class InMotion extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: ComAppTheme.elementSpacing),
+                  const SizedBox(height: CityTheme.elementSpacing),
                   Row(
                     children: [
                       Icon(CupertinoIcons.placemark_fill,
-                          color: ComAppTheme.comPurple),
+                          color: CityTheme.cityblue),
                       const SizedBox(width: 8),
                       Expanded(
                         child: SizedBox(

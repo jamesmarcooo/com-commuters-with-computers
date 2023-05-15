@@ -1,6 +1,12 @@
 import 'package:mobile_application/constant/ride_options.dart';
 import 'package:mobile_application/models/address.dart';
+import 'package:mobile_application/models/rate.dart';
+import 'package:mobile_application/models/ride.dart';
 import 'package:mobile_application/models/ride_option.dart';
+import 'package:mobile_application/models/user.dart';
+import 'package:mobile_application/repositories/ride_repository.dart';
+import 'package:mobile_application/repositories/user_repository.dart';
+import 'package:mobile_application/services/code_generator.dart';
 import 'package:mobile_application/services/map_services.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +25,13 @@ enum RideState {
 
 class MapState extends ChangeNotifier {
   GoogleMapController? controller;
-  final currentPosition = MapService.instance?.currentPosition;
+  final currentPosition = MapService.instance!.currentPosition;
+  final userRepo = UserRepository.instance;
+  final rideRepo = RideRepository.instance;
+
   final currentAddressController = TextEditingController();
   final destinationAddressController = TextEditingController();
+
   Address? startAddress;
   Address? endAddress;
 
@@ -32,6 +42,8 @@ class MapState extends ChangeNotifier {
 
   FocusNode? focusNode;
   RideState _rideState = RideState.initial;
+
+  bool isActive = false;
 
   RideState get rideState {
     return _rideState;
@@ -48,7 +60,8 @@ class MapState extends ChangeNotifier {
 
   MapState() {
     focusNode = FocusNode();
-    isSelectedOptions = List.generate(3, (index) => index == 0 ? true : false);
+    isSelectedOptions =
+        List.generate(rideOptions.length, (index) => index == 0 ? true : false);
     selectedOption = rideOptions[0];
     destinationAddressController
       ..addListener(() {
@@ -60,6 +73,8 @@ class MapState extends ChangeNotifier {
         notifyListeners();
       });
     getCurrentLocation();
+    isActive = userRepo.currentUser?.isActive ?? false;
+    notifyListeners();
   }
 
   Set<Polyline> get polylines {
@@ -67,7 +82,7 @@ class MapState extends ChangeNotifier {
       if (endAddress?.polylines != [])
         Polyline(
           polylineId: const PolylineId('overview_polyline'),
-          color: ComAppTheme.comPurple,
+          color: CityTheme.cityBlack,
           width: 5,
           points: endAddress?.polylines
                   .map((e) => LatLng(e.latitude, e.longitude))
@@ -90,17 +105,37 @@ class MapState extends ChangeNotifier {
     ));
   }
 
-  Future<void> loadMyPosition(LatLng? position) async {
+  Future<Address?> loadMyPosition(LatLng? position) async {
     if (position == null) {
       final position = await MapService.instance?.getCurrentPosition();
-      MapService.instance?.listenToPositionChanges().listen((event) {});
       startAddress = position;
+
+      MapService.instance?.listenToPositionChanges(
+          eventFiring: (Address? address) async {
+        if (address != null) {
+          if (userRepo.currentUserRole == Roles.driver) {
+            await userRepo.updateDriverLocation(
+                UserRepository.instance.currentUser?.uid, address.latLng);
+          }
+        }
+
+        startAddress = address;
+        notifyListeners();
+        print('updating address');
+      }).listen((event) {});
+      animateCamera(startAddress!.latLng);
       notifyListeners();
     } else {
       final myPosition = await MapService.instance?.getPosition(position);
       startAddress = myPosition;
+
+      animateCamera(startAddress!.latLng);
       notifyListeners();
     }
+    MapService.instance?.markers.notifyListeners();
+
+    notifyListeners();
+    return startAddress;
   }
 
   Future<void> loadRouteCoordinates(LatLng start, LatLng end) async {
@@ -127,7 +162,7 @@ class MapState extends ChangeNotifier {
   void onMapCreated(GoogleMapController controller) {
     this.controller = controller;
     MapService.instance?.controller.googleMapController = controller;
-    animateCamera(currentPosition?.value?.latLng ?? LatLng(0, 0));
+    animateCamera(currentPosition.value?.latLng ?? LatLng(0, 0));
   }
 
   void onTapMap(LatLng argument) {
@@ -158,7 +193,7 @@ class MapState extends ChangeNotifier {
   }
 
   void getCurrentLocation() async {
-    final address = await MapService.instance?.getCurrentPosition();
+    final address = await loadMyPosition(null);
     currentAddressController.text = "${address?.street}, ${address?.city}";
     notifyListeners();
   }
@@ -190,8 +225,31 @@ class MapState extends ChangeNotifier {
     animateToPage(pageIndex: 3, state: RideState.confirmAddress);
   }
 
-  void confirmRide() {
+  void confirmRide() async {
     animateToPage(pageIndex: 4, state: RideState.confirmAddress);
+    final ownerUID = userRepo.currentUser?.uid;
+    if (ownerUID != null && ownerUID != '') {
+      final ride = _initializeRide(ownerUID);
+      await rideRepo?.boardRide(ride);
+    }
+  }
+
+  Ride _initializeRide(String uid) {
+    final id = CodeGenerator.instance!.generateCode('city-id');
+    final ride = Ride(
+      createdAt: DateTime.now(),
+      driverUID: '',
+      endAddress: endAddress!,
+      id: id,
+      ownerUID: uid,
+      passengers: [uid],
+      rate: Rate(uid: uid, subject: '', body: '', stars: 0),
+      rideOption: selectedOption!,
+      startAddress: startAddress!,
+      status: RideStatus.initial,
+    );
+
+    return ride;
   }
 
   void callDriver() {}
@@ -215,5 +273,11 @@ class MapState extends ChangeNotifier {
         MapService.instance!.currentPosition.value!.latLng, address.latLng);
     animateCamera(address.latLng);
     searchLocation();
+  }
+
+  void changeActivePresence() async {
+    isActive = !isActive;
+    notifyListeners();
+    await userRepo.updateOnlinePresense(userRepo.currentUser?.uid, isActive);
   }
 }

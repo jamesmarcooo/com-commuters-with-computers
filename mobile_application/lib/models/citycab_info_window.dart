@@ -8,6 +8,5 @@ class CityCabInfoWindow {
   final LatLng? position;
   final InfoWindowType type;
 
-  const CityCabInfoWindow(
-      {this.name, this.time, this.position, required this.type});
+  const CityCabInfoWindow({this.name, this.time, this.position, required this.type});
 }

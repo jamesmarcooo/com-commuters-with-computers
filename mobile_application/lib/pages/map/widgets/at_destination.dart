@@ -19,7 +19,7 @@ class ArrivedAtDestination extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         RideDetailCard(),
-        const SizedBox(height: ComAppTheme.elementSpacing * 0.5),
+        const SizedBox(height: CityTheme.elementSpacing * 0.5),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Stack(
@@ -39,7 +39,7 @@ class ArrivedAtDestination extends StatelessWidget {
                   Row(
                     children: [
                       Icon(CupertinoIcons.circle_fill,
-                          color: ComAppTheme.comPurple),
+                          color: CityTheme.cityblue),
                       const SizedBox(width: 8),
                       Expanded(
                         child: SizedBox(
@@ -60,11 +60,11 @@ class ArrivedAtDestination extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: ComAppTheme.elementSpacing),
+                  const SizedBox(height: CityTheme.elementSpacing),
                   Row(
                     children: [
                       Icon(CupertinoIcons.placemark_fill,
-                          color: ComAppTheme.comPurple),
+                          color: CityTheme.cityblue),
                       const SizedBox(width: 8),
                       Expanded(
                         child: SizedBox(
@@ -92,13 +92,13 @@ class ArrivedAtDestination extends StatelessWidget {
         ),
         const Spacer(),
         Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: ComAppTheme.elementSpacing),
+          padding:
+              const EdgeInsets.symmetric(horizontal: CityTheme.elementSpacing),
           child: CityCabButton(
             title: 'Pay For Ride',
-            color: ComAppTheme.comPurple,
-            textColor: ComAppTheme.comWhite,
-            disableColor: ComAppTheme.cityLightGrey,
+            color: CityTheme.cityblue,
+            textColor: CityTheme.cityWhite,
+            disableColor: CityTheme.cityLightGrey,
             buttonState: ButtonState.initial,
             onTap: () {},
           ),
@@ -120,7 +120,7 @@ class RideDetailCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: ComAppTheme.comPurple.withOpacity(.08),
+        color: CityTheme.cityblue.withOpacity(.08),
       ),
       child: Column(
         children: [
@@ -161,7 +161,7 @@ class RideDetailCard extends StatelessWidget {
                         'Drop-off in 20 mins',
                         style: TextStyle(
                           fontSize: 12,
-                          color: ComAppTheme.comPurple,
+                          color: CityTheme.cityblue,
                         ),
                       ),
                     ],

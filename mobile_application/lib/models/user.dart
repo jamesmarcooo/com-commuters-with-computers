@@ -3,12 +3,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 enum Roles { passenger, driver, admin }
 
 class User {
-  final String? uid;
+  final String uid;
   final String firstname;
   final String lastname;
-  final String? email;
-  final DateTime? createdAt;
-  final bool? isVerified;
+  final String email;
+  final DateTime createdAt;
+  final bool isVerified;
   final String licensePlate;
   final String phone;
   final String vehicleType;
@@ -48,8 +48,7 @@ class User {
       firstname: data['firstname'] ?? '',
       lastname: data['lastname'] ?? '',
       email: data['email'] ?? '',
-      createdAt: DateTime.fromMillisecondsSinceEpoch(
-          data['createdAt'].millisecondsSinceEpoch),
+      createdAt: DateTime.fromMillisecondsSinceEpoch(data['createdAt'].millisecondsSinceEpoch),
       isVerified: data['is_verified'] ?? false,
       licensePlate: data['license_plate'] ?? '',
       phone: data['phone'] ?? '',
@@ -57,9 +56,7 @@ class User {
       vehicleColor: data['vehicle_color'] ?? '',
       vehicleManufacturer: data['vehicle_manufacturer'] ?? '',
       role: Roles.values[data['role'] ?? 0],
-      latlng: data['latlng'] == null
-          ? LatLng(0, 0)
-          : LatLng(data['latlng']['lat'], data['latlng']['lng']),
+      latlng: data['latlng'] == null ? LatLng(0, 0) : LatLng(data['latlng']['lat'], data['latlng']['lng']),
     );
   }
 }

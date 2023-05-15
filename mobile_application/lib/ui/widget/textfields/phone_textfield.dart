@@ -34,14 +34,14 @@ class _PhoneTextFieldState extends State<PhoneTextField> {
             enabledBorder: OutlineInputBorder(),
             hintText: 'Enter Phone Number',
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: ComAppTheme.comPurple),
+              borderSide: BorderSide(color: CityTheme.cityblue),
             ),
             border: OutlineInputBorder(),
             disabledBorder: OutlineInputBorder(),
             prefix: isFocus
                 ? Padding(
                     padding: const EdgeInsets.only(right: 8.0),
-                    child: Text('🇵🇭'),
+                    child: Text('🇳🇬'),
                   )
                 : SizedBox.shrink(),
             prefixIcon: isFocus ? null : Icon(Icons.phone)),

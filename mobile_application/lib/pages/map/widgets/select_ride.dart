@@ -52,9 +52,9 @@ class SelectRide extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: CityCabButton(
             title: 'PROCEED WITH ${state.selectedOption?.title.toUpperCase()}',
-            color: ComAppTheme.comPurple,
-            textColor: ComAppTheme.comWhite,
-            disableColor: ComAppTheme.cityLightGrey,
+            color: CityTheme.cityblue,
+            textColor: CityTheme.cityWhite,
+            disableColor: CityTheme.cityLightGrey,
             buttonState: ButtonState.initial,
             onTap: () {
               state.proceedRide();

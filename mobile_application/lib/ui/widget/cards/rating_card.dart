@@ -16,22 +16,18 @@ class RatingCard extends StatelessWidget {
         if (index == 5 && rating! < 1) {
           return Text(
             '(No ratings Available)',
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1!
-                .copyWith(color: ComAppTheme.cityGrey),
-          ).paddingLeft(ComAppTheme.elementSpacing / 2);
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(color: CityTheme.cityGrey),
+          ).paddingLeft(CityTheme.elementSpacing / 2);
         }
         if (rating! > index) {
-          return Icon(Icons.star_rounded,
-              size: 16, color: ComAppTheme.cityOrange);
+          return Icon(Icons.star_rounded, size: 16, color: CityTheme.cityOrange);
         }
         return Icon(
           Icons.star_border_rounded,
           size: 16,
-          color: ComAppTheme.cityGrey,
+          color: CityTheme.cityGrey,
         );
       }),
-    ).paddingBottom(ComAppTheme.elementSpacing / 4);
+    ).paddingBottom(CityTheme.elementSpacing / 4);
   }
 }

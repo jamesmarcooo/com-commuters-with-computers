@@ -18,7 +18,7 @@ class AuthButton extends StatelessWidget {
           backgroundColor: state.phoneAuthState == PhoneAuthState.loading ||
                   state.phoneAuthState == PhoneAuthState.codeSent
               ? Colors.grey[300]
-              : ComAppTheme.comPurple,
+              : CityTheme.cityblue,
           child: Icon(state.pageIndex == 2
               ? Icons.check_rounded
               : Icons.arrow_forward_ios),
@@ -29,8 +29,7 @@ class AuthButton extends StatelessWidget {
                       state.phoneAuthState == PhoneAuthState.initial &&
                       state.pageIndex == 0) {
                     state.phoneNumberVerification(
-                        "+63${state.phoneController.text}");
-                    // "+1${state.phoneController.text}");
+                        "+234${state.phoneController.text}");
                   } else if (state.phoneAuthState == PhoneAuthState.codeSent &&
                       state.pageIndex == 1) {
                     state.verifyAndLogin(state.verificationId,

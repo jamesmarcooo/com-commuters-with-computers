@@ -30,16 +30,16 @@ class _BottomSliderState extends State<BottomSlider> {
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
       padding: const EdgeInsets.only(
-          bottom: ComAppTheme.elementSpacing, top: ComAppTheme.elementSpacing),
+          bottom: CityTheme.elementSpacing, top: CityTheme.elementSpacing),
       height: _getSliderHeight(state, size),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-        color: ComAppTheme.comWhite,
+        color: CityTheme.cityWhite,
         boxShadow: [
           BoxShadow(
-            color: ComAppTheme.cityBlack.withOpacity(.1),
+            color: CityTheme.cityBlack.withOpacity(.1),
             spreadRadius: 6,
             blurRadius: 6,
           )
@@ -72,6 +72,9 @@ class _BottomSliderState extends State<BottomSlider> {
         return size.height;
       }
     } else {
+      if (state.userRepo.currentUserRole == Roles.driver) {
+        return size.height * 0.15;
+      }
       return size.height * 0.4;
     }
   }
@@ -99,7 +102,7 @@ class ConfirmLocation extends StatelessWidget {
             runAlignment: WrapAlignment.end,
             children: [
               Padding(
-                padding: const EdgeInsets.all(ComAppTheme.elementSpacing),
+                padding: const EdgeInsets.all(CityTheme.elementSpacing),
                 child: Column(
                   children: [
                     state.endAddress != null
@@ -130,7 +133,7 @@ class ConfirmLocation extends StatelessWidget {
                                           MainAxisAlignment.center,
                                       children: [
                                         Icon(Icons.place_outlined,
-                                            color: ComAppTheme.comPurple,
+                                            color: CityTheme.cityblue,
                                             size: 18),
                                       ],
                                     ),
@@ -142,12 +145,12 @@ class ConfirmLocation extends StatelessWidget {
                               );
                             }),
                           ),
-                    const SizedBox(height: ComAppTheme.elementSpacing * 2),
+                    const SizedBox(height: CityTheme.elementSpacing * 2),
                     CityCabButton(
                       title: 'Request Ride',
-                      color: ComAppTheme.comPurple,
-                      textColor: ComAppTheme.comWhite,
-                      disableColor: ComAppTheme.cityLightGrey,
+                      color: CityTheme.cityblue,
+                      textColor: CityTheme.cityWhite,
+                      disableColor: CityTheme.cityLightGrey,
                       buttonState: checkSearchingEndLocation
                           ? ButtonState.initial
                           : ButtonState.disabled,

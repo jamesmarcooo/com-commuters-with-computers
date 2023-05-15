@@ -4,7 +4,6 @@ import 'package:mobile_application/pages/auth/widgets/otp_page.dart';
 import 'package:mobile_application/pages/auth/widgets/phone_page.dart';
 import 'package:mobile_application/pages/auth/widgets/set_up_account.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_application/ui/theme.dart';
 import 'package:provider/provider.dart';
 
 class AuthPage extends StatefulWidget {
@@ -15,6 +14,7 @@ class AuthPage extends StatefulWidget {
     this.page = 0,
     this.uid,
   }) : super(key: key);
+
   @override
   _AuthPageState createState() => _AuthPageState();
 }

@@ -23,7 +23,7 @@ class AddressCard extends StatelessWidget {
               ? Icons.work_outline
               : Icons.home_outlined,
           size: 30,
-          color: ComAppTheme.comPurple),
+          color: CityTheme.cityblue),
       title: Text(
         '${address?.title}',
         style: TextStyle(

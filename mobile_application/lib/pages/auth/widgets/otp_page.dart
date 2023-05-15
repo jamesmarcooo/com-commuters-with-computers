@@ -1,4 +1,5 @@
 import 'package:mobile_application/pages/auth/auth_state.dart';
+import 'package:mobile_application/ui/widget/textfields/cab_textfield.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -29,32 +30,22 @@ class _OtpPageState extends State<OtpPage> {
                 Text(
                   'Enter Code',
                   style: Theme.of(context).textTheme.headline5,
-                ).paddingBottom(ComAppTheme.elementSpacing),
+                ).paddingBottom(CityTheme.elementSpacing),
                 Text(
                   'A 6 digit code has been sent to',
                   style: Theme.of(context).textTheme.bodyText1,
                 ).paddingBottom(8),
                 Text(
-                  '+63 ${state.phoneController.text}',
-                  // '+1 ${state.phoneController.text}',
+                  '+234 ${state.phoneController.text}',
                   style: Theme.of(context)
                       .textTheme
                       .headline6!
                       .copyWith(fontWeight: FontWeight.bold),
-                ).paddingBottom(ComAppTheme.elementSpacing),
-                PinFieldAutoFill(
+                ).paddingBottom(CityTheme.elementSpacing),
+                CityTextField(
                   controller: state.otpController,
-                  decoration: BoxLooseDecoration(
-                    textStyle: TextStyle(fontSize: 20, color: Colors.black),
-                    strokeColorBuilder: FixedColorBuilder(Colors.grey),
-                  ),
-                  currentCode: '',
-                  onCodeSubmitted: (code) {},
-                  onCodeChanged: (code) {
-                    if (code!.length == 6) {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    }
-                  },
+                  label: 'O T P',
+                  keyboardType: TextInputType.phone,
                 ),
                 Spacer(),
                 state.phoneAuthState == PhoneAuthState.loading

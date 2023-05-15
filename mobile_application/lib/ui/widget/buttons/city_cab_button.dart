@@ -17,7 +17,7 @@ class CityCabButton extends StatelessWidget {
       {Key? key,
       this.buttonState,
       this.title,
-      this.color = ComAppTheme.comPurple,
+      this.color = CityTheme.cityblue,
       this.textColor,
       this.disableColor,
       this.onTap,
@@ -50,7 +50,7 @@ class CityCabButton extends StatelessWidget {
                 child: Transform.scale(
                     scale: 0.8,
                     child: CircularProgressIndicator.adaptive(
-                      valueColor: AlwaysStoppedAnimation(ComAppTheme.comWhite),
+                      valueColor: AlwaysStoppedAnimation(CityTheme.cityWhite),
                     )),
               ),
             );
@@ -75,9 +75,9 @@ class CityCabButton extends StatelessWidget {
     final isLoading = buttonState == ButtonState.loading;
 
     if (isDisabled) {
-      return ComAppTheme.cityLightGrey;
+      return CityTheme.cityLightGrey;
     } else if (isLoading) {
-      return ComAppTheme.comPurple.withOpacity(.5);
+      return CityTheme.cityblue.withOpacity(.5);
     } else {
       return color;
     }

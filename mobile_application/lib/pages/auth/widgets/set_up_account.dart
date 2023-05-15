@@ -1,6 +1,7 @@
 import 'package:mobile_application/pages/auth/auth_state.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/textfields/cab_textfield.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,11 +22,11 @@ class SetUpAccount extends StatelessWidget {
             Text(
               'Set Up Account',
               style: Theme.of(context).textTheme.headline5,
-            ).paddingBottom(ComAppTheme.elementSpacing / 2),
+            ).paddingBottom(CityTheme.elementSpacing / 2),
             Text(
               'Fill the details below...',
               style: Theme.of(context).textTheme.bodyText1,
-            ).paddingBottom(ComAppTheme.elementSpacing),
+            ).paddingBottom(CityTheme.elementSpacing),
             Row(
               children: [
                 Expanded(
@@ -34,7 +35,7 @@ class SetUpAccount extends StatelessWidget {
                     controller: state.firstNameController,
                   ),
                 ),
-                SizedBox(width: ComAppTheme.elementSpacing),
+                SizedBox(width: CityTheme.elementSpacing),
                 Expanded(
                   child: CityTextField(
                     label: 'Last Name',
@@ -42,11 +43,58 @@ class SetUpAccount extends StatelessWidget {
                   ),
                 ),
               ],
-            ).paddingBottom(ComAppTheme.elementSpacing),
+            ).paddingBottom(CityTheme.elementSpacing),
             CityTextField(
               label: 'Email',
               controller: state.emailController,
-            ),
+            ).paddingBottom(CityTheme.elementSpacing),
+            Row(
+              children: [
+                CupertinoSwitch(
+                  value: state.isRoleDriver,
+                  onChanged: (v) {
+                    state.changeRoleState = v == true ? 1 : 0;
+                  },
+                ),
+                SizedBox(width: CityTheme.elementSpacing * 0.5),
+                Text(
+                  'I\'m a Driver',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ],
+            ).paddingBottom(CityTheme.elementSpacing),
+            Builder(builder: (context) {
+              if (state.isRoleDriver == false) return const SizedBox.shrink();
+              return Column(
+                children: [
+                  CityTextField(
+                    label: 'Vehicle Type',
+                    controller: state.vehicleTypeController,
+                  ).paddingBottom(CityTheme.elementSpacing),
+                  CityTextField(
+                    label: 'Vehicle Manufacturer',
+                    controller: state.vehicleManufacturersController,
+                  ).paddingBottom(CityTheme.elementSpacing),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CityTextField(
+                          label: 'Vehicle Color',
+                          controller: state.vehicleColorController,
+                        ),
+                      ),
+                      SizedBox(width: CityTheme.elementSpacing),
+                      Expanded(
+                        child: CityTextField(
+                          label: 'License Plate',
+                          controller: state.licensePlateController,
+                        ),
+                      ),
+                    ],
+                  ).paddingBottom(CityTheme.elementSpacing),
+                ],
+              );
+            }),
           ],
         ),
       ),

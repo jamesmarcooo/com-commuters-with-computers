@@ -1,3 +1,4 @@
+import 'package:mobile_application/repositories/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -5,21 +6,21 @@ class AuthService {
   AuthService._();
   static AuthService? _instance;
 
-  static AuthService get instance {
+  static AuthService? get instance {
     if (_instance == null) {
       _instance = AuthService._();
     }
-    return _instance!;
+    return _instance;
   }
 
-  FirebaseAuth? _auth = FirebaseAuth.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> verifyPhoneSendOtp(String phone,
-      {void Function(PhoneAuthCredential)? completed,
-      void Function(FirebaseAuthException)? failed,
-      void Function(String, int?)? codeSent,
-      void Function(String)? codeAutoRetrievalTimeout}) async {
-    await _auth!.verifyPhoneNumber(
+      {required void Function(PhoneAuthCredential)? completed,
+      required void Function(FirebaseAuthException)? failed,
+      required void Function(String, int?)? codeSent,
+      required void Function(String)? codeAutoRetrievalTimeout}) async {
+    await _auth.verifyPhoneNumber(
       phoneNumber: phone,
       verificationCompleted: completed!,
       verificationFailed: failed!,
@@ -28,11 +29,11 @@ class AuthService {
     );
   }
 
-  Future<String> verifyAndLogin(
+  Future<String?> verifyAndLogin(
       String verificationId, String smsCode, String phone) async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId, smsCode: smsCode);
-    final authCredential = await _auth!.signInWithCredential(credential);
+    final authCredential = await _auth.signInWithCredential(credential);
 
     if (authCredential.user != null) {
       final uid = authCredential.user!.uid;
@@ -48,12 +49,21 @@ class AuthService {
       }
       return uid;
     } else {
-      return '';
+      return null;
     }
   }
 
   Future<String> getCredential(PhoneAuthCredential credential) async {
-    final authCredential = await _auth!.signInWithCredential(credential);
+    final authCredential = await _auth.signInWithCredential(credential);
     return authCredential.user!.uid;
+  }
+
+  Future<bool?> logOut() async {
+    await _auth.signOut();
+    UserRepository.instance.userNotifier.value = null;
+    // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+    UserRepository.instance.userNotifier.notifyListeners();
+
+    return true;
   }
 }

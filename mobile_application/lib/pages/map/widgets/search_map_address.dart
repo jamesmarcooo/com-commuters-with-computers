@@ -14,11 +14,11 @@ class SearchMapBar extends StatelessWidget {
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(
-          color: ComAppTheme.comWhite,
+          color: CityTheme.cityWhite,
           borderRadius: BorderRadius.circular(6),
           boxShadow: [
             BoxShadow(
-                color: ComAppTheme.comPurple.withOpacity(.2),
+                color: CityTheme.cityBlack.withOpacity(.2),
                 spreadRadius: 2,
                 blurRadius: 5),
           ],
@@ -29,10 +29,9 @@ class SearchMapBar extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Icon(Icons.circle, size: 16, color: ComAppTheme.comPurple),
-                    Container(
-                        width: 4, height: 40, color: ComAppTheme.comPurple),
-                    Icon(Icons.place, color: ComAppTheme.comPurple),
+                    Icon(Icons.circle, size: 16, color: CityTheme.cityblue),
+                    Container(width: 4, height: 40, color: CityTheme.cityblue),
+                    Icon(Icons.place, color: CityTheme.cityblue),
                   ],
                 ).paddingHorizontal(4),
                 Expanded(
