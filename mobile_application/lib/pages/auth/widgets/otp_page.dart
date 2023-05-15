@@ -36,7 +36,7 @@ class _OtpPageState extends State<OtpPage> {
                   style: Theme.of(context).textTheme.bodyText1,
                 ).paddingBottom(8),
                 Text(
-                  '+234 ${state.phoneController.text}',
+                  '+63 ${state.phoneController.text}',
                   style: Theme.of(context)
                       .textTheme
                       .headline6!

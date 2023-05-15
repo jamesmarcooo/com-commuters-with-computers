@@ -29,7 +29,7 @@ class AuthButton extends StatelessWidget {
                       state.phoneAuthState == PhoneAuthState.initial &&
                       state.pageIndex == 0) {
                     state.phoneNumberVerification(
-                        "+234${state.phoneController.text}");
+                        "+63${state.phoneController.text}");
                   } else if (state.phoneAuthState == PhoneAuthState.codeSent &&
                       state.pageIndex == 1) {
                     state.verifyAndLogin(state.verificationId,
