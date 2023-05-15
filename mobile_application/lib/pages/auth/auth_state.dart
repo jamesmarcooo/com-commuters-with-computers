@@ -82,8 +82,8 @@ class AuthState extends ChangeNotifier {
         createdAt: DateTime.now(),
         isVerified: true,
         licensePlate: licensePlateController.text,
-        // phone: "63${phoneController.text}",
-        phone: "1${phoneController.text}",
+        phone: "63${phoneController.text}",
+        // phone: "1${phoneController.text}",
         vehicleType: vehicleTypeController.text,
         vehicleColor: vehicleColorController.text,
         vehicleManufacturer: vehicleManufacturersController.text,
@@ -153,7 +153,7 @@ class AuthState extends ChangeNotifier {
 
   void _startCountDown() {
     Timer.periodic(Duration(seconds: 1), (timer) {
-      if (timer.tick > 30) {
+      if (timer.tick > 5) {
         timer.cancel();
       } else {
         --timeOut;
