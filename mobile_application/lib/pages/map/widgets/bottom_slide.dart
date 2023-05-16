@@ -147,7 +147,7 @@ class ConfirmLocation extends StatelessWidget {
                           ),
                     const SizedBox(height: CityTheme.elementSpacing * 2),
                     CityCabButton(
-                      title: 'Request Ride',
+                      title: 'Request Bus ETA',
                       color: CityTheme.cityblue,
                       textColor: CityTheme.cityWhite,
                       disableColor: CityTheme.cityLightGrey,
