@@ -160,4 +160,13 @@ class AuthState extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+//define previousPage() of state when in the middle pages for authentication
+  void previousPage() {
+    if (pageIndex == 1) {
+      animateToNextPage(0);
+    } else if (pageIndex == 2) {
+      animateToNextPage(1);
+    }
+  }
 }

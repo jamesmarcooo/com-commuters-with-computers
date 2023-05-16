@@ -41,7 +41,7 @@ class _PhoneTextFieldState extends State<PhoneTextField> {
             prefix: isFocus
                 ? Padding(
                     padding: const EdgeInsets.only(right: 8.0),
-                    child: Text('🇳🇬'),
+                    child: Text('🇵🇭'),
                   )
                 : SizedBox.shrink(),
             prefixIcon: isFocus ? null : Icon(Icons.phone)),

@@ -33,7 +33,7 @@ class CityCabButton extends StatelessWidget {
       onTap: buttonState == ButtonState.disabled ? null : onTap,
       child: Container(
         height: 49,
-        constraints: BoxConstraints(minWidth: 100),
+        constraints: BoxConstraints(minWidth: 175),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           color: _getColour(),

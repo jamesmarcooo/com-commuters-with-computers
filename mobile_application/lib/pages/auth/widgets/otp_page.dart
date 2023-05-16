@@ -48,18 +48,19 @@ class _OtpPageState extends State<OtpPage> {
                   keyboardType: TextInputType.phone,
                 ),
                 Spacer(),
-                state.phoneAuthState == PhoneAuthState.loading
-                    ? Text(
-                        'Verifying...',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(fontWeight: FontWeight.w400),
-                      ).paddingBottom(8)
-                    : SizedBox.shrink(),
+                // state.phoneAuthState == PhoneAuthState.loading
+                //     ? Text(
+                //         'Verifying...',
+                //         style: Theme.of(context)
+                //             .textTheme
+                //             .bodyText1!
+                //             .copyWith(fontWeight: FontWeight.w400),
+                //       ).paddingBottom(8)
+                //     : SizedBox.shrink(),
                 state.phoneAuthState == PhoneAuthState.codeSent
                     ? Row(
                         children: [
+                          //add padding to the text to make it above the CityCabButton()
                           Text(
                             'Resend code in ',
                             style: Theme.of(context)
@@ -75,7 +76,7 @@ class _OtpPageState extends State<OtpPage> {
                                 .copyWith(fontWeight: FontWeight.bold),
                           )
                         ],
-                      ).paddingBottom(8)
+                      ).paddingBottom(56)
                     : SizedBox.shrink(),
               ],
             ),
