@@ -1,6 +1,6 @@
 import 'package:mobile_application/pages/auth/auth_state.dart';
 import 'package:mobile_application/ui/theme.dart';
-import 'package:mobile_application/ui/widget/textfields/cab_textfield.dart';
+import 'package:mobile_application/ui/widget/textfields/bus_textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

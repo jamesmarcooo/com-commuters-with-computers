@@ -1,7 +1,7 @@
 import 'package:mobile_application/constant/ride_options.dart';
 import 'package:mobile_application/pages/map/map_state.dart';
 import 'package:mobile_application/ui/theme.dart';
-import 'package:mobile_application/ui/widget/buttons/city_cab_button.dart';
+import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
 import 'package:mobile_application/ui/widget/cards/ride_card.dart';
 import 'package:mobile_application/ui/widget/titles/bottom_slider_title.dart';
 import 'package:flutter/cupertino.dart';

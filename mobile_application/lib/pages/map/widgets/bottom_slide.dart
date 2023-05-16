@@ -6,7 +6,7 @@ import 'package:mobile_application/pages/map/widgets/in_motion.dart';
 import 'package:mobile_application/pages/map/widgets/select_ride.dart';
 import 'package:mobile_application/pages/map/widgets/take_a_ride.dart';
 import 'package:mobile_application/ui/theme.dart';
-import 'package:mobile_application/ui/widget/buttons/city_cab_button.dart';
+import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 

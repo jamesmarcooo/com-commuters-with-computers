@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:mobile_application/constant/google_map_key.dart';
 import 'package:mobile_application/models/address.dart';
-import 'package:mobile_application/models/citycab_info_window.dart';
+import 'package:mobile_application/models/info_window.dart';
 import 'package:mobile_application/models/user.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
 import 'package:mobile_application/ui/info_window/custom_info_window.dart';

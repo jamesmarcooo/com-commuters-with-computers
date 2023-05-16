@@ -1,7 +1,7 @@
 import 'package:mobile_application/constant/my_address.dart';
 import 'package:mobile_application/models/user.dart';
 import 'package:mobile_application/ui/theme.dart';
-import 'package:mobile_application/ui/widget/buttons/city_cab_button.dart';
+import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
 import 'package:mobile_application/ui/widget/cards/address_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

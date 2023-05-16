@@ -1,4 +1,4 @@
-import 'package:mobile_application/models/citycab_info_window.dart';
+import 'package:mobile_application/models/info_window.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:flutter/material.dart';
 
