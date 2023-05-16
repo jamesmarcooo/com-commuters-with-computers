@@ -58,7 +58,7 @@ class MapService {
     Roles? userRoles = UserRepository.instance.currentUserRole;
     return (() {
       if (userRoles == Roles.driver) {
-        return ImagesAsset.car;
+        return ImagesAsset.bus;
       } else {
         return ImagesAsset.circlePin;
       }
