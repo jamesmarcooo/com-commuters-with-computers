@@ -19,9 +19,9 @@ class AddressCard extends StatelessWidget {
       onTap: onTap,
       contentPadding: const EdgeInsets.all(0),
       leading: Icon(
-          address?.title?.toLowerCase() == 'office'
-              ? Icons.work_outline
-              : Icons.home_outlined,
+          address?.title?.toLowerCase() == 'Quezon Avenue Station'
+              ? Icons.pin_drop
+              : Icons.pin_drop_outlined,
           size: 30,
           color: CityTheme.cityblue),
       title: Text(

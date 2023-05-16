@@ -103,10 +103,11 @@ class MapService {
     if (check) {
       print('started location');
 
-      positionStream = Geolocator.getPositionStream(
-              desiredAccuracy: LocationAccuracy.high,
-              timeLimit: Duration(seconds: 60))
-          .listen((position) async {
+      //get positionStream using Geolocator and its getPositionStream method
+      positionStream =
+          Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+              .asStream()
+              .listen((position) async {
         eventFiring(currentPosition.value);
 
         currentPosition.value = await getAddressFromCoodinate(
