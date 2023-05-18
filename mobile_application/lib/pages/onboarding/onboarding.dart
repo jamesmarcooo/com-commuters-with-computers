@@ -28,13 +28,43 @@ class OnboardingPage extends StatelessWidget {
                 children: [
                   Image.asset('assets/images/human-onboard-01.png'),
                   const AuthHeader('Welcome!'),
+                  //add padding around the buttons
+                  const SizedBox(height: 40),
                   ElevatedButton(
+                    //add style to the button
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(256, 64),
+                      primary: CityTheme.cityblue,
+                      onPrimary: CityTheme.cityWhite,
+                      textStyle: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
                     onPressed: () {
                       _navigateToHomePage(context);
                     },
                     child: const Text('Commuter'),
                   ),
+                  //add Elevated for admin with bigger font size
+                  Padding(padding: const EdgeInsets.only(top: 16)),
                   ElevatedButton(
+                    //add style to the button
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(256, 64),
+                      primary: CityTheme.cityLightGrey,
+                      onPrimary: CityTheme.cityblue,
+                      textStyle: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
                     onPressed: () {
                       _navigateToHomePage(context);
                     },
@@ -62,7 +92,8 @@ class AuthHeader extends StatelessWidget {
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline1?.copyWith(
             fontWeight: FontWeight.bold,
-            color: CityTheme.cityOrange,
+            fontSize: 72,
+            color: CityTheme.cityblue,
             height: 1,
           ),
     );
