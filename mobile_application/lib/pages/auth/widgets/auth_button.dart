@@ -1,4 +1,5 @@
 import 'package:mobile_application/pages/auth/auth_state.dart';
+import 'package:mobile_application/pages/onboarding/onboarding.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,21 @@ class AuthButton extends StatelessWidget {
                     title: 'Back',
                     onTap: () {
                       state.previousPage();
+                    },
+                  )),
+            if (state.pageIndex == 0)
+              Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CityCabButton(
+                    textColor: CityTheme.cityblue,
+                    color: CityTheme.cityLightGrey,
+                    title: 'Back',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const OnboardingPage()),
+                      );
                     },
                   )),
             CityCabButton(
