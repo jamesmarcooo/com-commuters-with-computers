@@ -9,6 +9,7 @@
 .history
 .svn/
 migrate_working_dir/
+lib/constant/google_map_key.dart
 
 # IntelliJ related
 *.iml

@@ -1,6 +1,8 @@
+//@dart=2.9
 import 'package:mobile_application/pages/home/home.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
 import 'package:mobile_application/ui/theme.dart';
+import 'package:splashscreen/splashscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +29,16 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'City Cab',
       theme: CityTheme.theme,
-      home: HomePage(),
+      home: SplashScreen(
+          seconds: 2,
+          navigateAfterSeconds: const HomePage(),
+          image: const Image(
+            image: AssetImage('assets/images/com-02.png'),
+          ),
+          backgroundColor: const Color(0xff5644B2),
+          styleTextUnderTheLoader: const TextStyle(),
+          photoSize: 140.0,
+          loaderColor: const Color(0xff2A2563)),
     );
   }
 }
