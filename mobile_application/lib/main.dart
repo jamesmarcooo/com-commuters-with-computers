@@ -32,8 +32,7 @@ class _MyAppState extends State<MyApp> {
       theme: CityTheme.theme,
       home: SplashScreen(
           seconds: 2,
-          // navigateAfterSeconds: const HomePage(),
-          navigateAfterSeconds: const OnboardingPage(),
+          navigateAfterSeconds: const HomePage(),
           image: const Image(
             image: AssetImage('assets/images/com-02.png'),
           ),

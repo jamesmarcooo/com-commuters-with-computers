@@ -3,16 +3,18 @@
 import 'package:mobile_application/pages/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
+import 'package:mobile_application/pages/map/map_view.dart';
+import 'package:mobile_application/pages/auth/auth_page.dart';
 import 'package:mobile_application/ui/theme.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({Key? key}) : super(key: key);
 
   //create a function for navigator push to home page
-  void _navigateToHomePage(BuildContext context) {
+  void _navigateToAuthPage(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
+      MaterialPageRoute(builder: (context) => const AuthPageWidget(page: 0)),
     );
   }
 
@@ -45,7 +47,7 @@ class OnboardingPage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      _navigateToHomePage(context);
+                      _navigateToAuthPage(context);
                     },
                     child: const Text('Commuter'),
                   ),
@@ -66,7 +68,7 @@ class OnboardingPage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      _navigateToHomePage(context);
+                      _navigateToAuthPage(context);
                     },
                     child: const Text('Driver'),
                   ),
