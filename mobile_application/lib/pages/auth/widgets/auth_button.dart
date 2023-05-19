@@ -1,6 +1,7 @@
 import 'package:mobile_application/pages/auth/auth_state.dart';
 import 'package:mobile_application/pages/home/home.dart';
 import 'package:mobile_application/pages/onboarding/onboarding.dart';
+import 'package:mobile_application/main.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,12 @@ class AuthButton extends StatelessWidget {
                             state.verificationId,
                             state.otpController.text,
                             state.phoneController.text);
+
+                        //go back to homepage to recheck if the user is verified
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyApp()),
+                        );
                       } else if (state.pageIndex == 2) {
                         state.signUp();
                       }
