@@ -278,6 +278,6 @@ class MapState extends ChangeNotifier {
   void changeActivePresence() async {
     isActive = !isActive;
     notifyListeners();
-    await userRepo.updateOnlinePresense(userRepo.currentUser?.uid, isActive);
+    await userRepo.updateOnlinePresence(userRepo.currentUser?.uid, isActive);
   }
 }

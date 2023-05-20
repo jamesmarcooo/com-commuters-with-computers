@@ -65,6 +65,10 @@ class MapService {
     })();
   }
 
+  String get getDriverMapIcon {
+    return ImagesAsset.bus;
+  }
+
   void dispose() {
     positionStream?.cancel();
   }
@@ -326,4 +330,6 @@ class MapService {
     final icon = BitmapDescriptor.fromBytes(endMarker);
     return icon;
   }
+
+  //create a function that uses getDriverMapIcon() function to return the icon for the driver with its location from getActiveDrivers() of user_repository.dart
 }
