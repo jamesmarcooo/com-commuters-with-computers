@@ -101,23 +101,20 @@ class UserRepository {
     }
   }
 
-  //returns a list of id and latlng of all users with role 1 (driver) and is_active = true (online) and is_verified = true (verified) and not equal to current user id (uid)
-  Future<List<Map<String, dynamic>>> getActiveDrivers(String? uid) async {
-    List<Map<String, dynamic>> drivers = [];
+  //returns a list of users with role 1 (driver) and is_active = true (online) and is_verified = true (verified) and not equal to current user id (uid)
+  Future<List<User>> getActiveDrivers() async {
+    List<User> drivers = [];
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('role', isEqualTo: 1)
         .where('is_active', isEqualTo: true)
         .where('is_verified', isEqualTo: true)
-        .where('uid', isNotEqualTo: uid)
         .get();
     querySnapshot.docs.forEach((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
-      if (data['latlng'] != null) {
-        drivers.add({
-          'id': element.id,
-          'latlng': LatLng(data['latlng']['lat'], data['latlng']['lng']),
-        });
+      User user = User.fromMap(data);
+      if (user.uid != currentUser?.uid) {
+        drivers.add(user);
       }
     });
     return drivers;

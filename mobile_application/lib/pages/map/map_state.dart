@@ -262,8 +262,14 @@ class MapState extends ChangeNotifier {
     animateToPage(pageIndex: 0, state: RideState.initial);
   }
 
+  void loadBusMarkers() {
+    MapService.instance?.loadBusMarkers();
+  }
+
   void requestRide() {
-    animateToPage(pageIndex: 2, state: RideState.requestRide);
+    //call addBusMarkers from map_service.dart
+    MapService.instance?.loadBusMarkers();
+    animateToPage(pageIndex: 0, state: RideState.requestRide);
   }
 
   void onTapMyAddresses(Address address) {

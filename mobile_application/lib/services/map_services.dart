@@ -331,5 +331,65 @@ class MapService {
     return icon;
   }
 
-  //create a function that uses getDriverMapIcon() function to return the icon for the driver with its location from getActiveDrivers() of user_repository.dart
+  //create a checker function using the getPositionBetweenKilometers() function to check if the driver is within 500 meters of the user
+  Future<bool> checkDriverDistance(LatLng startLatLng, LatLng endLatLng) async {
+    final distance = await getPositionBetweenKilometers(startLatLng, endLatLng);
+    if (distance <= 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //create a loadBusMarkers function that call getActiveDrivers from user_repository.dart and call addMarker function
+  Future<void> loadBusMarkers() async {
+    final drivers = await UserRepository.instance.getActiveDrivers();
+    for (var i = 0; i < drivers.length; i++) {
+      final driver = drivers[i];
+      final icon = await getMapIcon(getDriverMapIcon);
+      await addMarker(
+        Address(
+          id: driver.uid,
+          street: driver.vehicleType,
+          city: driver.licensePlate,
+          state: driver.vehicleType,
+          country: driver.vehicleColor,
+          latLng: driver.latlng!,
+          polylines: [],
+          postcode: driver.licensePlate,
+        ),
+        icon,
+        time: DateTime.now(),
+        type: InfoWindowType.bus,
+      );
+    }
+  }
+
+  //create a loadBusMarkers function that call getActiveDrivers from user_repository.dart and call addMarker function only if the bus is within 500 meters of the user
+  // Future<void> loadBusMarkersWithinDistance(LatLng startLatLng) async {
+  //   final drivers = await UserRepository.instance.getActiveDrivers();
+  //   for (var i = 0; i < drivers.length; i++) {
+  //     final driver = drivers[i];
+  //     final icon = await getMapIcon(getDriverMapIcon);
+  //     final isWithinDistance = await checkDriverDistance(startLatLng,
+  //         LatLng(driver.latlng!.latitude, driver.latlng!.longitude));
+  //     if (isWithinDistance) {
+  //       await addMarker(
+  //         Address(
+  //           id: driver.uid,
+  //           street: driver.vehicleType,
+  //           city: driver.licensePlate,
+  //           state: driver.vehicleType,
+  //           country: driver.vehicleColor,
+  //           latLng: driver.latlng!,
+  //           polylines: [],
+  //           postcode: driver.licensePlate,
+  //         ),
+  //         icon,
+  //         time: DateTime.now(),
+  //         type: InfoWindowType.bus,
+  //       );
+  //     }
+  //   }
+  // }
 }
