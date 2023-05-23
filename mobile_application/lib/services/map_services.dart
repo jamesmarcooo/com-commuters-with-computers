@@ -334,7 +334,7 @@ class MapService {
   //create a checker function using the getPositionBetweenKilometers() function to check if the driver is within 500 meters of the user
   Future<bool> checkDriverDistance(LatLng startLatLng, LatLng endLatLng) async {
     final distance = await getPositionBetweenKilometers(startLatLng, endLatLng);
-    if (distance <= 1) {
+    if (distance <= 2) {
       return true;
     } else {
       return false;
@@ -365,7 +365,7 @@ class MapService {
     }
   }
 
-  create a loadBusMarkers function that call getActiveDrivers from user_repository.dart and call addMarker function only if the bus is within 500 meters of the user
+  // create a loadBusMarkers function that call getActiveDrivers from user_repository.dart and call addMarker function only if the bus is within 500 meters of the user
   Future<void> loadBusMarkersWithinDistance(LatLng startLatLng) async {
     final drivers = await UserRepository.instance.getActiveDrivers();
     for (var i = 0; i < drivers.length; i++) {

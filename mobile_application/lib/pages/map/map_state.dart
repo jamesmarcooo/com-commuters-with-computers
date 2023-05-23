@@ -263,12 +263,17 @@ class MapState extends ChangeNotifier {
   }
 
   void loadBusMarkers() {
-    MapService.instance?.loadBusMarkers();
+    var busMarkers = MapService.instance?.getCurrentPosition().then((value) {
+      MapService.instance?.loadBusMarkersWithinDistance(value!.latLng);
+    });
   }
 
   void requestRide() {
     //call addBusMarkers from map_service.dart
-    MapService.instance?.loadBusMarkers();
+    // MapService.instance?.loadBusMarkers();
+    var busMarkers = MapService.instance?.getCurrentPosition().then((value) {
+      MapService.instance?.loadBusMarkersWithinDistance(value!.latLng);
+    });
     animateToPage(pageIndex: 0, state: RideState.requestRide);
   }
 
