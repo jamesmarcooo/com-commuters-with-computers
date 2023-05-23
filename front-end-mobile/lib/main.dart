@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return SplashScreen(
         seconds: 4,
-        navigateAfterSeconds: const HomePage(),
+        navigateAfterSeconds: Login(),
         image: const Image(
           image: AssetImage('assets/images/com-02.png'),
         ),
