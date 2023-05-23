@@ -365,31 +365,31 @@ class MapService {
     }
   }
 
-  //create a loadBusMarkers function that call getActiveDrivers from user_repository.dart and call addMarker function only if the bus is within 500 meters of the user
-  // Future<void> loadBusMarkersWithinDistance(LatLng startLatLng) async {
-  //   final drivers = await UserRepository.instance.getActiveDrivers();
-  //   for (var i = 0; i < drivers.length; i++) {
-  //     final driver = drivers[i];
-  //     final icon = await getMapIcon(getDriverMapIcon);
-  //     final isWithinDistance = await checkDriverDistance(startLatLng,
-  //         LatLng(driver.latlng!.latitude, driver.latlng!.longitude));
-  //     if (isWithinDistance) {
-  //       await addMarker(
-  //         Address(
-  //           id: driver.uid,
-  //           street: driver.vehicleType,
-  //           city: driver.licensePlate,
-  //           state: driver.vehicleType,
-  //           country: driver.vehicleColor,
-  //           latLng: driver.latlng!,
-  //           polylines: [],
-  //           postcode: driver.licensePlate,
-  //         ),
-  //         icon,
-  //         time: DateTime.now(),
-  //         type: InfoWindowType.bus,
-  //       );
-  //     }
-  //   }
-  // }
+  create a loadBusMarkers function that call getActiveDrivers from user_repository.dart and call addMarker function only if the bus is within 500 meters of the user
+  Future<void> loadBusMarkersWithinDistance(LatLng startLatLng) async {
+    final drivers = await UserRepository.instance.getActiveDrivers();
+    for (var i = 0; i < drivers.length; i++) {
+      final driver = drivers[i];
+      final icon = await getMapIcon(getDriverMapIcon);
+      final isWithinDistance = await checkDriverDistance(startLatLng,
+          LatLng(driver.latlng!.latitude, driver.latlng!.longitude));
+      if (isWithinDistance) {
+        await addMarker(
+          Address(
+            id: driver.uid,
+            street: driver.vehicleType,
+            city: driver.licensePlate,
+            state: driver.vehicleType,
+            country: driver.vehicleColor,
+            latLng: driver.latlng!,
+            polylines: [],
+            postcode: driver.licensePlate,
+          ),
+          icon,
+          time: DateTime.now(),
+          type: InfoWindowType.bus,
+        );
+      }
+    }
+  }
 }
