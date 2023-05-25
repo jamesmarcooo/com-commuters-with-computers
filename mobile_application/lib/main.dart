@@ -1,5 +1,6 @@
 //@dart=2.9
 import 'package:mobile_application/pages/home/home.dart';
+import 'package:mobile_application/pages/onboarding/onboarding.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:splashscreen/splashscreen.dart';

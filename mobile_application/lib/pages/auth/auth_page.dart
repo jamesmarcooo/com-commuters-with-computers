@@ -3,6 +3,7 @@ import 'package:mobile_application/pages/auth/widgets/auth_button.dart';
 import 'package:mobile_application/pages/auth/widgets/otp_page.dart';
 import 'package:mobile_application/pages/auth/widgets/phone_page.dart';
 import 'package:mobile_application/pages/auth/widgets/set_up_account.dart';
+import 'package:mobile_application/pages/onboarding/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,25 +26,27 @@ class _AuthPageState extends State<AuthPage> {
     final state = Provider.of<AuthState>(context);
     final screenSize = MediaQuery.of(context).size;
     return Builder(builder: (context) {
-      return Stack(
-        children: [
-          Container(
-            height: screenSize.height,
-            width: screenSize.width,
-            color: Colors.white,
-            child: PageView(
-              controller: state.controller,
-              onPageChanged: state.onPageChanged,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                PhonePage(),
-                OtpPage(),
-                SetUpAccount(),
-              ],
+      return Material(
+        child: Stack(
+          children: [
+            Container(
+              height: screenSize.height,
+              width: screenSize.width,
+              color: Colors.white,
+              child: PageView(
+                controller: state.controller,
+                onPageChanged: state.onPageChanged,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  PhonePage(),
+                  OtpPage(),
+                  SetUpAccount(),
+                ],
+              ),
             ),
-          ),
-          AuthButton(),
-        ],
+            AuthButton(),
+          ],
+        ),
       );
     });
   }

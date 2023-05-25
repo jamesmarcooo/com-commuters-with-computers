@@ -5,6 +5,7 @@ import 'package:mobile_application/pages/map/widgets/search_map_address.dart';
 import 'package:mobile_application/services/auth.dart';
 import 'package:mobile_application/services/map_services.dart';
 import 'package:mobile_application/ui/info_window/custom_info_window.dart';
+import 'package:splashscreen/splashscreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,7 +25,18 @@ class MapView extends StatelessWidget {
         valueListenable: state.currentPosition,
         builder: (context, currentPosition, child) {
           if (currentPosition == null) {
-            return Center(child: const CircularProgressIndicator());
+            // return Center(child: const CircularProgressIndicator());
+            return SplashScreen(
+                seconds: 2,
+                // navigateAfterSeconds: const HomePage(),
+                // navigateAfterSeconds: const OnboardingPage(),
+                image: const Image(
+                  image: AssetImage('assets/images/com-02.png'),
+                ),
+                backgroundColor: const Color(0xff5644B2),
+                styleTextUnderTheLoader: const TextStyle(),
+                photoSize: 140.0,
+                loaderColor: const Color(0xff2A2563));
           }
 
           return Stack(

@@ -28,44 +28,46 @@ class CityCabButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLoading = buttonState == ButtonState.loading;
 
-    return InkWell(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
-      onTap: buttonState == ButtonState.disabled ? null : onTap,
-      child: Container(
-        height: 49,
-        constraints: BoxConstraints(minWidth: 175),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          color: _getColour(),
-          border: Border.all(
-            color: (isLoading ? Colors.transparent : borderColor) ??
-                Colors.transparent,
+    return Material(
+      child: InkWell(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        onTap: buttonState == ButtonState.disabled ? null : onTap,
+        child: Container(
+          height: 49,
+          constraints: BoxConstraints(minWidth: 175),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            color: _getColour(),
+            border: Border.all(
+              color: (isLoading ? Colors.transparent : borderColor) ??
+                  Colors.transparent,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Builder(builder: (_) {
-          if (isLoading) {
+          child: Builder(builder: (_) {
+            if (isLoading) {
+              return Center(
+                child: SizedBox(
+                  child: Transform.scale(
+                      scale: 0.8,
+                      child: CircularProgressIndicator.adaptive(
+                        valueColor: AlwaysStoppedAnimation(CityTheme.cityWhite),
+                      )),
+                ),
+              );
+            }
             return Center(
-              child: SizedBox(
-                child: Transform.scale(
-                    scale: 0.8,
-                    child: CircularProgressIndicator.adaptive(
-                      valueColor: AlwaysStoppedAnimation(CityTheme.cityWhite),
-                    )),
+              child: Text(
+                '$title',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: textColor,
+                ),
               ),
             );
-          }
-          return Center(
-            child: Text(
-              '$title',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: textColor,
-              ),
-            ),
-          );
-        }),
+          }),
+        ),
       ),
     );
   }
