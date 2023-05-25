@@ -10,7 +10,7 @@
 .svn/
 migrate_working_dir/
 lib/constant/google_map_key.dart
-# android/app/src/main/AndroidManifest.xml
+android/app/src/main/AndroidManifest.xml
 
 # IntelliJ related
 *.iml
