@@ -332,47 +332,46 @@ class MapService {
   }
 
   //create a checker function using the getPositionBetweenKilometers() function to check if the driver is within 500 meters of the user
-  Future<bool> checkDriverDistance(LatLng startLatLng, LatLng endLatLng) async {
+  Future<bool> checkDriverDistance(
+      int d, LatLng startLatLng, LatLng endLatLng) async {
     final distance = await getPositionBetweenKilometers(startLatLng, endLatLng);
-    if (distance <= 2) {
+    if (distance <= d) {
       return true;
     } else {
       return false;
     }
   }
 
-  //create a loadBusMarkers function that call getActiveDrivers from user_repository.dart and call addMarker function
-  Future<void> loadBusMarkers() async {
-    final drivers = await UserRepository.instance.getActiveDrivers();
-    for (var i = 0; i < drivers.length; i++) {
-      final driver = drivers[i];
-      final icon = await getMapIcon(getDriverMapIcon);
-      await addMarker(
-        Address(
-          id: driver.uid,
-          street: driver.vehicleType,
-          city: driver.licensePlate,
-          state: driver.vehicleType,
-          country: driver.vehicleColor,
-          latLng: driver.latlng!,
-          polylines: [],
-          postcode: driver.licensePlate,
-        ),
-        icon,
-        time: DateTime.now(),
-        type: InfoWindowType.bus,
-      );
+  //create function that returns a boolean if the bus is in between the current location and the destination
+  Future<bool> checkBusPassed(
+      LatLng startLatLng, LatLng endLatLng, LatLng busLatLng) async {
+    final distance1 =
+        await getPositionBetweenKilometers(startLatLng, endLatLng);
+    final distance2 =
+        await getPositionBetweenKilometers(startLatLng, busLatLng);
+    final distance3 = await getPositionBetweenKilometers(busLatLng, endLatLng);
+    if (distance1 >= distance2 && distance1 >= distance3) {
+      return true;
+    } else if (distance1 < distance3 && distance1 < distance2) {
+      return false;
+    } else {
+      return false;
     }
   }
 
   // create a loadBusMarkers function that call getActiveDrivers from user_repository.dart and call addMarker function only if the bus is within 500 meters of the user
-  Future<void> loadBusMarkersWithinDistance(LatLng startLatLng) async {
+  Future<void> loadBusMarkersWithinDistance(
+      LatLng startLatLng, LatLng endLatLng) async {
     final drivers = await UserRepository.instance.getActiveDrivers();
+    print(endLatLng);
     for (var i = 0; i < drivers.length; i++) {
       final driver = drivers[i];
       final icon = await getMapIcon(getDriverMapIcon);
-      final isWithinDistance = await checkDriverDistance(startLatLng,
+      final isWithinDistance = await checkDriverDistance(2, startLatLng,
           LatLng(driver.latlng!.latitude, driver.latlng!.longitude));
+      final isBusPassed = await checkBusPassed(startLatLng, endLatLng,
+          LatLng(driver.latlng!.latitude, driver.latlng!.longitude));
+      print(isBusPassed);
       if (isWithinDistance) {
         await addMarker(
           Address(
@@ -387,9 +386,35 @@ class MapService {
           ),
           icon,
           time: DateTime.now(),
-          type: InfoWindowType.bus,
+          type: isBusPassed ? InfoWindowType.destination : InfoWindowType.bus,
         );
       }
+    }
+  }
+
+  //function that returns the address of the driver (role 1) nearest to the currentposition of the user
+  Future<Address?> getNearestDriver(
+      LatLng startLatLng, LatLng endLatLng) async {
+    final drivers = await UserRepository.instance.getActiveDrivers();
+    final List<Address> addresses = [];
+    for (var i = 0; i < drivers.length; i++) {
+      final driver = drivers[i];
+      final isWithinDistance = await checkDriverDistance(2, startLatLng,
+          LatLng(driver.latlng!.latitude, driver.latlng!.longitude));
+      final isBusPassed = await checkBusPassed(startLatLng, endLatLng,
+          LatLng(driver.latlng!.latitude, driver.latlng!.longitude));
+      if (isWithinDistance && !isBusPassed) {
+        final address = await getAddressFromCoodinate(
+            LatLng(driver.latlng!.latitude, driver.latlng!.longitude));
+        addresses.add(address);
+      }
+    }
+
+    if (addresses.isNotEmpty) {
+      addresses.sort((a, b) => a.postcode.compareTo(b.postcode));
+      return addresses.first;
+    } else {
+      return null;
     }
   }
 }

@@ -263,16 +263,24 @@ class MapState extends ChangeNotifier {
   }
 
   void loadBusMarkers() {
-    var busMarkers = MapService.instance?.getCurrentPosition().then((value) {
-      MapService.instance?.loadBusMarkersWithinDistance(value!.latLng);
+    MapService.instance?.getCurrentPosition().then((value) {
+      MapService.instance?.loadBusMarkersWithinDistance(
+          value!.latLng, MapService.instance!.searchedAddress[0].latLng);
+      var address = MapService.instance
+          ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+          .then((address) => animateCamera(address?.latLng ?? value.latLng));
     });
   }
 
   void requestRide() {
     //call addBusMarkers from map_service.dart
     // MapService.instance?.loadBusMarkers();
-    var busMarkers = MapService.instance?.getCurrentPosition().then((value) {
-      MapService.instance?.loadBusMarkersWithinDistance(value!.latLng);
+    MapService.instance?.getCurrentPosition().then((value) {
+      MapService.instance
+          ?.loadBusMarkersWithinDistance(value!.latLng, endAddress!.latLng);
+      MapService.instance
+          ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+          .then((address) => animateCamera(address?.latLng ?? value.latLng));
     });
     animateToPage(pageIndex: 0, state: RideState.requestRide);
   }
