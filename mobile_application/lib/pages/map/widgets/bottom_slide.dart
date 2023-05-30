@@ -147,19 +147,39 @@ class ConfirmLocation extends StatelessWidget {
                               );
                             }),
                           ),
-                    const SizedBox(height: CityTheme.elementSpacing * 3),
-                    CityCabButton(
-                      title: 'Request Bus ETA',
-                      color: CityTheme.cityblue,
-                      textColor: CityTheme.cityWhite,
-                      disableColor: CityTheme.cityLightGrey,
-                      buttonState: checkSearchingEndLocation
-                          ? ButtonState.initial
-                          : ButtonState.disabled,
-                      onTap: () {
-                        state.requestRide();
-                      },
-                    ),
+                    // const SizedBox(height: CityTheme.elementSpacing * 3),
+                    Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 8),
+                            CityCabButton(
+                              title: 'Request Bus ETA',
+                              color: CityTheme.cityblue,
+                              textColor: CityTheme.cityWhite,
+                              disableColor: CityTheme.cityLightGrey,
+                              buttonState: checkSearchingEndLocation
+                                  ? ButtonState.initial
+                                  : ButtonState.disabled,
+                              onTap: () {
+                                state.requestRide();
+                              },
+                            ),
+                            Padding(padding: const EdgeInsets.only(top: 4)),
+                            CityCabButton(
+                              title: 'Clear',
+                              color: CityTheme.cityWhite,
+                              textColor: CityTheme.cityblue,
+                              disableColor: CityTheme.cityWhite,
+                              buttonState: checkSearchingEndLocation
+                                  ? ButtonState.initial
+                                  : ButtonState.disabled,
+                              onTap: () {
+                                state.requestRide();
+                              },
+                            ),
+                          ],
+                        ))
                   ],
                 ),
               ),
