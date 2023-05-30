@@ -354,6 +354,8 @@ class MapService {
       return true;
     } else if (distance1 < distance3 && distance1 < distance2) {
       return false;
+    } else if (distance1 < distance2 && distance1 > distance3) {
+      return true;
     } else {
       return false;
     }

@@ -30,6 +30,7 @@ class MapState extends ChangeNotifier {
   final rideRepo = RideRepository.instance;
 
   final currentAddressController = TextEditingController();
+  final startingAddressController = TextEditingController();
   final destinationAddressController = TextEditingController();
 
   Address? startAddress;
@@ -63,15 +64,14 @@ class MapState extends ChangeNotifier {
     isSelectedOptions =
         List.generate(rideOptions.length, (index) => index == 0 ? true : false);
     selectedOption = rideOptions[0];
-    destinationAddressController
-      ..addListener(() {
-        if (destinationAddressController.text.isEmpty) {
-          searchedAddress.clear();
-          notifyListeners();
-        }
-        endAddress = null;
+    destinationAddressController.addListener(() {
+      if (destinationAddressController.text.isEmpty) {
+        searchedAddress.clear();
         notifyListeners();
-      });
+      }
+      endAddress = null;
+      notifyListeners();
+    });
     getCurrentLocation();
     isActive = userRepo.currentUser?.isActive ?? false;
     notifyListeners();

@@ -40,7 +40,7 @@ class SearchMapBar extends StatelessWidget {
                       Focus(
                         focusNode: state.focusNode,
                         child: CityTextField(
-                          label: 'My Address',
+                          label: 'Starting Point',
                           controller: state.currentAddressController,
                           onChanged: (v) {
                             state.searchAddress(v);
@@ -50,7 +50,7 @@ class SearchMapBar extends StatelessWidget {
                       Focus(
                         focusNode: state.focusNode,
                         child: CityTextField(
-                          label: 'Destination Address',
+                          label: 'Destination Station',
                           controller: state.destinationAddressController,
                           onChanged: (v) {
                             state.searchAddress(v);
