@@ -127,10 +127,9 @@ class ConfirmLocation extends StatelessWidget {
                                     contentPadding: const EdgeInsets.all(0),
                                     horizontalTitleGap: 0,
                                     trailing: Icon(Icons.north_west, size: 16),
-                                    title: Text(
-                                        '${address.street}, ${address.city}'),
+                                    title: Text('${address.title}'),
                                     subtitle: Text(
-                                        '${address.state}, ${address.country}'),
+                                        '${address.street}, ${address.city}'),
                                     leading: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,

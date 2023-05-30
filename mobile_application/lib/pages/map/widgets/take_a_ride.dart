@@ -35,7 +35,8 @@ class TakeARide extends StatelessWidget {
         );
       }
       return Padding(
-        padding: const EdgeInsets.all(16),
+        // padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -66,7 +67,7 @@ class TakeARide extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 4),
             Column(
               children: List.generate(
                 // myAddresses.length,
