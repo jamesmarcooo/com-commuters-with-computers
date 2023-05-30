@@ -39,6 +39,7 @@ class MapState extends ChangeNotifier {
   RideOption? selectedOption;
 
   List<Address> searchedAddress = [];
+  List<Address> sliderAddresses = [];
   List<bool> isSelectedOptions = [];
 
   FocusNode? focusNode;
@@ -195,6 +196,7 @@ class MapState extends ChangeNotifier {
   void getCurrentLocation() async {
     final address = await loadMyPosition(null);
     currentAddressController.text = "${address?.street}, ${address?.city}";
+    getNearestAddresses();
     notifyListeners();
   }
 
@@ -270,6 +272,14 @@ class MapState extends ChangeNotifier {
           ?.getNearestDriver(value!.latLng, endAddress!.latLng)
           .then((address) => animateCamera(address?.latLng ?? value.latLng));
     });
+  }
+
+  //function to get the first 3 nearest address from the current position
+  Future<void> getNearestAddresses() async {
+    final nearestAddress = await MapService.instance
+        ?.getNearestAddressesesList(startAddress!.latLng);
+    sliderAddresses = nearestAddress ?? [];
+    notifyListeners();
   }
 
   void requestRide() {

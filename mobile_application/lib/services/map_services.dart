@@ -9,6 +9,7 @@ import 'package:mobile_application/repositories/user_repository.dart';
 import 'package:mobile_application/ui/info_window/custom_info_window.dart';
 import 'package:mobile_application/ui/info_window/custom_widow.dart';
 import 'package:mobile_application/utils/images_assets.dart';
+import 'package:mobile_application/constant/my_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -392,6 +393,21 @@ class MapService {
         );
       }
     }
+  }
+
+  //function that computes the distance from the current position of the user to Latlng of each address in my_address.dart constant and returns the first 3 nearest
+  Future<List<Address>> getNearestAddressesesList(LatLng startLatLng) async {
+    final List<Address> nearestAddresses = [];
+    for (var i = 0; i < myAddresses.length; i++) {
+      final address = myAddresses[i];
+      final isWithinDistance = await checkDriverDistance(10, startLatLng,
+          LatLng(address.latLng.latitude, address.latLng.longitude));
+      if (isWithinDistance && nearestAddresses.length < 3) {
+        nearestAddresses.add(address);
+      }
+    }
+    print(nearestAddresses);
+    return nearestAddresses;
   }
 
   //function that returns the address of the driver (role 1) nearest to the currentposition of the user
