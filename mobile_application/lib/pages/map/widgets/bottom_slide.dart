@@ -7,6 +7,7 @@ import 'package:mobile_application/pages/map/widgets/select_ride.dart';
 import 'package:mobile_application/pages/map/widgets/take_a_ride.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
+import 'package:mobile_application/constant/my_address.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 
@@ -67,7 +68,7 @@ class _BottomSliderState extends State<BottomSlider> {
 
     if (checkSearching) {
       if (state.endAddress != null) {
-        return size.height * 0.2;
+        return size.height * 0.18;
       } else {
         return size.height;
       }
@@ -110,16 +111,18 @@ class ConfirmLocation extends StatelessWidget {
                         : SizedBox(
                             height: MediaQuery.of(context).size.height * 0.65,
                             child: Builder(builder: (context) {
-                              if (state.searchedAddress.isEmpty) {
-                                return Center(
-                                  child: Text('No Address Found'),
-                                );
-                              }
+                              // if (state.searchedAddress.isEmpty) {
+                              //   return Center(
+                              //     child: Text('No Address Found'),
+                              //   );
+                              // }
                               return ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: state.searchedAddress.length,
+                                // itemCount: state.searchedAddress.length,
+                                itemCount: myAddresses.length,
                                 itemBuilder: (context, index) {
-                                  final address = state.searchedAddress[index];
+                                  // final address = state.searchedAddress[index];
+                                  final address = myAddresses[index];
                                   return ListTile(
                                     contentPadding: const EdgeInsets.all(0),
                                     horizontalTitleGap: 0,
@@ -145,7 +148,7 @@ class ConfirmLocation extends StatelessWidget {
                               );
                             }),
                           ),
-                    const SizedBox(height: CityTheme.elementSpacing * 2),
+                    const SizedBox(height: CityTheme.elementSpacing * 3),
                     CityCabButton(
                       title: 'Request Bus ETA',
                       color: CityTheme.cityblue,
