@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 const List<Address> myAddresses = [
   Address(
-    id: '01',
+    id: '1',
     title: 'Monumento Bus Stop',
     city: 'Caloocan',
     country: 'Philippines',
@@ -14,7 +14,7 @@ const List<Address> myAddresses = [
     street: 'Asuncion Street',
   ),
   Address(
-    id: '02',
+    id: '2',
     title: 'Bagong Barrio Bus Stop',
     city: 'Caloocan',
     country: 'Philippines',
@@ -25,7 +25,7 @@ const List<Address> myAddresses = [
     street: 'Bagong Barrio West',
   ),
   Address(
-    id: '03',
+    id: '3',
     title: 'Balintawak Bus Stop',
     city: 'Quezon City',
     country: 'Philippines',
@@ -36,7 +36,7 @@ const List<Address> myAddresses = [
     street: 'Balintawak',
   ),
   Address(
-    id: '04',
+    id: '4',
     title: 'Kaingin Bus Stop',
     city: 'Quezon City',
     country: 'Philippines',
@@ -47,7 +47,7 @@ const List<Address> myAddresses = [
     street: 'Balintawak',
   ),
   Address(
-    id: '05',
+    id: '5',
     title: 'Roosevelt Bus Stop',
     city: 'Quezon City',
     country: 'Philippines',
@@ -58,7 +58,7 @@ const List<Address> myAddresses = [
     street: 'Bago Bantay',
   ),
   Address(
-    id: '06',
+    id: '6',
     title: 'Quezon Avenue Bus Stop',
     city: 'Quezon City',
     country: 'Philippines',
@@ -69,7 +69,7 @@ const List<Address> myAddresses = [
     street: 'Quezon Avenue',
   ),
   Address(
-    id: '07',
+    id: '7',
     title: 'North Avenue Bus Stop',
     city: 'Quezon City',
     country: 'Philippines',
@@ -80,7 +80,7 @@ const List<Address> myAddresses = [
     street: 'North Avenue',
   ),
   Address(
-    id: '08',
+    id: '8',
     title: 'Q-Mart Bus Stop',
     city: 'Quezon City',
     country: 'Philippines',
@@ -91,7 +91,7 @@ const List<Address> myAddresses = [
     street: 'Quezon City',
   ),
   Address(
-    id: '09',
+    id: '9',
     title: 'Main Avenue Bus Stop',
     city: 'Quezon City',
     country: 'Philippines',

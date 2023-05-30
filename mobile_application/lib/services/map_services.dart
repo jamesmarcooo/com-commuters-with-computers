@@ -398,16 +398,26 @@ class MapService {
   //function that computes the distance from the current position of the user to Latlng of each address in my_address.dart constant and returns the first 3 nearest
   Future<List<Address>> getNearestAddressesesList(LatLng startLatLng) async {
     final List<Address> nearestAddresses = [];
-
+    var nearestId = 0;
+    var nearestDistance = 999.0;
     for (var i = 0; i < myAddresses.length; i++) {
       final address = myAddresses[i];
-      final isWithinDistance = await checkDriverDistance(4, startLatLng,
+      final distance = await getPositionBetweenKilometers(startLatLng,
           LatLng(address.latLng.latitude, address.latLng.longitude));
-      if (isWithinDistance && nearestAddresses.length < 3) {
-        nearestAddresses.add(address);
+      // final isWithinDistance = await checkDriverDistance(4, startLatLng,
+      //     LatLng(address.latLng.latitude, address.latLng.longitude));
+      // if (isWithinDistance && nearestAddresses.length < 3) {
+      //   nearestAddresses.add(address);
+      // }
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestId = i;
       }
     }
-    print(nearestAddresses.length);
+    nearestAddresses.add(myAddresses[nearestId - 1]);
+    nearestAddresses.add(myAddresses[nearestId]);
+    nearestAddresses.add(myAddresses[nearestId + 1]);
+    // print(nearestAddresses.length);
     return nearestAddresses;
   }
 

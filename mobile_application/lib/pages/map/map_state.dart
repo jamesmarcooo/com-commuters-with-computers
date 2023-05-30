@@ -20,7 +20,8 @@ enum RideState {
   requestRide,
   driverIsComing,
   inMotion,
-  arrived
+  arrived,
+  selectBus,
 }
 
 class MapState extends ChangeNotifier {
@@ -222,6 +223,10 @@ class MapState extends ChangeNotifier {
   void searchLocation() {
     animateToPage(pageIndex: 1, state: RideState.searchingAddress);
   }
+
+  // void selectNearbyBus() {
+  //   animateToPage(pageIndex: 5, state: RideState.selectBus);
+  // }
 
   void proceedRide() {
     animateToPage(pageIndex: 3, state: RideState.confirmAddress);
