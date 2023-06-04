@@ -152,6 +152,14 @@ class MapState extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> loadBusRouteCoordinates(LatLng start, LatLng end) async {
+    final endPosition =
+        await MapService.instance?.getBusRouteCoordinates(start, end);
+    startAddress = MapService.instance?.currentPosition.value;
+    endAddress = endPosition;
+    notifyListeners();
+  }
+
   Future<void> searchAddress(String query) async {
     if (query.length >= 3) {
       await MapService.instance!.getAddressFromQuery(query);
@@ -305,7 +313,10 @@ class MapState extends ChangeNotifier {
           ?.loadBusMarkersWithinDistance(value!.latLng, endAddress!.latLng);
       MapService.instance
           ?.getNearestDriver(value!.latLng, endAddress!.latLng)
-          .then((address) => animateCamera(address?.latLng ?? value.latLng));
+          .then((address) => {
+                loadBusRouteCoordinates(address!.latLng, value!.latLng),
+                animateCamera(address?.latLng ?? value.latLng)
+              });
     });
     // animateToPage(pageIndex: 0, state: RideState.requestRide);
     selectNearbyBus();
