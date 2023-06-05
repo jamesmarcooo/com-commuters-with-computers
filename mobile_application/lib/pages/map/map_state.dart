@@ -10,6 +10,9 @@ import 'package:mobile_application/repositories/bus_repository.dart';
 import 'package:mobile_application/models/bus.dart';
 import 'package:mobile_application/models/eta.dart';
 import 'package:mobile_application/services/code_generator.dart';
+import 'package:mobile_application/models/info_window.dart';
+import 'package:mobile_application/ui/info_window/custom_info_window.dart';
+import 'package:mobile_application/ui/info_window/custom_widow.dart';
 import 'package:mobile_application/services/map_services.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:flutter/material.dart';
@@ -314,8 +317,20 @@ class MapState extends ChangeNotifier {
       MapService.instance
           ?.getNearestDriver(value!.latLng, endAddress!.latLng)
           .then((address) => {
-                loadBusRouteCoordinates(address!.latLng, value!.latLng),
-                animateCamera(address?.latLng ?? value.latLng)
+                // loadBusRouteCoordinates(address!.latLng, value.latLng),
+                // animateCamera(address.latLng),
+                // MapService.instance?.controller.addInfoWindow!(
+                //   CustomWindow(
+                //     info: CityCabInfoWindow(
+                //       name: "${address.street}, ${address.city}",
+                //       position: address.latLng,
+                //       type: InfoWindowType.bus,
+                //       time: Duration(),
+                //     ),
+                //   ),
+                //   address.latLng,
+                // )
+                onTapSliderAddress(address!, value)
               });
     });
     // animateToPage(pageIndex: 0, state: RideState.requestRide);
@@ -360,6 +375,27 @@ class MapState extends ChangeNotifier {
       eta.add(etaItem);
     }
     return eta;
+  }
+
+  void onTapSliderAddress(Address BusAddress, Address CurrentAddress) {
+    notifyListeners();
+    loadBusRouteCoordinates(
+        // address.latLng, MapService.instance!.currentPosition.value!.latLng);
+        BusAddress.latLng,
+        CurrentAddress.latLng);
+    animateCamera(BusAddress.latLng);
+    MapService.instance?.controller.addInfoWindow!(
+      CustomWindow(
+        info: CityCabInfoWindow(
+          name: "${BusAddress.street}, ${BusAddress.city}",
+          position: BusAddress.latLng,
+          type: InfoWindowType.bus,
+          time: Duration(),
+        ),
+      ),
+      BusAddress.latLng,
+    );
+    // searchLocation();
   }
 
   void onTapMyAddresses(Address address) {
