@@ -9,8 +9,8 @@ import 'package:provider/src/provider.dart';
 
 import '../map_state.dart';
 
-class TakeARide extends StatelessWidget {
-  const TakeARide({
+class SelectBus extends StatelessWidget {
+  const SelectBus({
     Key? key,
   }) : super(key: key);
 

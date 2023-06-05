@@ -240,7 +240,7 @@ class MapState extends ChangeNotifier {
   }
 
   void selectNearbyBus() async {
-    animateToPage(pageIndex: 0, state: RideState.selectBus);
+    animateToPage(pageIndex: 7, state: RideState.selectBus);
 
     final ownerUID = userRepo.currentUser?.uid;
     if (ownerUID != null && ownerUID != '') {
