@@ -6,6 +6,8 @@ import 'package:mobile_application/models/ride_option.dart';
 import 'package:mobile_application/models/user.dart';
 import 'package:mobile_application/repositories/ride_repository.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
+import 'package:mobile_application/repositories/bus_repository.dart';
+import 'package:mobile_application/models/bus.dart';
 import 'package:mobile_application/services/code_generator.dart';
 import 'package:mobile_application/services/map_services.dart';
 import 'package:mobile_application/ui/theme.dart';
@@ -29,6 +31,7 @@ class MapState extends ChangeNotifier {
   final currentPosition = MapService.instance!.currentPosition;
   final userRepo = UserRepository.instance;
   final rideRepo = RideRepository.instance;
+  final busRepo = BusRepository.instance;
 
   final currentAddressController = TextEditingController();
   final startingAddressController = TextEditingController();
@@ -224,9 +227,15 @@ class MapState extends ChangeNotifier {
     animateToPage(pageIndex: 1, state: RideState.searchingAddress);
   }
 
-  // void selectNearbyBus() {
-  //   animateToPage(pageIndex: 5, state: RideState.selectBus);
-  // }
+  void selectNearbyBus() async {
+    animateToPage(pageIndex: 0, state: RideState.selectBus);
+
+    final ownerUID = userRepo.currentUser?.uid;
+    if (ownerUID != null && ownerUID != '') {
+      final bus = _initializeBus(ownerUID);
+      await busRepo?.boardBus(bus);
+    }
+  }
 
   void proceedRide() {
     animateToPage(pageIndex: 3, state: RideState.confirmAddress);
@@ -297,7 +306,21 @@ class MapState extends ChangeNotifier {
           ?.getNearestDriver(value!.latLng, endAddress!.latLng)
           .then((address) => animateCamera(address?.latLng ?? value.latLng));
     });
-    animateToPage(pageIndex: 0, state: RideState.requestRide);
+    // animateToPage(pageIndex: 0, state: RideState.requestRide);
+    selectNearbyBus();
+  }
+
+  Bus _initializeBus(String uid) {
+    final id = CodeGenerator.instance!.generateCode('bus-id');
+    final bus = Bus(
+      id: id,
+      busList: [],
+      ownerUID: uid,
+      startAddress: startAddress!,
+      endAddress: endAddress!,
+    );
+
+    return bus;
   }
 
   void onTapMyAddresses(Address address) {

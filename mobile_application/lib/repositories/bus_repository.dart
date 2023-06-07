@@ -15,11 +15,11 @@ class BusRepository {
       FirebaseFirestore.instance.collection('buses');
 
   ValueNotifier<List<Bus>> busNotifier = ValueNotifier<List<Bus>>([]);
-  List<Bus> get busList => busNotifier.value;
+  List<Bus> get buses => busNotifier.value;
 
   Future<Bus?> loadRide(String id) async {
     try {
-      final ride = busList.firstWhere((Bus ride) => ride.id == id);
+      final ride = buses.firstWhere((Bus ride) => ride.id == id);
       return ride;
     } catch (_) {
       try {
@@ -44,17 +44,17 @@ class BusRepository {
       snapshot.listen((query) {
         _addToBusList(query);
       });
-      return busList;
+      return buses;
     } on FirebaseException catch (_) {
       print('something occurred');
-      return busList;
+      return buses;
     }
   }
 
   void _addToBusList(QuerySnapshot<Map<String, dynamic>> query) {
     Future.wait(query.docs.map((doc) async {
       final ride = Bus.fromMap(doc.data());
-      final index = busList.indexWhere((rideX) => rideX.id == ride.id);
+      final index = buses.indexWhere((rideX) => rideX.id == ride.id);
       if (index != -1) {
         busNotifier.value.removeAt(index);
         busNotifier.value.insert(index, ride);
@@ -65,7 +65,7 @@ class BusRepository {
     }));
   }
 
-  Future<Bus?> boardRide(Bus bus) async {
+  Future<Bus?> boardBus(Bus bus) async {
     try {
       final startAddress = bus.startAddress;
       final endAddress = bus.endAddress;
@@ -73,7 +73,7 @@ class BusRepository {
       await _firestoreBusCollection.doc(bus.id).set({
         'id': bus.id,
         'busList': bus.busList,
-        'driverUID': bus.driverUID,
+        'ownerUID': bus.ownerUID,
         'start_address': {
           'city': startAddress.city,
           'country': startAddress.country,

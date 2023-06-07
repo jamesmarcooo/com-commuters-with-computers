@@ -4,14 +4,14 @@ import 'package:mobile_application/models/address.dart';
 class Bus {
   final String id;
   final List<Eta> busList;
-  final String driverUID;
+  final String ownerUID;
   final Address startAddress;
   final Address endAddress;
 
   const Bus(
       {required this.id,
       required this.busList,
-      required this.driverUID,
+      required this.ownerUID,
       required this.startAddress,
       required this.endAddress});
 
@@ -19,7 +19,7 @@ class Bus {
     return Bus(
       id: data['id'] ?? '',
       busList: List<Eta>.from(data['busList'] ?? []),
-      driverUID: data['driver_uid'] ?? '',
+      ownerUID: data['ownerUID'] ?? '',
       startAddress: Address.fromMap(data['start_address'] ?? {}),
       endAddress: Address.fromMap(data['end_address'] ?? {}),
     );
