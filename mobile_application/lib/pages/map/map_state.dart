@@ -48,6 +48,7 @@ class MapState extends ChangeNotifier {
 
   List<Address> searchedAddress = [];
   List<Address> sliderAddresses = [];
+  List<Eta> sliderEtaBuses = [];
   List<bool> isSelectedOptions = [];
 
   FocusNode? focusNode;
@@ -396,6 +397,16 @@ class MapState extends ChangeNotifier {
       BusAddress.latLng,
     );
     // searchLocation();
+  }
+
+  //craate a function that gets an input of Eta and calls proceedRide()
+  void onTapEtaBus(Eta eta) {
+    // destinationAddressController.text = "${address.street}, ${address.city}";
+    notifyListeners();
+    loadRouteCoordinates(MapService.instance!.currentPosition.value!.latLng,
+        eta.driver['latlng']);
+    animateCamera(eta.driver['latlng']);
+    proceedRide();
   }
 
   void onTapMyAddresses(Address address) {
