@@ -3,6 +3,7 @@ import 'package:mobile_application/models/user.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
 import 'package:mobile_application/ui/widget/cards/address_card.dart';
+import 'package:mobile_application/ui/widget/cards/etaBus_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
@@ -43,28 +44,37 @@ class SelectBus extends StatelessWidget {
             const SizedBox(height: 4),
             Column(
               children: List.generate(
-                // myAddresses.length,
-                // (index) {
-                //   final address = myAddresses[index];
-                //   return AddressCard(
-                //     address: address,
-                //     onTap: () {
-                //       state.onTapMyAddresses(address);
-                //     },
-                //   );
-                // },
-                //call sliderAddresses from map_state.dart
-                state.sliderAddresses.length,
-                (index) {
-                  final address = state.sliderAddresses[index];
-                  return AddressCard(
-                    address: address,
-                    onTap: () {
-                      state.onTapMyAddresses(address);
-                    },
-                  );
-                },
-              ),
+                  // myAddresses.length,
+                  // (index) {
+                  //   final address = myAddresses[index];
+                  //   return AddressCard(
+                  //     address: address,
+                  //     onTap: () {
+                  //       state.onTapMyAddresses(address);
+                  //     },
+                  //   );
+                  // },
+                  //call sliderAddresses from map_state.dart
+
+                  // state.sliderAddresses.length,
+                  // (index) {
+                  //   final address = state.sliderAddresses[index];
+                  //   return AddressCard(
+                  //     address: address,
+                  //     onTap: () {
+                  //       state.onTapMyAddresses(address);
+                  //     },
+                  //   );
+                  // },
+                  state.sliderEtaBuses.length, (index) {
+                final etaBus = state.sliderEtaBuses[index];
+                return EtaBusCard(
+                  etaBus: etaBus,
+                  onTap: () {
+                    state.onTapEtaBus(etaBus);
+                  },
+                );
+              }),
             ),
           ],
         ),
