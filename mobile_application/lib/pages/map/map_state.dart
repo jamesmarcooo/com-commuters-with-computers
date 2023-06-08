@@ -8,6 +8,7 @@ import 'package:mobile_application/repositories/ride_repository.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
 import 'package:mobile_application/repositories/bus_repository.dart';
 import 'package:mobile_application/models/bus.dart';
+import 'package:mobile_application/models/eta.dart';
 import 'package:mobile_application/services/code_generator.dart';
 import 'package:mobile_application/services/map_services.dart';
 import 'package:mobile_application/ui/theme.dart';
@@ -232,8 +233,8 @@ class MapState extends ChangeNotifier {
 
     final ownerUID = userRepo.currentUser?.uid;
     if (ownerUID != null && ownerUID != '') {
-      final bus = _initializeBus(ownerUID);
-      await busRepo?.boardBus(bus);
+      final bus = await _initializeBus(ownerUID);
+      await busRepo.boardBus(bus);
     }
   }
 
@@ -310,17 +311,44 @@ class MapState extends ChangeNotifier {
     selectNearbyBus();
   }
 
-  Bus _initializeBus(String uid) {
+  Future<Bus> _initializeBus(String uid) async {
     final id = CodeGenerator.instance!.generateCode('bus-id');
     final bus = Bus(
       id: id,
-      busList: [],
+      busList: await _initializeEta(startAddress!.latLng, endAddress!.latLng),
       ownerUID: uid,
       startAddress: startAddress!,
       endAddress: endAddress!,
     );
-
     return bus;
+  }
+
+  Future<List<Eta>> _initializeEta(LatLng startLatLng, LatLng endLatLng) async {
+    final eta = <Eta>[];
+    final buses = await MapService.instance!.getBusList(startLatLng, endLatLng);
+    print("initializing eta");
+    for (var bus in buses) {
+      // final id = CodeGenerator.instance!.generateCode('eta-id');
+      final etaItem = Eta(
+        driver: {
+          'uid': bus.uid,
+          'isActive': bus.isActive,
+          'firstname': bus.firstname,
+          'lastname': bus.lastname,
+          'createdAt': bus.createdAt,
+          'licensePlate': bus.licensePlate,
+          'vehicleType': bus.vehicleType,
+          'latlng': {
+            'latitude': bus.latlng!.latitude,
+            'longitude': bus.latlng!.longitude,
+          },
+        },
+        eta: 0,
+        timeOfArrival: DateTime.now(),
+      );
+      eta.add(etaItem);
+    }
+    return eta;
   }
 
   void onTapMyAddresses(Address address) {

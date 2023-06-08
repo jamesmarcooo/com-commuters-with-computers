@@ -424,8 +424,30 @@ class MapService {
   //function that returns the address of the driver (role 1) nearest to the currentposition of the user
   Future<Address?> getNearestDriver(
       LatLng startLatLng, LatLng endLatLng) async {
-    final drivers = await UserRepository.instance.getActiveDrivers();
     final List<Address> addresses = [];
+
+    final buses = await getBusList(startLatLng, endLatLng);
+
+    //iterate through the list of buses, call getAddressFromCoodinate then add it to the list of addresses
+    for (var i = 0; i < buses.length; i++) {
+      final bus = buses[i];
+      final address = await getAddressFromCoodinate(
+          LatLng(bus.latlng!.latitude, bus.latlng!.longitude));
+      addresses.add(address);
+    }
+
+    if (addresses.isNotEmpty) {
+      addresses.sort((a, b) => a.postcode.compareTo(b.postcode));
+      return addresses.first;
+    } else {
+      return null;
+    }
+  }
+
+  //create a function that accepts startLatLng and endLatLng and returns a list of addresses
+  Future<List<User>> getBusList(LatLng startLatLng, LatLng endLatLng) async {
+    final drivers = await UserRepository.instance.getActiveDrivers();
+    final List<User> buses = [];
     for (var i = 0; i < drivers.length; i++) {
       final driver = drivers[i];
       final isWithinDistance = await checkDriverDistance(2, startLatLng,
@@ -435,15 +457,10 @@ class MapService {
       if (isWithinDistance && !isBusPassed) {
         final address = await getAddressFromCoodinate(
             LatLng(driver.latlng!.latitude, driver.latlng!.longitude));
-        addresses.add(address);
+        buses.add(driver);
       }
     }
 
-    if (addresses.isNotEmpty) {
-      addresses.sort((a, b) => a.postcode.compareTo(b.postcode));
-      return addresses.first;
-    } else {
-      return null;
-    }
+    return buses;
   }
 }

@@ -18,7 +18,7 @@ class Bus {
   factory Bus.fromMap(Map<String, dynamic> data) {
     return Bus(
       id: data['id'] ?? '',
-      busList: List<Eta>.from(data['busList'] ?? []),
+      busList: data['busList'] ?? [],
       ownerUID: data['ownerUID'] ?? '',
       startAddress: Address.fromMap(data['start_address'] ?? {}),
       endAddress: Address.fromMap(data['end_address'] ?? {}),

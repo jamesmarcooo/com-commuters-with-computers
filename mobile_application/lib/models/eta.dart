@@ -1,7 +1,8 @@
 import 'package:mobile_application/models/user.dart';
 
 class Eta {
-  final User driver;
+  // final User driver;
+  final Map<String, dynamic> driver;
   final int eta;
   final DateTime timeOfArrival;
 
@@ -10,7 +11,7 @@ class Eta {
 
   factory Eta.fromMap(Map<String, dynamic> data) {
     return Eta(
-      driver: User.fromMap(data['driver']),
+      driver: data['driver']['latlng'] ?? {},
       eta: data['eta'],
       timeOfArrival: DateTime.fromMillisecondsSinceEpoch(
           data['time_of_arrival'].millisecondsSinceEpoch),

@@ -70,9 +70,11 @@ class BusRepository {
       final startAddress = bus.startAddress;
       final endAddress = bus.endAddress;
 
-      await _firestoreBusCollection.doc(bus.id).set({
+      // await _firestoreBusCollection.doc(bus.id).set({
+      final busDocRef = _firestoreBusCollection.doc(bus.id);
+      await busDocRef.set({
         'id': bus.id,
-        'busList': bus.busList,
+        // 'busList': bus.busList,
         'ownerUID': bus.ownerUID,
         'start_address': {
           'city': startAddress.city,
@@ -95,7 +97,49 @@ class BusRepository {
           'state': endAddress.state,
         },
       });
-      final addedRide = await loadRide(bus.id);
+
+      // Create the ETA subcollection within the bus document
+      final etaCollectionRef = busDocRef.collection('eta');
+      // Create the ETA subcollection within the bus document
+      // final etaCollectionRef =
+      // _firestoreBusCollection.doc(bus.id).collection('eta');
+
+      for (final eta in bus.busList) {
+        final etaDocRef =
+            etaCollectionRef.doc('eta-${eta.driver['licensePlate']}');
+        await etaDocRef.set({
+          'driver': eta.driver,
+          'eta': eta.eta,
+          'time_of_arrival': eta.timeOfArrival,
+        });
+        print('Added ETA document with ID: ${etaDocRef.id}');
+      }
+
+      // Add ETA documents to the ETA subcollection
+      // for (final eta in bus.busList) {
+      //   final etaDocRef = await etaCollectionRef.add({
+      //     // await _firestoreBusCollection.add({
+      //     'driver': {
+      //       'uid': eta.driver['uid'],
+      //       'isActive': eta.driver['isActive'],
+      //       'firstname': eta.driver['firstname'],
+      //       'lastname': eta.driver['lastname'],
+      //       'createdAt': eta.driver['createdAt'],
+      //       'licensePlate': eta.driver['licensePlate'],
+      //       'vehicleType': eta.driver['vehicleType'],
+      //       'latlng': eta.driver['latlng'],
+      //     },
+      //     'eta': eta.eta,
+      //     'time_of_arrival': eta.timeOfArrival,
+      //   });
+
+      //   print('Added ETA document with ID: ${etaDocRef.id}');
+      // }
+
+      // final addedRide = await loadRide(bus.id);
+      // final addedRide = await loadRide(busDocRef.doc(bus.id).id);
+      final addedRide = await loadRide(busDocRef.id);
+      print("done on boarding the ride");
       return addedRide;
     } on FirebaseException catch (_) {
       print('could not board ride');
