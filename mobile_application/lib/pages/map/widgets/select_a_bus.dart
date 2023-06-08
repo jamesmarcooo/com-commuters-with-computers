@@ -44,30 +44,12 @@ class SelectBus extends StatelessWidget {
             const SizedBox(height: 4),
             Column(
               children: List.generate(
-                  // myAddresses.length,
-                  // (index) {
-                  //   final address = myAddresses[index];
-                  //   return AddressCard(
-                  //     address: address,
-                  //     onTap: () {
-                  //       state.onTapMyAddresses(address);
-                  //     },
-                  //   );
-                  // },
-                  //call sliderAddresses from map_state.dart
-
-                  // state.sliderAddresses.length,
-                  // (index) {
-                  //   final address = state.sliderAddresses[index];
-                  //   return AddressCard(
-                  //     address: address,
-                  //     onTap: () {
-                  //       state.onTapMyAddresses(address);
-                  //     },
-                  //   );
-                  // },
-                  state.sliderEtaBuses.length, (index) {
+                  state.sliderEtaBuses.length > 4
+                      ? 4
+                      : state.sliderEtaBuses.length, (index) {
                 final etaBus = state.sliderEtaBuses[index];
+                var isSelected = false;
+
                 return EtaBusCard(
                   etaBus: etaBus,
                   onTap: () {

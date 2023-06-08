@@ -43,6 +43,8 @@ class MapState extends ChangeNotifier {
 
   Address? startAddress;
   Address? endAddress;
+  Address? currentAddress;
+  Address? busSelectedAddress;
 
   RideOption? selectedOption;
 
@@ -375,6 +377,7 @@ class MapState extends ChangeNotifier {
       );
       eta.add(etaItem);
     }
+    sliderEtaBuses = eta;
     return eta;
   }
 
@@ -383,7 +386,7 @@ class MapState extends ChangeNotifier {
     loadBusRouteCoordinates(
         // address.latLng, MapService.instance!.currentPosition.value!.latLng);
         BusAddress.latLng,
-        CurrentAddress.latLng);
+        startAddress!.latLng);
     animateCamera(BusAddress.latLng);
     MapService.instance?.controller.addInfoWindow!(
       CustomWindow(
@@ -400,13 +403,17 @@ class MapState extends ChangeNotifier {
   }
 
   //craate a function that gets an input of Eta and calls proceedRide()
-  void onTapEtaBus(Eta eta) {
+  void onTapEtaBus(Eta eta) async {
     // destinationAddressController.text = "${address.street}, ${address.city}";
-    notifyListeners();
-    loadRouteCoordinates(MapService.instance!.currentPosition.value!.latLng,
-        eta.driver['latlng']);
-    animateCamera(eta.driver['latlng']);
-    proceedRide();
+    //call getAddressFromCoodinate() from map_services.dart
+    // final currentAddress = await MapService.instance!.currentPosition.value;
+    var etaDriverLatLng = LatLng(
+        eta.driver['latlng']['latitude'], eta.driver['latlng']['longitude']);
+    var etaBusAddress =
+        await MapService.instance?.getAddressFromCoodinate(etaDriverLatLng);
+    onTapSliderAddress(etaBusAddress!, startAddress!);
+    // proceedRide();
+    animateToPage(pageIndex: 7, state: RideState.confirmAddress);
   }
 
   void onTapMyAddresses(Address address) {

@@ -290,7 +290,7 @@ class MapService {
     // await addMarker(startAddress, startMapIcon,
     //     time: DateTime.now(), type: InfoWindowType.position);
 
-    currentPosition.value = startAddress;
+    // currentPosition.value = startAddress;
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
     currentPosition.notifyListeners();
 

@@ -22,12 +22,12 @@ class EtaBusCard extends StatelessWidget {
       leading: Icon(
           etaBus?.driver['licensePlate'].toLowerCase() ==
                   'Quezon Avenue Station'
-              ? Icons.pin_drop
-              : Icons.pin_drop_outlined,
-          size: 30,
+              ? Icons.directions_bus_filled_rounded
+              : Icons.directions_bus_outlined,
+          size: 40,
           color: CityTheme.cityblue),
       title: Text(
-        '${etaBus?.driver['licensePlate']}',
+        '${etaBus?.driver['licensePlate']} | EDSA Bus Carousel',
         style: TextStyle(
           fontSize: 18,
           color: Colors.grey[800],
@@ -36,9 +36,9 @@ class EtaBusCard extends StatelessWidget {
       // subtitle: Text(
       //   '${address?.street}, ${address?.city} , ${address?.country} ',
       subtitle: Text(
-        "ETA: ${etaBus?.eta} minutes",
+        "⏱  ${etaBus?.eta} min     ⟟  ${etaBus?.driver['licensePlate']}",
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 16,
           color: Colors.grey[600],
         ),
       ),
