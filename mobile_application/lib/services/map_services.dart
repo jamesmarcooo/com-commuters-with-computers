@@ -286,9 +286,9 @@ class MapService {
         LatLng(startLatLng!.latitude, startLatLng.longitude),
         polylines: polylines);
 
-    // BitmapDescriptor startMapIcon = await getMapIcon(getUserMapIcon);
-    // await addMarker(startAddress, startMapIcon,
-    //     time: DateTime.now(), type: InfoWindowType.position);
+    BitmapDescriptor startMapIcon = await getMapIcon(getDriverMapIcon);
+    await addMarker(startAddress, startMapIcon,
+        time: DateTime.now(), type: InfoWindowType.position);
 
     // currentPosition.value = startAddress;
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
