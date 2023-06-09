@@ -50,7 +50,7 @@ class _BottomSliderState extends State<BottomSlider> {
       child: PageView(
         onPageChanged: state.onPageChanged,
         controller: state.pageController,
-        physics: NeverScrollableScrollPhysics(),
+        // physics: NeverScrollableScrollPhysics(),
         children: [
           TakeARide(),
           ConfirmLocation(),
@@ -118,7 +118,8 @@ class ConfirmLocation extends StatelessWidget {
                               //     child: Text('No Address Found'),
                               //   );
                               // }
-                              return ListView.builder(
+                              return Scrollbar(
+                                  child: ListView.builder(
                                 shrinkWrap: true,
                                 // itemCount: state.searchedAddress.length,
                                 itemCount: myAddresses.length,
@@ -126,7 +127,7 @@ class ConfirmLocation extends StatelessWidget {
                                   // final address = state.searchedAddress[index];
                                   final address = myAddresses[index];
                                   return ListTile(
-                                    contentPadding: const EdgeInsets.all(0),
+                                    contentPadding: const EdgeInsets.all(1),
                                     horizontalTitleGap: 0,
                                     trailing: Icon(Icons.north_west, size: 16),
                                     title: Text('${address.title}'),
@@ -146,7 +147,7 @@ class ConfirmLocation extends StatelessWidget {
                                     },
                                   );
                                 },
-                              );
+                              ));
                             }),
                           ),
                     // const SizedBox(height: CityTheme.elementSpacing * 3),

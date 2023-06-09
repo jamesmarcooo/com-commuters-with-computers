@@ -37,27 +37,42 @@ class SelectBus extends StatelessWidget {
       }
       return Padding(
         // padding: const EdgeInsets.all(16),
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+        padding: const EdgeInsets.only(bottom: 8, left: 20, right: 16, top: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 4),
-            Column(
-              children: List.generate(
-                  state.sliderEtaBuses.length > 4
-                      ? 4
-                      : state.sliderEtaBuses.length, (index) {
-                final etaBus = state.sliderEtaBuses[index];
-                var isSelected = false;
-
-                return EtaBusCard(
-                  etaBus: etaBus,
-                  onTap: () {
-                    state.onTapEtaBus(etaBus);
-                  },
-                );
-              }),
+            const SizedBox(height: 1),
+            Expanded(
+              child: ListView.builder(
+                  padding: const EdgeInsets.only(top: 0),
+                  shrinkWrap: true,
+                  itemCount: state.sliderEtaBuses.length > 5
+                      ? 5
+                      : state.sliderEtaBuses.length,
+                  itemBuilder: (context, index) {
+                    final etaBus = state.sliderEtaBuses[index];
+                    return EtaBusCard(
+                      etaBus: etaBus,
+                      onTap: () {
+                        state.onTapEtaBus(etaBus);
+                      },
+                    );
+                  }),
             ),
+            // Column(
+            //   children: List.generate(
+            //       state.sliderEtaBuses.length > 4
+            //           ? 4
+            //           : state.sliderEtaBuses.length, (index) {
+            //     final etaBus = state.sliderEtaBuses[index];
+            //     return EtaBusCard(
+            //       etaBus: etaBus,
+            //       onTap: () {
+            //         state.onTapEtaBus(etaBus);
+            //       },
+            //     );
+            //   }),
+            // ),
           ],
         ),
       );

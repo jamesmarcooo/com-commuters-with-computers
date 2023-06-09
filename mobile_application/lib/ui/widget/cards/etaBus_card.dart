@@ -19,6 +19,7 @@ class EtaBusCard extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.all(0),
+
       leading: Icon(
           etaBus?.driver['licensePlate'].toLowerCase() ==
                   'Quezon Avenue Station'

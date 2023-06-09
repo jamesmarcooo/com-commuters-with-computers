@@ -243,8 +243,7 @@ class MapState extends ChangeNotifier {
   }
 
   void selectNearbyBus() async {
-    animateToPage(pageIndex: 7, state: RideState.selectBus);
-
+    // animateToPage(pageIndex: 7, state: RideState.selectBus);
     final ownerUID = userRepo.currentUser?.uid;
     if (ownerUID != null && ownerUID != '') {
       final bus = await _initializeBus(ownerUID);
@@ -336,7 +335,9 @@ class MapState extends ChangeNotifier {
                 onTapSliderAddress(address!, value)
               });
     });
-    // animateToPage(pageIndex: 0, state: RideState.requestRide);
+    animateToPage(pageIndex: 7, state: RideState.selectBus);
+    // pageController.nextPage(
+    //     duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
     selectNearbyBus();
   }
 
