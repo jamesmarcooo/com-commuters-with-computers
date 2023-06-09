@@ -6,6 +6,9 @@ import 'package:mobile_application/models/ride_option.dart';
 import 'package:mobile_application/models/user.dart';
 import 'package:mobile_application/repositories/ride_repository.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
+import 'package:mobile_application/repositories/bus_repository.dart';
+import 'package:mobile_application/models/bus.dart';
+import 'package:mobile_application/models/eta.dart';
 import 'package:mobile_application/services/code_generator.dart';
 import 'package:mobile_application/services/map_services.dart';
 import 'package:mobile_application/ui/theme.dart';
@@ -29,6 +32,7 @@ class MapState extends ChangeNotifier {
   final currentPosition = MapService.instance!.currentPosition;
   final userRepo = UserRepository.instance;
   final rideRepo = RideRepository.instance;
+  final busRepo = BusRepository.instance;
 
   final currentAddressController = TextEditingController();
   final startingAddressController = TextEditingController();
@@ -224,9 +228,15 @@ class MapState extends ChangeNotifier {
     animateToPage(pageIndex: 1, state: RideState.searchingAddress);
   }
 
-  // void selectNearbyBus() {
-  //   animateToPage(pageIndex: 5, state: RideState.selectBus);
-  // }
+  void selectNearbyBus() async {
+    animateToPage(pageIndex: 0, state: RideState.selectBus);
+
+    final ownerUID = userRepo.currentUser?.uid;
+    if (ownerUID != null && ownerUID != '') {
+      final bus = await _initializeBus(ownerUID);
+      await busRepo.boardBus(bus);
+    }
+  }
 
   void proceedRide() {
     animateToPage(pageIndex: 3, state: RideState.confirmAddress);
@@ -297,7 +307,48 @@ class MapState extends ChangeNotifier {
           ?.getNearestDriver(value!.latLng, endAddress!.latLng)
           .then((address) => animateCamera(address?.latLng ?? value.latLng));
     });
-    animateToPage(pageIndex: 0, state: RideState.requestRide);
+    // animateToPage(pageIndex: 0, state: RideState.requestRide);
+    selectNearbyBus();
+  }
+
+  Future<Bus> _initializeBus(String uid) async {
+    final id = CodeGenerator.instance!.generateCode('bus-id');
+    final bus = Bus(
+      id: id,
+      busList: await _initializeEta(startAddress!.latLng, endAddress!.latLng),
+      ownerUID: uid,
+      startAddress: startAddress!,
+      endAddress: endAddress!,
+    );
+    return bus;
+  }
+
+  Future<List<Eta>> _initializeEta(LatLng startLatLng, LatLng endLatLng) async {
+    final eta = <Eta>[];
+    final buses = await MapService.instance!.getBusList(startLatLng, endLatLng);
+    print("initializing eta");
+    for (var bus in buses) {
+      // final id = CodeGenerator.instance!.generateCode('eta-id');
+      final etaItem = Eta(
+        driver: {
+          'uid': bus.uid,
+          'isActive': bus.isActive,
+          'firstname': bus.firstname,
+          'lastname': bus.lastname,
+          'createdAt': bus.createdAt,
+          'licensePlate': bus.licensePlate,
+          'vehicleType': bus.vehicleType,
+          'latlng': {
+            'latitude': bus.latlng!.latitude,
+            'longitude': bus.latlng!.longitude,
+          },
+        },
+        eta: 0,
+        timeOfArrival: DateTime.now(),
+      );
+      eta.add(etaItem);
+    }
+    return eta;
   }
 
   void onTapMyAddresses(Address address) {
