@@ -35,11 +35,12 @@ class TakeARide extends StatelessWidget {
         );
       }
       return Padding(
-        padding: const EdgeInsets.all(16),
+        // padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             InkWell(
               onTap: () {
                 state.searchLocation();
@@ -66,12 +67,24 @@ class TakeARide extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 4),
             Column(
               children: List.generate(
-                myAddresses.length,
+                // myAddresses.length,
+                // (index) {
+                //   final address = myAddresses[index];
+                //   return AddressCard(
+                //     address: address,
+                //     onTap: () {
+                //       state.onTapMyAddresses(address);
+                //     },
+                //   );
+                // },
+
+                //call sliderAddresses from map_state.dart
+                state.sliderAddresses.length,
                 (index) {
-                  final address = myAddresses[index];
+                  final address = state.sliderAddresses[index];
                   return AddressCard(
                     address: address,
                     onTap: () {

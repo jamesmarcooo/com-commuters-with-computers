@@ -91,7 +91,7 @@ class UserRepository {
     }
   }
 
-  Future<User?> updateOnlinePresense(String? uid, bool isActive) async {
+  Future<User?> updateOnlinePresence(String? uid, bool isActive) async {
     if (uid != null) {
       await FirebaseFirestore.instance
           .collection('users')
@@ -99,5 +99,24 @@ class UserRepository {
           .update({'is_active': isActive});
       return userNotifier.value;
     }
+  }
+
+  //returns a list of users with role 1 (driver) and is_active = true (online) and is_verified = true (verified) and not equal to current user id (uid)
+  Future<List<User>> getActiveDrivers() async {
+    List<User> drivers = [];
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('role', isEqualTo: 1)
+        .where('is_active', isEqualTo: true)
+        .where('is_verified', isEqualTo: true)
+        .get();
+    querySnapshot.docs.forEach((element) {
+      Map<String, dynamic> data = element.data() as Map<String, dynamic>;
+      User user = User.fromMap(data);
+      if (user.uid != currentUser?.uid) {
+        drivers.add(user);
+      }
+    });
+    return drivers;
   }
 }

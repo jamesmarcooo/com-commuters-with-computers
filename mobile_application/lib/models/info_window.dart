@@ -1,6 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-enum InfoWindowType { position, destination }
+enum InfoWindowType { position, destination, bus }
 
 class CityCabInfoWindow {
   final String? name;
@@ -8,5 +8,6 @@ class CityCabInfoWindow {
   final LatLng? position;
   final InfoWindowType type;
 
-  const CityCabInfoWindow({this.name, this.time, this.position, required this.type});
+  const CityCabInfoWindow(
+      {this.name, this.time, this.position, required this.type});
 }

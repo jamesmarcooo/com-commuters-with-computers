@@ -33,18 +33,18 @@ class _PhoneTextFieldState extends State<PhoneTextField> {
             contentPadding: const EdgeInsets.symmetric(horizontal: 10),
             enabledBorder: OutlineInputBorder(),
             hintText: 'Enter Phone Number',
-            focusedBorder: OutlineInputBorder(
+            focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: CityTheme.cityblue),
             ),
-            border: OutlineInputBorder(),
-            disabledBorder: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
+            disabledBorder: const OutlineInputBorder(),
             prefix: isFocus
-                ? Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Text('🇵🇭'),
+                ? const Padding(
+                    padding: EdgeInsets.only(right: 8.0),
+                    child: Text('🇵🇭 +63'),
                   )
-                : SizedBox.shrink(),
-            prefixIcon: isFocus ? null : Icon(Icons.phone)),
+                : const SizedBox.shrink(),
+            prefixIcon: isFocus ? null : const Icon(Icons.phone)),
       ),
     );
   }

@@ -20,7 +20,8 @@ enum RideState {
   requestRide,
   driverIsComing,
   inMotion,
-  arrived
+  arrived,
+  selectBus,
 }
 
 class MapState extends ChangeNotifier {
@@ -30,6 +31,7 @@ class MapState extends ChangeNotifier {
   final rideRepo = RideRepository.instance;
 
   final currentAddressController = TextEditingController();
+  final startingAddressController = TextEditingController();
   final destinationAddressController = TextEditingController();
 
   Address? startAddress;
@@ -38,6 +40,7 @@ class MapState extends ChangeNotifier {
   RideOption? selectedOption;
 
   List<Address> searchedAddress = [];
+  List<Address> sliderAddresses = [];
   List<bool> isSelectedOptions = [];
 
   FocusNode? focusNode;
@@ -63,15 +66,14 @@ class MapState extends ChangeNotifier {
     isSelectedOptions =
         List.generate(rideOptions.length, (index) => index == 0 ? true : false);
     selectedOption = rideOptions[0];
-    destinationAddressController
-      ..addListener(() {
-        if (destinationAddressController.text.isEmpty) {
-          searchedAddress.clear();
-          notifyListeners();
-        }
-        endAddress = null;
+    destinationAddressController.addListener(() {
+      if (destinationAddressController.text.isEmpty) {
+        searchedAddress.clear();
         notifyListeners();
-      });
+      }
+      endAddress = null;
+      notifyListeners();
+    });
     getCurrentLocation();
     isActive = userRepo.currentUser?.isActive ?? false;
     notifyListeners();
@@ -195,6 +197,7 @@ class MapState extends ChangeNotifier {
   void getCurrentLocation() async {
     final address = await loadMyPosition(null);
     currentAddressController.text = "${address?.street}, ${address?.city}";
+    getNearestAddresses();
     notifyListeners();
   }
 
@@ -220,6 +223,10 @@ class MapState extends ChangeNotifier {
   void searchLocation() {
     animateToPage(pageIndex: 1, state: RideState.searchingAddress);
   }
+
+  // void selectNearbyBus() {
+  //   animateToPage(pageIndex: 5, state: RideState.selectBus);
+  // }
 
   void proceedRide() {
     animateToPage(pageIndex: 3, state: RideState.confirmAddress);
@@ -262,8 +269,35 @@ class MapState extends ChangeNotifier {
     animateToPage(pageIndex: 0, state: RideState.initial);
   }
 
+  void loadBusMarkers() {
+    MapService.instance?.getCurrentPosition().then((value) {
+      MapService.instance?.loadBusMarkersWithinDistance(
+          value!.latLng, MapService.instance!.searchedAddress[0].latLng);
+      var address = MapService.instance
+          ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+          .then((address) => animateCamera(address?.latLng ?? value.latLng));
+    });
+  }
+
+  //function to get the first 3 nearest address from the current position
+  Future<void> getNearestAddresses() async {
+    final nearestAddress = await MapService.instance
+        ?.getNearestAddressesesList(startAddress!.latLng);
+    sliderAddresses = nearestAddress ?? [];
+    notifyListeners();
+  }
+
   void requestRide() {
-    animateToPage(pageIndex: 2, state: RideState.requestRide);
+    //call addBusMarkers from map_service.dart
+    // MapService.instance?.loadBusMarkers();
+    MapService.instance?.getCurrentPosition().then((value) {
+      MapService.instance
+          ?.loadBusMarkersWithinDistance(value!.latLng, endAddress!.latLng);
+      MapService.instance
+          ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+          .then((address) => animateCamera(address?.latLng ?? value.latLng));
+    });
+    animateToPage(pageIndex: 0, state: RideState.requestRide);
   }
 
   void onTapMyAddresses(Address address) {
@@ -278,6 +312,6 @@ class MapState extends ChangeNotifier {
   void changeActivePresence() async {
     isActive = !isActive;
     notifyListeners();
-    await userRepo.updateOnlinePresense(userRepo.currentUser?.uid, isActive);
+    await userRepo.updateOnlinePresence(userRepo.currentUser?.uid, isActive);
   }
 }
