@@ -58,10 +58,6 @@ class RideBus extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: Image.asset(ImagesAsset.bus, height: 60),
-                          ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -151,25 +147,35 @@ class RideBus extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        // '${state.selectedOption!.driver['licensePlate']}',
-                        'EDSA Carousel Bus',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[800],
+                      Row(children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: Image.asset(ImagesAsset.bus, height: 60),
                         ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        '${state.selectedOption!.driver['licensePlate']}',
-                        // '\₦${state.selectedOption?.price}',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.grey[900],
-                        ),
-                      ),
-                      const SizedBox(height: 8),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                // '${state.selectedOption!.driver['licensePlate']}',
+                                'EDSA Carousel Bus',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[800],
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                '${state.selectedOption!.driver['licensePlate']}',
+                                // '\₦${state.selectedOption?.price}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.grey[900],
+                                ),
+                              ),
+                            ])
+                        // const SizedBox(height: 8),
+                      ])
                     ],
                   ),
                   // Icon(Icons.bolt, color: Colors.orange[300]),
@@ -186,7 +192,7 @@ class RideBus extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(CupertinoIcons.smallcircle_fill_circle_fill,
+                  const Icon(CupertinoIcons.smallcircle_fill_circle_fill,
                       color: CityTheme.cityblue),
                   const SizedBox(width: 8),
                   Expanded(
@@ -199,23 +205,60 @@ class RideBus extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Icon(Icons.edit, color: Colors.grey[600], size: 18),
+                  // Icon(Icons.edit, color: Colors.grey[600], size: 18),
                 ],
               ),
             ),
           ],
         ),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        //   child: CityCabButton(
+        //     title: 'RIDE BUS',
+        //     color: CityTheme.cityblue,
+        //     textColor: CityTheme.cityWhite,
+        //     disableColor: CityTheme.cityLightGrey,
+        //     buttonState: ButtonState.initial,
+        //     onTap: () {
+        //       // state.confirmRide();
+        //     },
+        //   ),
+        // ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: CityCabButton(
-            title: 'RIDE BUS',
-            color: CityTheme.cityblue,
-            textColor: CityTheme.cityWhite,
-            disableColor: CityTheme.cityLightGrey,
-            buttonState: ButtonState.initial,
-            onTap: () {
-              // state.confirmRide();
-            },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                child: CityCabButton(
+                  title: 'BACK',
+                  color: CityTheme.cityWhite,
+                  textColor: CityTheme.cityBlack,
+                  disableColor: CityTheme.cityLightGrey,
+                  buttonState: ButtonState.initial,
+                  borderColor: Colors.grey[800],
+                  onTap: () {
+                    // state.cancelRide();
+                  },
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: CityCabButton(
+                  title: 'RIDE BUS',
+                  color: CityTheme.cityblue,
+                  textColor: CityTheme.cityWhite,
+                  disableColor: CityTheme.cityLightGrey,
+                  // buttonState: ButtonState.initial,
+                  buttonState: state.selectedOption!.eta < 1
+                      ? ButtonState.initial
+                      : ButtonState.disabled,
+                  onTap: () {
+                    // state.callDriver();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ],
