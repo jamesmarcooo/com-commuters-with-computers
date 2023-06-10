@@ -1,15 +1,23 @@
+import 'package:mobile_application/pages/map/map_state.dart';
 import 'package:mobile_application/ui/theme.dart';
-import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
 import 'package:mobile_application/ui/widget/titles/bottom_slider_title.dart';
 import 'package:mobile_application/utils/icons_assets.dart';
+import 'package:mobile_application/utils/images_assets.dart';
+import 'package:provider/src/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_application/ui/theme.dart';
+import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
+import 'package:intl/intl.dart';
 
 class ArrivedAtDestination extends StatelessWidget {
   const ArrivedAtDestination({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<MapState>();
+    var timeOfArrival = DateFormat('hh:mm a')
+        .format(state.selectedOption?.timeOfArrival ?? DateTime.now());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,7 +56,7 @@ class ArrivedAtDestination extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               'Woji, Port Harcourt, Nigeria',
-                              maxLines: 2,
+                              maxLines: 1,
                               style: TextStyle(
                                 fontSize: 16,
                                 height: 1.5,
@@ -63,7 +71,7 @@ class ArrivedAtDestination extends StatelessWidget {
                   const SizedBox(height: CityTheme.elementSpacing),
                   Row(
                     children: [
-                      Icon(CupertinoIcons.placemark_fill,
+                      const Icon(CupertinoIcons.placemark_fill,
                           color: CityTheme.cityblue),
                       const SizedBox(width: 8),
                       Expanded(
@@ -73,7 +81,7 @@ class ArrivedAtDestination extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               '25, Patterson Trans-Amadi Okujagu, Port Harcourt Nigeria',
-                              maxLines: 2,
+                              maxLines: 1,
                               style: TextStyle(
                                 fontSize: 16,
                                 height: 1.5,
@@ -115,6 +123,9 @@ class RideDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<MapState>();
+    var timeOfArrival = DateFormat('hh:mm a')
+        .format(state.selectedOption?.timeOfArrival ?? DateTime.now());
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -122,18 +133,115 @@ class RideDetailCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         color: CityTheme.cityblue.withOpacity(.08),
       ),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            '⏱',
+                            style: TextStyle(
+                              height: 1,
+                              fontSize: 18,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Text(
+                            'Drop-off in ',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: CityTheme.cityblue,
+                            ),
+                          ),
+                          Text(
+                            '${state.selectedOption?.eta} mins',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: CityTheme.cityblue,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 4),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.timelapse_rounded,
+                            color: Colors.grey[600],
+                            size: 14,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            timeOfArrival,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: CityTheme.cityblue,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 4),
+                      Row(
+                        children: [
+                          Text(
+                            ' ⟟ ',
+                            style: TextStyle(
+                              height: 0,
+                              fontSize: 16,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Text(
+                            'Distance is ',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: CityTheme.cityblue,
+                            ),
+                          ),
+                          Text(
+                            '${state.selectedOption?.driver['licensePlate']} km',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: CityTheme.cityblue,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: Image.asset(ImagesAsset.bus, height: 60),
+                ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(
-                    'Standard',
+                    // '${state.selectedOption!.driver['licensePlate']}',
+                    'EDSA Carousel Bus',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[800],
@@ -141,38 +249,17 @@ class RideDetailCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '\₦5,000',
+                    '${state.selectedOption!.driver['licensePlate']}',
+                    // '\₦${state.selectedOption?.price}',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
                       color: Colors.grey[900],
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.timelapse_rounded,
-                        color: Colors.grey[600],
-                        size: 12,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Drop-off in 20 mins',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: CityTheme.cityblue,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Icon(Icons.bolt, color: Colors.orange[300]),
-              Image.asset(
-                IconsAssets.vip_car,
-                height: 60,
-              ),
+                ])
+                // const SizedBox(height: 8),
+              ])
             ],
           ),
         ],
