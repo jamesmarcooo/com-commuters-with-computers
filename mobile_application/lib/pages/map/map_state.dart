@@ -46,7 +46,8 @@ class MapState extends ChangeNotifier {
   Address? currentAddress;
   Address? busSelectedAddress;
 
-  RideOption? selectedOption;
+  // RideOption? selectedOption;
+  Eta? selectedOption;
 
   List<Address> searchedAddress = [];
   List<Address> sliderAddresses = [];
@@ -75,7 +76,7 @@ class MapState extends ChangeNotifier {
     focusNode = FocusNode();
     isSelectedOptions =
         List.generate(rideOptions.length, (index) => index == 0 ? true : false);
-    selectedOption = rideOptions[0];
+    // selectedOption = rideOptions[0];
     destinationAddressController.addListener(() {
       if (destinationAddressController.text.isEmpty) {
         searchedAddress.clear();
@@ -219,14 +220,14 @@ class MapState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onTapRideOption(RideOption option, int index) {
-    for (var i = 0; i < isSelectedOptions.length; i++) {
-      isSelectedOptions[i] = false;
-    }
-    isSelectedOptions[index] = true;
-    selectedOption = option;
-    notifyListeners();
-  }
+  // void onTapRideOption(RideOption option, int index) {
+  //   for (var i = 0; i < isSelectedOptions.length; i++) {
+  //     isSelectedOptions[i] = false;
+  //   }
+  //   isSelectedOptions[index] = true;
+  //   selectedOption = option;
+  //   notifyListeners();
+  // }
 
   void onPageChanged(int value) {
     pageIndex = value;
@@ -255,32 +256,32 @@ class MapState extends ChangeNotifier {
     animateToPage(pageIndex: 3, state: RideState.confirmAddress);
   }
 
-  void confirmRide() async {
-    animateToPage(pageIndex: 4, state: RideState.confirmAddress);
-    final ownerUID = userRepo.currentUser?.uid;
-    if (ownerUID != null && ownerUID != '') {
-      final ride = _initializeRide(ownerUID);
-      await rideRepo?.boardRide(ride);
-    }
-  }
+  // void confirmRide() async {
+  //   animateToPage(pageIndex: 4, state: RideState.confirmAddress);
+  //   final ownerUID = userRepo.currentUser?.uid;
+  //   if (ownerUID != null && ownerUID != '') {
+  //     final ride = _initializeRide(ownerUID);
+  //     await rideRepo?.boardRide(ride);
+  //   }
+  // }
 
-  Ride _initializeRide(String uid) {
-    final id = CodeGenerator.instance!.generateCode('city-id');
-    final ride = Ride(
-      createdAt: DateTime.now(),
-      driverUID: '',
-      endAddress: endAddress!,
-      id: id,
-      ownerUID: uid,
-      passengers: [uid],
-      rate: Rate(uid: uid, subject: '', body: '', stars: 0),
-      rideOption: selectedOption!,
-      startAddress: startAddress!,
-      status: RideStatus.initial,
-    );
+  // Ride _initializeRide(String uid) {
+  //   final id = CodeGenerator.instance!.generateCode('city-id');
+  //   final ride = Ride(
+  //     createdAt: DateTime.now(),
+  //     driverUID: '',
+  //     endAddress: endAddress!,
+  //     id: id,
+  //     ownerUID: uid,
+  //     passengers: [uid],
+  //     rate: Rate(uid: uid, subject: '', body: '', stars: 0),
+  //     rideOption: selectedOption!,
+  //     startAddress: startAddress!,
+  //     status: RideStatus.initial,
+  //   );
 
-    return ride;
-  }
+  //   return ride;
+  // }
 
   void callDriver() {}
 
@@ -414,7 +415,10 @@ class MapState extends ChangeNotifier {
         await MapService.instance?.getAddressFromCoodinate(etaDriverLatLng);
     onTapSliderAddress(etaBusAddress!, startAddress!);
     // proceedRide();
-    animateToPage(pageIndex: 7, state: RideState.confirmAddress);
+    // animateToPage(pageIndex: 7, state: RideState.confirmAddress);
+    selectedOption = eta;
+    pageController.nextPage(
+        duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
   }
 
   void onTapMyAddresses(Address address) {

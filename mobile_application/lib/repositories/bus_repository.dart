@@ -110,7 +110,7 @@ class BusRepository {
         await etaDocRef.set({
           'driver': eta.driver,
           'eta': eta.eta,
-          'time_of_arrival': eta.timeOfArrival,
+          'timeOfArrival': eta.timeOfArrival,
         });
         print('Added ETA document with ID: ${etaDocRef.id}');
       }
