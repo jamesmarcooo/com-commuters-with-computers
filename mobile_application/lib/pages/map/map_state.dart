@@ -28,6 +28,7 @@ enum RideState {
   inMotion,
   arrived,
   selectBus,
+  busDetails,
 }
 
 class MapState extends ChangeNotifier {
@@ -336,10 +337,10 @@ class MapState extends ChangeNotifier {
                 onTapSliderAddress(address!, value)
               });
     });
-    animateToPage(pageIndex: 7, state: RideState.selectBus);
     // pageController.nextPage(
     //     duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
     selectNearbyBus();
+    animateToPage(pageIndex: 7, state: RideState.selectBus);
   }
 
   Future<Bus> _initializeBus(String uid) async {
@@ -419,6 +420,7 @@ class MapState extends ChangeNotifier {
     selectedOption = eta;
     pageController.nextPage(
         duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+    changeRideState = RideState.busDetails;
   }
 
   void onTapMyAddresses(Address address) {

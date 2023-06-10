@@ -239,6 +239,10 @@ class RideBus extends StatelessWidget {
                   borderColor: Colors.grey[800],
                   onTap: () {
                     // state.cancelRide();
+                    state.pageController.previousPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeIn);
+                    state.selectNearbyBus();
                   },
                 ),
               ),

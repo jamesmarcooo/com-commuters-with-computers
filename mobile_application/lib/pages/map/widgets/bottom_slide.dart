@@ -104,10 +104,10 @@ class ConfirmLocation extends StatelessWidget {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Wrap(
-            runAlignment: WrapAlignment.end,
+            runAlignment: WrapAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(CityTheme.elementSpacing),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   children: [
                     state.endAddress != null
