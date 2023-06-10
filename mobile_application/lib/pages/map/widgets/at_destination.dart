@@ -103,12 +103,14 @@ class ArrivedAtDestination extends StatelessWidget {
           padding:
               const EdgeInsets.symmetric(horizontal: CityTheme.elementSpacing),
           child: CityCabButton(
-            title: 'Pay For Ride',
+            title: 'DROP-OFF & RESTART',
             color: CityTheme.cityblue,
             textColor: CityTheme.cityWhite,
             disableColor: CityTheme.cityLightGrey,
             buttonState: ButtonState.initial,
-            onTap: () {},
+            onTap: () {
+              state.DropOffRestart();
+            },
           ),
         ),
       ],
