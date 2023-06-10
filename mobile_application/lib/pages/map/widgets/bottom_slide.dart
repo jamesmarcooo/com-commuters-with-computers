@@ -55,9 +55,9 @@ class _BottomSliderState extends State<BottomSlider> {
         children: [
           TakeARide(),
           ConfirmLocation(),
-          SelectRide(),
-          ConfirmRide(),
-          DriverOnTheWay(),
+          // SelectRide(),
+          // ConfirmRide(),
+          // DriverOnTheWay(),
           SelectBus(),
           RideBus(),
           InMotion(),

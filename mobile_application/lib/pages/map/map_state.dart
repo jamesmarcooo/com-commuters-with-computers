@@ -255,7 +255,7 @@ class MapState extends ChangeNotifier {
   }
 
   void proceedRide() {
-    animateToPage(pageIndex: 7, state: RideState.inMotion);
+    animateToPage(pageIndex: 4, state: RideState.inMotion);
   }
 
   // void confirmRide() async {
@@ -341,7 +341,7 @@ class MapState extends ChangeNotifier {
     // pageController.nextPage(
     //     duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
     selectNearbyBus();
-    animateToPage(pageIndex: 7, state: RideState.selectBus);
+    animateToPage(pageIndex: 2, state: RideState.selectBus);
   }
 
   Future<Bus> _initializeBus(String uid) async {
