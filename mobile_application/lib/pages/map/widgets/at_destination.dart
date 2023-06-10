@@ -55,7 +55,7 @@ class ArrivedAtDestination extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Woji, Port Harcourt, Nigeria',
+                              '${state.startAddress?.street}, ${state.startAddress?.city}',
                               maxLines: 1,
                               style: TextStyle(
                                 fontSize: 16,
@@ -80,7 +80,7 @@ class ArrivedAtDestination extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              '25, Patterson Trans-Amadi Okujagu, Port Harcourt Nigeria',
+                              '${state.endAddress?.street}, ${state.endAddress?.city}',
                               maxLines: 1,
                               style: TextStyle(
                                 fontSize: 16,
@@ -109,7 +109,7 @@ class ArrivedAtDestination extends StatelessWidget {
             disableColor: CityTheme.cityLightGrey,
             buttonState: ButtonState.initial,
             onTap: () {
-              state.DropOffRestart();
+              state.dropOffRestart();
             },
           ),
         ),

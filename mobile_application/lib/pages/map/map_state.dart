@@ -291,7 +291,7 @@ class MapState extends ChangeNotifier {
     animateToPage(pageIndex: 0, state: RideState.initial);
   }
 
-  void DropOffRestart() {
+  void dropOffRestart() {
     animateToPage(pageIndex: 0, state: RideState.initial);
   }
 
