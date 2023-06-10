@@ -21,7 +21,12 @@ class SelectBus extends StatelessWidget {
 
     return Builder(builder: (context) {
       final isUserDriver = state.userRepo.currentUser?.isDriverRole ?? false;
-
+      if (state.sliderEtaBuses.isEmpty) {
+        // return Center(
+        //   child: Text('Loading...'),
+        // );
+        return Center(child: const CircularProgressIndicator());
+      }
       if (isUserDriver == true) {
         return Padding(
           padding: const EdgeInsets.all(CityTheme.elementSpacing),
@@ -59,20 +64,6 @@ class SelectBus extends StatelessWidget {
                     );
                   }),
             ),
-            // Column(
-            //   children: List.generate(
-            //       state.sliderEtaBuses.length > 4
-            //           ? 4
-            //           : state.sliderEtaBuses.length, (index) {
-            //     final etaBus = state.sliderEtaBuses[index];
-            //     return EtaBusCard(
-            //       etaBus: etaBus,
-            //       onTap: () {
-            //         state.onTapEtaBus(etaBus);
-            //       },
-            //     );
-            //   }),
-            // ),
           ],
         ),
       );
