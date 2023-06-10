@@ -27,7 +27,6 @@ class RideBus extends StatelessWidget {
         .format(state.selectedOption?.timeOfArrival ?? DateTime.now());
     // String timeOfArrival =
     //     Jiffy.parse(DateTime.now()).format('yyyy-MMMM-do, h:mm:ss a');
-    print(state.selectedOption!.driver['licensePlate']);
     return Wrap(
       runAlignment: WrapAlignment.spaceBetween,
       children: [
@@ -178,11 +177,6 @@ class RideBus extends StatelessWidget {
                       ])
                     ],
                   ),
-                  // Icon(Icons.bolt, color: Colors.orange[300]),
-                  // Image.asset(
-                  //   "${state.selectedOption?.icon}",
-                  //   height: 60,
-                  // ),
                 ],
               ),
             ),
@@ -259,6 +253,7 @@ class RideBus extends StatelessWidget {
                       : ButtonState.disabled,
                   onTap: () {
                     // state.callDriver();
+                    state.proceedRide();
                   },
                 ),
               ),

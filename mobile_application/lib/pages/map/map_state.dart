@@ -25,10 +25,11 @@ enum RideState {
   selectRide,
   requestRide,
   driverIsComing,
-  inMotion,
+  // inMotion,
   arrived,
   selectBus,
   busDetails,
+  inMotion,
 }
 
 class MapState extends ChangeNotifier {
@@ -254,7 +255,7 @@ class MapState extends ChangeNotifier {
   }
 
   void proceedRide() {
-    animateToPage(pageIndex: 3, state: RideState.confirmAddress);
+    animateToPage(pageIndex: 7, state: RideState.inMotion);
   }
 
   // void confirmRide() async {
