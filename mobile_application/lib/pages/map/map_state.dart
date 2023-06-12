@@ -215,7 +215,8 @@ class MapState extends ChangeNotifier {
       notifyListeners();
       loadRouteCoordinates(
           MapService.instance!.currentPosition.value!.latLng, address.latLng);
-      animateCamera(address.latLng);
+      animateCamera(
+          endTempAddress == address ? startAddress!.latLng : address.latLng);
     }
   }
 
