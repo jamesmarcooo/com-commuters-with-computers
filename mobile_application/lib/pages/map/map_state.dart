@@ -313,6 +313,20 @@ class MapState extends ChangeNotifier {
 
   void dropOffRestart() {
     animateToPage(pageIndex: 0, state: RideState.initial);
+    searchedAddress.clear();
+    sliderEtaBuses.clear();
+    sliderAddresses.clear();
+    getCurrentLocation();
+    startAddress = null;
+    endAddress = null;
+    currentAddress = null;
+    busSelectedAddress = null;
+
+    endTempAddress = null;
+    destinationAddressController.clear();
+    startingAddressController.clear();
+    MapService.instance?.controller.hideInfoWindow!();
+    notifyListeners();
   }
 
   void closeSearching() {

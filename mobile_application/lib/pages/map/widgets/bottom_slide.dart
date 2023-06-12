@@ -51,7 +51,8 @@ class _BottomSliderState extends State<BottomSlider> {
       child: PageView(
         onPageChanged: state.onPageChanged,
         controller: state.pageController,
-        physics: NeverScrollableScrollPhysics(),
+        // physics: NeverScrollableScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         children: [
           TakeARide(),
           ConfirmLocation(),
