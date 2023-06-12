@@ -20,7 +20,9 @@ class TakeARide extends StatelessWidget {
 
     return Builder(builder: (context) {
       final isUserDriver = state.userRepo.currentUser?.isDriverRole ?? false;
-
+      if (state.sliderAddresses.isEmpty) {
+        return Center(child: const CircularProgressIndicator());
+      }
       if (isUserDriver == true) {
         return Padding(
           padding: const EdgeInsets.all(CityTheme.elementSpacing),
