@@ -48,6 +48,8 @@ class MapState extends ChangeNotifier {
   Address? currentAddress;
   Address? busSelectedAddress;
 
+  Address? endTempAddress;
+
   // RideOption? selectedOption;
   Eta? selectedOption;
 
@@ -141,8 +143,9 @@ class MapState extends ChangeNotifier {
       animateCamera(startAddress!.latLng);
       notifyListeners();
     } else {
-      final myPosition = await MapService.instance?.getPosition(position);
-      startAddress = myPosition;
+      // final myPosition = await MapService.instance?.getPosition(position);
+      // startAddress = myPosition;
+      startAddress = currentPosition.value;
 
       animateCamera(startAddress!.latLng);
       notifyListeners();
@@ -158,6 +161,7 @@ class MapState extends ChangeNotifier {
         await MapService.instance?.getRouteCoordinates(start, end);
     startAddress = MapService.instance?.currentPosition.value;
     endAddress = endPosition;
+    endTempAddress = endPosition;
     notifyListeners();
   }
 
@@ -201,13 +205,13 @@ class MapState extends ChangeNotifier {
     loadMyPosition(address.latLng);
     if (currentAddressController.text.isNotEmpty &&
         destinationAddressController.text.isEmpty) {
-      currentAddressController.text = "${address.street}, ${address.city}";
+      currentAddressController.text = "${address.title}, ${address.city}";
       MapService.instance?.currentPosition.value = address;
       notifyListeners();
       animateCamera(address.latLng);
     } else if (currentAddressController.text.isNotEmpty &&
         destinationAddressController.text.isNotEmpty) {
-      destinationAddressController.text = "${address.street}, ${address.city}";
+      destinationAddressController.text = "${address.title}, ${address.city}";
       notifyListeners();
       loadRouteCoordinates(
           MapService.instance!.currentPosition.value!.latLng, address.latLng);
@@ -256,6 +260,21 @@ class MapState extends ChangeNotifier {
 
   void proceedRide() {
     animateToPage(pageIndex: 4, state: RideState.inMotion);
+    onTapAddressList(endTempAddress!);
+
+    MapService.instance?.controller.addInfoWindow!(
+      CustomWindow(
+        info: CityCabInfoWindow(
+          name:
+              "${currentPosition.value!.street}, ${currentPosition.value!.city}",
+          position: currentPosition.value!.latLng,
+          type: InfoWindowType.position,
+          time: Duration(),
+        ),
+      ),
+      currentPosition.value!.latLng,
+    );
+    // animateCamera(currentPosition.value!.latLng);
   }
 
   // void confirmRide() async {

@@ -43,7 +43,7 @@ class CustomWindow extends StatelessWidget {
                                     .textTheme
                                     .subtitle1
                                     ?.copyWith(color: CityTheme.cityWhite)),
-                            Text('min',
+                            Text('mins',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
