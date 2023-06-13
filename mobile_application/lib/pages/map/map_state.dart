@@ -10,6 +10,9 @@ import 'package:mobile_application/repositories/bus_repository.dart';
 import 'package:mobile_application/models/bus.dart';
 import 'package:mobile_application/models/eta.dart';
 import 'package:mobile_application/services/code_generator.dart';
+import 'package:mobile_application/models/info_window.dart';
+import 'package:mobile_application/ui/info_window/custom_info_window.dart';
+import 'package:mobile_application/ui/info_window/custom_widow.dart';
 import 'package:mobile_application/services/map_services.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:flutter/material.dart';
@@ -40,11 +43,14 @@ class MapState extends ChangeNotifier {
 
   Address? startAddress;
   Address? endAddress;
+  Address? currentAddress;
+  Address? busSelectedAddress;
 
   RideOption? selectedOption;
 
   List<Address> searchedAddress = [];
   List<Address> sliderAddresses = [];
+  List<Eta> sliderEtaBuses = [];
   List<bool> isSelectedOptions = [];
 
   FocusNode? focusNode;
@@ -152,6 +158,14 @@ class MapState extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> loadBusRouteCoordinates(LatLng start, LatLng end) async {
+    final endPosition =
+        await MapService.instance?.getBusRouteCoordinates(start, end);
+    startAddress = MapService.instance?.currentPosition.value;
+    endAddress = endPosition;
+    notifyListeners();
+  }
+
   Future<void> searchAddress(String query) async {
     if (query.length >= 3) {
       await MapService.instance!.getAddressFromQuery(query);
@@ -229,8 +243,7 @@ class MapState extends ChangeNotifier {
   }
 
   void selectNearbyBus() async {
-    animateToPage(pageIndex: 0, state: RideState.selectBus);
-
+    // animateToPage(pageIndex: 7, state: RideState.selectBus);
     final ownerUID = userRepo.currentUser?.uid;
     if (ownerUID != null && ownerUID != '') {
       final bus = await _initializeBus(ownerUID);
@@ -305,9 +318,26 @@ class MapState extends ChangeNotifier {
           ?.loadBusMarkersWithinDistance(value!.latLng, endAddress!.latLng);
       MapService.instance
           ?.getNearestDriver(value!.latLng, endAddress!.latLng)
-          .then((address) => animateCamera(address?.latLng ?? value.latLng));
+          .then((address) => {
+                // loadBusRouteCoordinates(address!.latLng, value.latLng),
+                // animateCamera(address.latLng),
+                // MapService.instance?.controller.addInfoWindow!(
+                //   CustomWindow(
+                //     info: CityCabInfoWindow(
+                //       name: "${address.street}, ${address.city}",
+                //       position: address.latLng,
+                //       type: InfoWindowType.bus,
+                //       time: Duration(),
+                //     ),
+                //   ),
+                //   address.latLng,
+                // )
+                onTapSliderAddress(address!, value)
+              });
     });
-    // animateToPage(pageIndex: 0, state: RideState.requestRide);
+    animateToPage(pageIndex: 7, state: RideState.selectBus);
+    // pageController.nextPage(
+    //     duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
     selectNearbyBus();
   }
 
@@ -348,7 +378,43 @@ class MapState extends ChangeNotifier {
       );
       eta.add(etaItem);
     }
+    sliderEtaBuses = eta;
     return eta;
+  }
+
+  void onTapSliderAddress(Address BusAddress, Address CurrentAddress) {
+    notifyListeners();
+    loadBusRouteCoordinates(
+        // address.latLng, MapService.instance!.currentPosition.value!.latLng);
+        BusAddress.latLng,
+        startAddress!.latLng);
+    animateCamera(BusAddress.latLng);
+    MapService.instance?.controller.addInfoWindow!(
+      CustomWindow(
+        info: CityCabInfoWindow(
+          name: "${BusAddress.street}, ${BusAddress.city}",
+          position: BusAddress.latLng,
+          type: InfoWindowType.bus,
+          time: Duration(),
+        ),
+      ),
+      BusAddress.latLng,
+    );
+    // searchLocation();
+  }
+
+  //craate a function that gets an input of Eta and calls proceedRide()
+  void onTapEtaBus(Eta eta) async {
+    // destinationAddressController.text = "${address.street}, ${address.city}";
+    //call getAddressFromCoodinate() from map_services.dart
+    // final currentAddress = await MapService.instance!.currentPosition.value;
+    var etaDriverLatLng = LatLng(
+        eta.driver['latlng']['latitude'], eta.driver['latlng']['longitude']);
+    var etaBusAddress =
+        await MapService.instance?.getAddressFromCoodinate(etaDriverLatLng);
+    onTapSliderAddress(etaBusAddress!, startAddress!);
+    // proceedRide();
+    animateToPage(pageIndex: 7, state: RideState.confirmAddress);
   }
 
   void onTapMyAddresses(Address address) {

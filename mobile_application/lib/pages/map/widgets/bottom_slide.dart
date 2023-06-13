@@ -3,6 +3,7 @@ import 'package:mobile_application/pages/map/widgets/at_destination.dart';
 import 'package:mobile_application/pages/map/widgets/confirm_ride.dart';
 import 'package:mobile_application/pages/map/widgets/driver_on_the_way.dart';
 import 'package:mobile_application/pages/map/widgets/in_motion.dart';
+import 'package:mobile_application/pages/map/widgets/select_a_bus.dart';
 import 'package:mobile_application/pages/map/widgets/select_ride.dart';
 import 'package:mobile_application/pages/map/widgets/take_a_ride.dart';
 import 'package:mobile_application/ui/theme.dart';
@@ -49,7 +50,7 @@ class _BottomSliderState extends State<BottomSlider> {
       child: PageView(
         onPageChanged: state.onPageChanged,
         controller: state.pageController,
-        physics: NeverScrollableScrollPhysics(),
+        // physics: NeverScrollableScrollPhysics(),
         children: [
           TakeARide(),
           ConfirmLocation(),
@@ -58,6 +59,7 @@ class _BottomSliderState extends State<BottomSlider> {
           DriverOnTheWay(),
           InMotion(),
           ArrivedAtDestination(),
+          SelectBus(),
         ],
       ),
     );
@@ -116,7 +118,8 @@ class ConfirmLocation extends StatelessWidget {
                               //     child: Text('No Address Found'),
                               //   );
                               // }
-                              return ListView.builder(
+                              return Scrollbar(
+                                  child: ListView.builder(
                                 shrinkWrap: true,
                                 // itemCount: state.searchedAddress.length,
                                 itemCount: myAddresses.length,
@@ -124,7 +127,7 @@ class ConfirmLocation extends StatelessWidget {
                                   // final address = state.searchedAddress[index];
                                   final address = myAddresses[index];
                                   return ListTile(
-                                    contentPadding: const EdgeInsets.all(0),
+                                    contentPadding: const EdgeInsets.all(1),
                                     horizontalTitleGap: 0,
                                     trailing: Icon(Icons.north_west, size: 16),
                                     title: Text('${address.title}'),
@@ -144,7 +147,7 @@ class ConfirmLocation extends StatelessWidget {
                                     },
                                   );
                                 },
-                              );
+                              ));
                             }),
                           ),
                     // const SizedBox(height: CityTheme.elementSpacing * 3),

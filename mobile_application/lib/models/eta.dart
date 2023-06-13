@@ -11,7 +11,7 @@ class Eta {
 
   factory Eta.fromMap(Map<String, dynamic> data) {
     return Eta(
-      driver: data['driver']['latlng'] ?? {},
+      driver: data['driver'] ?? {},
       eta: data['eta'],
       timeOfArrival: DateTime.fromMillisecondsSinceEpoch(
           data['time_of_arrival'].millisecondsSinceEpoch),

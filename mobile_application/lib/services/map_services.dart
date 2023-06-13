@@ -247,6 +247,56 @@ class MapService {
     return endAddress;
   }
 
+  Future<Address> getBusRouteCoordinates(
+      LatLng? startLatLng, LatLng? endLatLng) async {
+    markers.value.clear();
+
+    var uri = Uri.parse(
+        "$baseUrl?origin=${startLatLng?.latitude},${startLatLng?.longitude}&destination=${endLatLng?.latitude},${endLatLng?.longitude}&key=${GoogleMapKey.key}");
+    http.Response response = await http.get(uri);
+    Map values = jsonDecode(response.body);
+    final points = values['routes'][0]['overview_polyline']['points'];
+    final legs = values['routes'][0]['legs'];
+    final polylines = PolylinePoints().decodePolyline(points);
+
+    if (legs != null) {
+      final DateTime time = DateTime.fromMillisecondsSinceEpoch(
+          values['routes'][0]['legs'][0]['duration']['value']);
+      duration = DateTime.now().difference(time);
+    }
+    Address endAddress =
+        await _getBusEndAddressAndAddMarkers(startLatLng, endLatLng, polylines);
+
+    /// Get our end address
+    return endAddress;
+  }
+
+  Future<Address> _getBusEndAddressAndAddMarkers(LatLng? startLatLng,
+      LatLng? endLatLng, List<PointLatLng> polylines) async {
+    final endAddress = await getAddressFromCoodinate(
+        LatLng(endLatLng!.latitude, endLatLng.longitude),
+        polylines: polylines,
+        id: CodeGenerator.instance?.generateCode('m'));
+
+    BitmapDescriptor icon = await getMapIcon(getUserMapIcon);
+    await addMarker(endAddress, icon,
+        time: DateTime.now(), type: InfoWindowType.destination);
+
+    final startAddress = await getAddressFromCoodinate(
+        LatLng(startLatLng!.latitude, startLatLng.longitude),
+        polylines: polylines);
+
+    BitmapDescriptor startMapIcon = await getMapIcon(getDriverMapIcon);
+    await addMarker(startAddress, startMapIcon,
+        time: DateTime.now(), type: InfoWindowType.position);
+
+    // currentPosition.value = startAddress;
+    // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+    currentPosition.notifyListeners();
+
+    return endAddress;
+  }
+
   Future<List<Marker>> addMarker(Address? address, BitmapDescriptor icon,
       {required DateTime time,
       required InfoWindowType type,
