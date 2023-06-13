@@ -216,7 +216,7 @@ class RideDetailCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${state.selectedOption?.driver['licensePlate']} km',
+                            '${double.parse((state.selectedOption?.distanceStartBus)!.toStringAsFixed(2))} km',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
