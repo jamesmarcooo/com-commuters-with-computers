@@ -58,10 +58,10 @@ class _BottomSliderState extends State<BottomSlider> {
           SelectRide(),
           ConfirmRide(),
           DriverOnTheWay(),
-          InMotion(),
-          ArrivedAtDestination(),
           SelectBus(),
           RideBus(),
+          InMotion(),
+          ArrivedAtDestination(),
         ],
       ),
     );
