@@ -7,13 +7,17 @@ class Bus {
   final String ownerUID;
   final Address startAddress;
   final Address endAddress;
+  final int eta;
+  final DateTime timeOfArrival;
 
   const Bus(
       {required this.id,
       required this.busList,
       required this.ownerUID,
       required this.startAddress,
-      required this.endAddress});
+      required this.endAddress,
+      required this.eta,
+      required this.timeOfArrival});
 
   factory Bus.fromMap(Map<String, dynamic> data) {
     return Bus(
@@ -22,6 +26,9 @@ class Bus {
       ownerUID: data['ownerUID'] ?? '',
       startAddress: Address.fromMap(data['start_address'] ?? {}),
       endAddress: Address.fromMap(data['end_address'] ?? {}),
+      eta: data['eta'],
+      timeOfArrival: DateTime.fromMillisecondsSinceEpoch(
+          data['timeOfArrival'].millisecondsSinceEpoch),
     );
   }
 }
