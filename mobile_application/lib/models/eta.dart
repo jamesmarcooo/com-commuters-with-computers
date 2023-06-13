@@ -5,9 +5,15 @@ class Eta {
   final Map<String, dynamic> driver;
   final int eta;
   final DateTime timeOfArrival;
+  final int distanceStartBus;
+  final int distanceEndBus;
 
   const Eta(
-      {required this.driver, required this.eta, required this.timeOfArrival});
+      {required this.driver,
+      required this.eta,
+      required this.timeOfArrival,
+      required this.distanceStartBus,
+      required this.distanceEndBus});
 
   factory Eta.fromMap(Map<String, dynamic> data) {
     return Eta(
@@ -15,6 +21,8 @@ class Eta {
       eta: data['eta'],
       timeOfArrival: DateTime.fromMillisecondsSinceEpoch(
           data['timeOfArrival'].millisecondsSinceEpoch),
+      distanceStartBus: data['distanceStartBus'],
+      distanceEndBus: data['distanceEndBus'],
     );
   }
 }
