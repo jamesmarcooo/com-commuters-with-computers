@@ -96,6 +96,8 @@ class BusRepository {
           'post_code': endAddress.postcode,
           'state': endAddress.state,
         },
+        'eta': bus.eta,
+        'timeOfArrival': bus.timeOfArrival,
       });
 
       // Create the ETA subcollection within the bus document

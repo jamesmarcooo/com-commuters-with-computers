@@ -390,6 +390,8 @@ class MapState extends ChangeNotifier {
       ownerUID: uid,
       startAddress: startAddress!,
       endAddress: endAddress!,
+      eta: 0,
+      timeOfArrival: DateTime.now(),
     );
     return bus;
   }
