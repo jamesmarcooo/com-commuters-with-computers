@@ -111,6 +111,8 @@ class BusRepository {
           'driver': eta.driver,
           'eta': eta.eta,
           'timeOfArrival': eta.timeOfArrival,
+          'distanceStartBus': eta.distanceStartBus,
+          'distanceEndBus': eta.distanceEndBus,
         });
         print('Added ETA document with ID: ${etaDocRef.id}');
       }

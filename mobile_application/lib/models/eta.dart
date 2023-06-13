@@ -5,8 +5,8 @@ class Eta {
   final Map<String, dynamic> driver;
   final int eta;
   final DateTime timeOfArrival;
-  final int distanceStartBus;
-  final int distanceEndBus;
+  final double distanceStartBus;
+  final double distanceEndBus;
 
   const Eta(
       {required this.driver,

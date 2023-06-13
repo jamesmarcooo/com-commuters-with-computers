@@ -399,6 +399,14 @@ class MapState extends ChangeNotifier {
     final buses = await MapService.instance!.getBusList(startLatLng, endLatLng);
     print("initializing eta");
     for (var bus in buses) {
+      var distanceStartBus = await MapService.instance!
+          .getPositionBetweenKilometers(
+              startLatLng, LatLng(bus.latlng!.latitude, bus.latlng!.longitude));
+      var distanceEndBus = await MapService.instance!
+          .getPositionBetweenKilometers(
+              LatLng(bus.latlng!.latitude, bus.latlng!.longitude), endLatLng);
+      print(
+          '${double.parse((distanceStartBus).toStringAsFixed(2))}, ${double.parse((distanceEndBus).toStringAsFixed(2))}');
       // final id = CodeGenerator.instance!.generateCode('eta-id');
       final etaItem = Eta(
         driver: {
@@ -416,6 +424,8 @@ class MapState extends ChangeNotifier {
         },
         eta: 0,
         timeOfArrival: DateTime.now(),
+        distanceStartBus: distanceStartBus,
+        distanceEndBus: distanceEndBus,
       );
       eta.add(etaItem);
     }
