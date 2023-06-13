@@ -51,12 +51,12 @@ class ArrivedAtDestination extends StatelessWidget {
                       const SizedBox(width: 8),
                       Expanded(
                         child: SizedBox(
-                          height: 40,
+                          // height: 40,
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               '${state.startAddress?.street}, ${state.startAddress?.city}',
-                              maxLines: 1,
+                              maxLines: 2,
                               style: TextStyle(
                                 fontSize: 16,
                                 height: 1.5,
