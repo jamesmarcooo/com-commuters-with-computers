@@ -6,6 +6,7 @@ import 'package:mobile_application/pages/map/widgets/in_motion.dart';
 import 'package:mobile_application/pages/map/widgets/select_a_bus.dart';
 import 'package:mobile_application/pages/map/widgets/select_ride.dart';
 import 'package:mobile_application/pages/map/widgets/take_a_ride.dart';
+import 'package:mobile_application/pages/map/widgets/ride_bus_details.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
 import 'package:mobile_application/constant/my_address.dart';
@@ -60,6 +61,7 @@ class _BottomSliderState extends State<BottomSlider> {
           InMotion(),
           ArrivedAtDestination(),
           SelectBus(),
+          RideBus(),
         ],
       ),
     );
@@ -102,10 +104,10 @@ class ConfirmLocation extends StatelessWidget {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Wrap(
-            runAlignment: WrapAlignment.end,
+            runAlignment: WrapAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(CityTheme.elementSpacing),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   children: [
                     state.endAddress != null

@@ -14,7 +14,7 @@ class Eta {
       driver: data['driver'] ?? {},
       eta: data['eta'],
       timeOfArrival: DateTime.fromMillisecondsSinceEpoch(
-          data['time_of_arrival'].millisecondsSinceEpoch),
+          data['timeOfArrival'].millisecondsSinceEpoch),
     );
   }
 }

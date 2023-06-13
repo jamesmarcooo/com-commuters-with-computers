@@ -43,7 +43,8 @@ class ConfirmRide extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '${state.selectedOption?.title}',
+                        // '${state.selectedOption?.title}',
+                        'title',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[800],
@@ -51,7 +52,8 @@ class ConfirmRide extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        '\₦${state.selectedOption?.price}',
+                        // '\₦${state.selectedOption?.price}',
+                        'price',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
@@ -78,11 +80,11 @@ class ConfirmRide extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Icon(Icons.bolt, color: Colors.orange[300]),
-                  Image.asset(
-                    "${state.selectedOption?.icon}",
-                    height: 60,
-                  ),
+                  // Icon(Icons.bolt, color: Colors.orange[300]),
+                  // Image.asset(
+                  //   "${state.selectedOption?.icon}",
+                  //   height: 60,
+                  // ),
                 ],
               ),
             ),
@@ -120,7 +122,7 @@ class ConfirmRide extends StatelessWidget {
             disableColor: CityTheme.cityLightGrey,
             buttonState: ButtonState.initial,
             onTap: () {
-              state.confirmRide();
+              // state.confirmRide();
             },
           ),
         ),
