@@ -52,12 +52,13 @@ class _BottomSliderState extends State<BottomSlider> {
         onPageChanged: state.onPageChanged,
         controller: state.pageController,
         // physics: NeverScrollableScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         children: [
           TakeARide(),
           ConfirmLocation(),
-          SelectRide(),
-          ConfirmRide(),
-          DriverOnTheWay(),
+          // SelectRide(),
+          // ConfirmRide(),
+          // DriverOnTheWay(),
           SelectBus(),
           RideBus(),
           InMotion(),
@@ -104,7 +105,7 @@ class ConfirmLocation extends StatelessWidget {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Wrap(
-            runAlignment: WrapAlignment.start,
+            runAlignment: WrapAlignment.end,
             children: [
               Padding(
                 padding: const EdgeInsets.all(8),

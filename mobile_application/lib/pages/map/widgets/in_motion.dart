@@ -222,7 +222,6 @@ class InMotion extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              // '25, Patterson Trans-Amadi Okujagu, Port Harcourt Nigeria',
                               '${state.endAddress?.street}, ${state.endAddress?.city}, ${state.endAddress?.state}, ${state.endAddress?.country}',
                               maxLines: 2,
                               style: TextStyle(
