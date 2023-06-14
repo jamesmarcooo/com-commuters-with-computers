@@ -255,7 +255,9 @@ class MapState extends ChangeNotifier {
     final ownerUID = userRepo.currentUser?.uid;
     if (ownerUID != null && ownerUID != '') {
       final bus = await _initializeBus(ownerUID);
-      await busRepo.boardBus(bus);
+      sliderEtaBuses = await busRepo.boardBus(bus);
+
+      notifyListeners();
     }
   }
 
@@ -393,6 +395,8 @@ class MapState extends ChangeNotifier {
       eta: 0,
       timeOfArrival: DateTime.now(),
     );
+    //call getEtaList from bus_repository.dart
+    // sliderEtaBuses = await busRepo.getEtaList(bus.id);
     return bus;
   }
 
@@ -431,7 +435,7 @@ class MapState extends ChangeNotifier {
       );
       eta.add(etaItem);
     }
-    sliderEtaBuses = eta;
+    // sliderEtaBuses = eta;
     return eta;
   }
 
@@ -468,6 +472,7 @@ class MapState extends ChangeNotifier {
     onTapSliderAddress(etaBusAddress!, startAddress!);
     // proceedRide();
     // animateToPage(pageIndex: 7, state: RideState.confirmAddress);
+
     selectedOption = eta;
     pageController.nextPage(
         duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
