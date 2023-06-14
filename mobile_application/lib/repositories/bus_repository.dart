@@ -1,6 +1,7 @@
 import 'package:mobile_application/models/bus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_application/models/eta.dart';
 
 class BusRepository {
   BusRepository._();
@@ -16,6 +17,9 @@ class BusRepository {
 
   ValueNotifier<List<Bus>> busNotifier = ValueNotifier<List<Bus>>([]);
   List<Bus> get buses => busNotifier.value;
+
+  ValueNotifier<List<Eta>> EtaNotifier = ValueNotifier<List<Eta>>([]);
+  List<Eta> get etaList => EtaNotifier.value;
 
   Future<Bus?> loadRide(String id) async {
     try {
@@ -65,7 +69,7 @@ class BusRepository {
     }));
   }
 
-  Future<Bus?> boardBus(Bus bus) async {
+  Future<List<Eta>> boardBus(Bus bus) async {
     try {
       final startAddress = bus.startAddress;
       final endAddress = bus.endAddress;
@@ -144,10 +148,41 @@ class BusRepository {
       // final addedRide = await loadRide(busDocRef.doc(bus.id).id);
       final addedRide = await loadRide(busDocRef.id);
       print("done on boarding the ride");
-      return addedRide;
+      // return addedRide;
+      return await getEtaList(bus.id);
     } on FirebaseException catch (_) {
       print('could not board ride');
+      return List<Eta>.empty();
+    }
+  }
+
+  //function that gets the requested bus
+  Future<Bus?> getBus(String id) async {
+    try {
+      final doc = await _firestoreBusCollection.doc(id).get();
+      final ride = Bus.fromMap(doc.data() ?? {});
+      return ride;
+    } on FirebaseException catch (e) {
+      print(e.message);
       return null;
+    }
+  }
+
+  //function that returns list of eta of the requested bus
+  Future<List<Eta>> getEtaList(String id) async {
+    try {
+      final snapshot = await _firestoreBusCollection
+          .doc(id)
+          .collection('eta')
+          .orderBy('distanceStartBus', descending: false)
+          .get();
+      final etaList = snapshot.docs.map((doc) => Eta.fromMap(doc.data()));
+      print("ETA LIST");
+      print(etaList.toList());
+      return etaList.toList();
+    } on FirebaseException catch (_) {
+      print('something occurred');
+      return etaList;
     }
   }
 }
