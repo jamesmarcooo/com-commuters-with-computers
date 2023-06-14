@@ -201,4 +201,64 @@ class BusRepository {
       return null;
     }
   }
+
+  //function that updates the requested bus
+  Future<List<Eta>> updateBus(Bus bus) async {
+    try {
+      final startAddress = bus.startAddress;
+      final endAddress = bus.endAddress;
+
+      // await _firestoreBusCollection.doc(bus.id).set({
+      final busDocRef = _firestoreBusCollection.doc(bus.id);
+      await busDocRef.update({
+        'id': bus.id,
+        'ownerUID': bus.ownerUID,
+        'start_address': {
+          'city': startAddress.city,
+          'country': startAddress.country,
+          'latlng': {
+            'lat': startAddress.latLng.latitude,
+            'lng': startAddress.latLng.longitude,
+          },
+          'post_code': startAddress.postcode,
+          'state': startAddress.state,
+        },
+        'end_address': {
+          'city': endAddress.city,
+          'country': endAddress.country,
+          'latlng': {
+            'lat': endAddress.latLng.latitude,
+            'lng': endAddress.latLng.longitude,
+          },
+          'post_code': endAddress.postcode,
+          'state': endAddress.state,
+        },
+        'eta': bus.eta,
+        'timeOfArrival': bus.timeOfArrival,
+      });
+
+      final etaCollectionRef = busDocRef.collection('eta');
+
+      for (final eta in bus.busList) {
+        final etaDocRef =
+            etaCollectionRef.doc('eta-${eta.driver['licensePlate']}');
+        await etaDocRef.update({
+          'driver': eta.driver,
+          'eta': eta.eta,
+          'timeOfArrival': eta.timeOfArrival,
+          'distanceStartBus': eta.distanceStartBus,
+          'distanceEndBus': eta.distanceEndBus,
+        });
+        print('Added ETA document with ID: ${etaDocRef.id}');
+      }
+
+      final updatedRide = await loadRide(busDocRef.id);
+      print("done on boarding the ride");
+      // return addedRide;
+      return await getEtaList(bus.id);
+    } on FirebaseException catch (_) {
+      print('could not board ride');
+      return List<Eta>.empty();
+    }
+  }
 }

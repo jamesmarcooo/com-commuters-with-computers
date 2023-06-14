@@ -24,12 +24,10 @@ enum RideState {
   confirmAddress,
   selectRide,
   requestRide,
-  driverIsComing,
-  // inMotion,
-  arrived,
   selectBus,
   busDetails,
   inMotion,
+  arrived,
 }
 
 class MapState extends ChangeNotifier {
@@ -256,10 +254,17 @@ class MapState extends ChangeNotifier {
     final ownerUID = userRepo.currentUser?.uid;
     if (ownerUID != null && ownerUID != '') {
       final bus = await _initializeBus(ownerUID);
-      sliderEtaBuses = await busRepo.boardBus(bus);
+      if (requestedBusId == null) {
+        sliderEtaBuses = await busRepo.boardBus(bus);
+        requestedBusId = bus.id;
+      } else {
+        sliderEtaBuses = await busRepo.updateBus(bus);
+      }
 
       notifyListeners();
     }
+
+    //check if owerUID has already a bus, then update the bus instead of boarding a new one
   }
 
   void proceedRide() {
@@ -482,7 +487,7 @@ class MapState extends ChangeNotifier {
     notifyListeners();
     pageController.nextPage(
         duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
-    changeRideState = RideState.busDetails;
+    changeRideState = RideState.inMotion;
   }
 
   void onTapMyAddresses(Address address) {
