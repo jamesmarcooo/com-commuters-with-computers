@@ -51,6 +51,7 @@ class MapState extends ChangeNotifier {
   Address? endTempAddress;
 
   // RideOption? selectedOption;
+  String? requestedBusId;
   Eta? selectedOption;
 
   List<Address> searchedAddress = [];
@@ -386,6 +387,8 @@ class MapState extends ChangeNotifier {
 
   Future<Bus> _initializeBus(String uid) async {
     final id = CodeGenerator.instance!.generateCode('bus-id');
+    //TODO: fix creating a new bus-id document everytime a user views the bus list
+    requestedBusId = id;
     final bus = Bus(
       id: id,
       busList: await _initializeEta(startAddress!.latLng, endAddress!.latLng),
@@ -473,7 +476,10 @@ class MapState extends ChangeNotifier {
     // proceedRide();
     // animateToPage(pageIndex: 7, state: RideState.confirmAddress);
 
-    selectedOption = eta;
+    print(requestedBusId);
+    selectedOption = await busRepo.getEta(
+        requestedBusId!, 'eta-${eta.driver['licensePlate']}');
+    notifyListeners();
     pageController.nextPage(
         duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
     changeRideState = RideState.busDetails;

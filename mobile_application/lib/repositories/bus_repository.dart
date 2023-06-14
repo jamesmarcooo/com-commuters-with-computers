@@ -185,4 +185,20 @@ class BusRepository {
       return etaList;
     }
   }
+
+  //function that returns an intance of the requested eta
+  Future<Eta?> getEta(String id, String etaId) async {
+    try {
+      final doc = await _firestoreBusCollection
+          .doc(id)
+          .collection('eta')
+          .doc(etaId)
+          .get();
+      final eta = Eta.fromMap(doc.data() ?? {});
+      return eta;
+    } on FirebaseException catch (e) {
+      print(e.message);
+      return null;
+    }
+  }
 }
