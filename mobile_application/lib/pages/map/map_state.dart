@@ -254,6 +254,7 @@ class MapState extends ChangeNotifier {
     final ownerUID = userRepo.currentUser?.uid;
     if (ownerUID != null && ownerUID != '') {
       final bus = await _initializeBus(ownerUID);
+      print('requesting bus: ${requestedBusId}');
       if (requestedBusId == null) {
         sliderEtaBuses = await busRepo.boardBus(bus);
         requestedBusId = bus.id;
@@ -391,9 +392,13 @@ class MapState extends ChangeNotifier {
   }
 
   Future<Bus> _initializeBus(String uid) async {
-    final id = CodeGenerator.instance!.generateCode('bus-id');
+    var id;
+    if (requestedBusId == null) {
+      id = CodeGenerator.instance!.generateCode('bus-id');
+    } else {
+      id = requestedBusId;
+    }
     //TODO: fix creating a new bus-id document everytime a user views the bus list
-    requestedBusId = id;
     final bus = Bus(
       id: id,
       busList: await _initializeEta(startAddress!.latLng, endAddress!.latLng),

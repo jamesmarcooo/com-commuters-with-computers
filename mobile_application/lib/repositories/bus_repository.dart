@@ -207,12 +207,11 @@ class BusRepository {
     try {
       final startAddress = bus.startAddress;
       final endAddress = bus.endAddress;
+      print("-----------------${bus.id}");
 
       // await _firestoreBusCollection.doc(bus.id).set({
       final busDocRef = _firestoreBusCollection.doc(bus.id);
       await busDocRef.update({
-        'id': bus.id,
-        'ownerUID': bus.ownerUID,
         'start_address': {
           'city': startAddress.city,
           'country': startAddress.country,
@@ -236,7 +235,6 @@ class BusRepository {
         'eta': bus.eta,
         'timeOfArrival': bus.timeOfArrival,
       });
-
       final etaCollectionRef = busDocRef.collection('eta');
 
       for (final eta in bus.busList) {
@@ -249,15 +247,17 @@ class BusRepository {
           'distanceStartBus': eta.distanceStartBus,
           'distanceEndBus': eta.distanceEndBus,
         });
-        print('Added ETA document with ID: ${etaDocRef.id}');
+        print(
+            'Updated bus ID ${bus.id} and ETA document with ID ${etaDocRef.id}');
       }
 
       final updatedRide = await loadRide(busDocRef.id);
-      print("done on boarding the ride");
+      print("done on updating the ride");
       // return addedRide;
       return await getEtaList(bus.id);
-    } on FirebaseException catch (_) {
-      print('could not board ride');
+    } on FirebaseException catch (e) {
+      print('could not update ride');
+      print(e.message);
       return List<Eta>.empty();
     }
   }
