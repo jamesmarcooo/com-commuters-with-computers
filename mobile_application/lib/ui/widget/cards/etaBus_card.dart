@@ -37,7 +37,7 @@ class EtaBusCard extends StatelessWidget {
       // subtitle: Text(
       //   '${address?.street}, ${address?.city} , ${address?.country} ',
       subtitle: Text(
-        "⏱  ${etaBus?.eta} min     ⟟  ${double.parse((etaBus?.distanceStartBus)!.toStringAsFixed(2))} km",
+        "⏱  ${etaBus?.etaStartBus} min     ⟟  ${double.parse((etaBus?.distanceStartBus)!.toStringAsFixed(2))} km",
         style: TextStyle(
           fontSize: 16,
           color: Colors.grey[600],
