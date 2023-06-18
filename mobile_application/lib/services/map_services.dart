@@ -130,6 +130,13 @@ class MapService {
           currentPosition.value = await getAddressFromCoodinate(
               LatLng(position!.latitude, position.longitude));
 
+          if (UserRepository.instance.currentUserRole == Roles.driver) {
+            print('updating bus driver location');
+            await UserRepository.instance.updateDriverLocation(
+                UserRepository.instance.currentUser?.uid,
+                currentPosition.value!.latLng);
+          }
+
           final icon = await getMapIcon(getUserMapIcon);
           await addMarker(currentPosition.value, icon,
               time: DateTime.now(),

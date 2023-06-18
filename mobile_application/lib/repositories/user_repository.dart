@@ -86,7 +86,7 @@ class UserRepository {
           'lng': position.longitude,
         },
       });
-
+      print('updating driver location in firebase');
       return userNotifier.value;
     }
   }
