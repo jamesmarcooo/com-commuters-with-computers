@@ -144,6 +144,7 @@ class MapState extends ChangeNotifier {
     } else {
       // final myPosition = await MapService.instance?.getPosition(position);
       // startAddress = myPosition;
+      print('currrentPosition.value as startAddress');
       startAddress = currentPosition.value;
 
       animateCamera(startAddress!.latLng);
@@ -349,6 +350,7 @@ class MapState extends ChangeNotifier {
       var address = MapService.instance
           ?.getNearestDriver(value!.latLng, endAddress!.latLng)
           .then((address) => animateCamera(address?.latLng ?? value.latLng));
+      notifyListeners();
     });
   }
 
@@ -387,6 +389,7 @@ class MapState extends ChangeNotifier {
     });
     // pageController.nextPage(
     //     duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+    notifyListeners();
     selectNearbyBus();
     animateToPage(pageIndex: 2, state: RideState.selectBus);
   }
