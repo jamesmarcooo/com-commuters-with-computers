@@ -128,8 +128,10 @@ class MapState extends ChangeNotifier {
 
       MapService.instance?.listenToPositionChanges(
           eventFiring: (Address? address) async {
+        print('changing ${address?.latLng}');
         if (address != null) {
           if (userRepo.currentUserRole == Roles.driver) {
+            print('updating bus driver location');
             await userRepo.updateDriverLocation(
                 UserRepository.instance.currentUser?.uid, address.latLng);
           }

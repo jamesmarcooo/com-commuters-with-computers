@@ -86,27 +86,16 @@ class MapService {
       final position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best);
 
-      late LocationSettings locationSettings;
-      locationSettings = const LocationSettings(
-          accuracy: LocationAccuracy.high, distanceFilter: 5);
-      positionStream =
-          Geolocator.getPositionStream(locationSettings: locationSettings)
-              .listen((Position? position) async {
-        print(position == null
-            ? 'Unknown'
-            : '${position.latitude.toString()}, ${position.longitude.toString()}');
-        // currentPosition = position;
+      final address = await getAddressFromCoodinate(
+          LatLng(position.latitude, position.longitude));
 
-        final address = await getAddressFromCoodinate(
-            LatLng(position!.latitude, position.longitude));
+      final icon = await getMapIcon(getUserMapIcon);
+      await addMarker(address, icon,
+          time: DateTime.now(), type: InfoWindowType.position);
 
-        final icon = await getMapIcon(getUserMapIcon);
-        await addMarker(address, icon,
-            time: DateTime.now(), type: InfoWindowType.position);
+      print(address.toString());
+      currentPosition.value = address;
 
-        print(address.toString());
-        currentPosition.value = address;
-      });
       // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
       currentPosition.notifyListeners();
       return currentPosition.value;
@@ -128,17 +117,27 @@ class MapService {
               .listen((position) async {
         eventFiring(currentPosition.value);
 
-        currentPosition.value = await getAddressFromCoodinate(
-            LatLng(position.latitude, position.longitude));
+        late LocationSettings locationSettings;
+        locationSettings = const LocationSettings(
+            accuracy: LocationAccuracy.high, distanceFilter: 5);
 
-        final icon = await getMapIcon(getUserMapIcon);
-        await addMarker(currentPosition.value, icon,
-            time: DateTime.now(),
-            type: InfoWindowType.position,
-            position: position);
-        // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-        currentPosition.notifyListeners();
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position? position) async {
+          print(position == null
+              ? 'Unknown'
+              : '${position.latitude.toString()}, ${position.longitude.toString()}');
 
+          currentPosition.value = await getAddressFromCoodinate(
+              LatLng(position!.latitude, position.longitude));
+
+          final icon = await getMapIcon(getUserMapIcon);
+          await addMarker(currentPosition.value, icon,
+              time: DateTime.now(),
+              type: InfoWindowType.position,
+              position: position);
+          // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+          currentPosition.notifyListeners();
+        });
         print('updating location');
       });
     }
