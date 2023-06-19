@@ -1,4 +1,3 @@
-import 'package:mobile_application/models/address.dart';
 import 'package:mobile_application/models/eta.dart';
 import 'package:flutter/material.dart';
 

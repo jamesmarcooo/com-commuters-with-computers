@@ -50,7 +50,7 @@ class CityCabButton extends StatelessWidget {
                 child: SizedBox(
                   child: Transform.scale(
                       scale: 0.8,
-                      child: CircularProgressIndicator.adaptive(
+                      child: const CircularProgressIndicator.adaptive(
                         valueColor: AlwaysStoppedAnimation(CityTheme.cityWhite),
                       )),
                 ),

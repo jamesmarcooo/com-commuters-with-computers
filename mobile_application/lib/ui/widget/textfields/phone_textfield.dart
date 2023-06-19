@@ -12,6 +12,7 @@ class PhoneTextField extends StatefulWidget {
   final TextEditingController? _numnberController;
 
   @override
+  // ignore: library_private_types_in_public_api
   _PhoneTextFieldState createState() => _PhoneTextFieldState();
 }
 
@@ -31,7 +32,7 @@ class _PhoneTextFieldState extends State<PhoneTextField> {
         keyboardType: TextInputType.phone,
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-            enabledBorder: OutlineInputBorder(),
+            enabledBorder: const OutlineInputBorder(),
             hintText: 'Enter Phone Number',
             focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: CityTheme.cityblue),
