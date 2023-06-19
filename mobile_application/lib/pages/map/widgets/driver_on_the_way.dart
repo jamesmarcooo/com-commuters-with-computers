@@ -2,7 +2,6 @@ import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
 import 'package:mobile_application/ui/widget/cards/rating_card.dart';
 import 'package:mobile_application/ui/widget/titles/bottom_slider_title.dart';
-import 'package:mobile_application/utils/icons_assets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';

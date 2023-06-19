@@ -1,7 +1,6 @@
 import 'package:mobile_application/pages/map/map_state.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/titles/bottom_slider_title.dart';
-import 'package:mobile_application/utils/icons_assets.dart';
 import 'package:mobile_application/utils/images_assets.dart';
 import 'package:provider/src/provider.dart';
 import 'package:flutter/cupertino.dart';
