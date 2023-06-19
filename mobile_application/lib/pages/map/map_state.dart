@@ -1,10 +1,6 @@
-import 'package:mobile_application/constant/ride_options.dart';
 import 'package:mobile_application/models/address.dart';
 import 'package:mobile_application/models/rate.dart';
-import 'package:mobile_application/models/ride.dart';
-import 'package:mobile_application/models/ride_option.dart';
 import 'package:mobile_application/models/user.dart';
-import 'package:mobile_application/repositories/ride_repository.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
 import 'package:mobile_application/repositories/bus_repository.dart';
 import 'package:mobile_application/models/bus.dart';
@@ -34,7 +30,6 @@ class MapState extends ChangeNotifier {
   GoogleMapController? controller;
   final currentPosition = MapService.instance!.currentPosition;
   final userRepo = UserRepository.instance;
-  final rideRepo = RideRepository.instance;
   final busRepo = BusRepository.instance;
 
   final currentAddressController = TextEditingController();
@@ -55,7 +50,6 @@ class MapState extends ChangeNotifier {
   List<Address> searchedAddress = [];
   List<Address> sliderAddresses = [];
   List<Eta> sliderEtaBuses = [];
-  List<bool> isSelectedOptions = [];
 
   FocusNode? focusNode;
   RideState _rideState = RideState.initial;
@@ -77,9 +71,6 @@ class MapState extends ChangeNotifier {
 
   MapState() {
     focusNode = FocusNode();
-    isSelectedOptions =
-        List.generate(rideOptions.length, (index) => index == 0 ? true : false);
-    // selectedOption = rideOptions[0];
     destinationAddressController.addListener(() {
       if (destinationAddressController.text.isEmpty) {
         searchedAddress.clear();
@@ -128,7 +119,7 @@ class MapState extends ChangeNotifier {
 
       MapService.instance?.listenToPositionChanges(
           eventFiring: (Address? address) async {
-        print('changing ${address?.latLng}');
+        // print('changing ${address?.latLng}');
         if (address != null) {
           if (userRepo.currentUserRole == Roles.driver) {
             print('updating bus driver location');

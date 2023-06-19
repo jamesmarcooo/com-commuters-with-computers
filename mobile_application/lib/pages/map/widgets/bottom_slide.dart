@@ -1,10 +1,8 @@
 import 'package:mobile_application/models/user.dart';
 import 'package:mobile_application/pages/map/widgets/at_destination.dart';
 import 'package:mobile_application/pages/map/widgets/confirm_ride.dart';
-import 'package:mobile_application/pages/map/widgets/driver_on_the_way.dart';
 import 'package:mobile_application/pages/map/widgets/in_motion.dart';
 import 'package:mobile_application/pages/map/widgets/select_a_bus.dart';
-import 'package:mobile_application/pages/map/widgets/select_ride.dart';
 import 'package:mobile_application/pages/map/widgets/take_a_ride.dart';
 import 'package:mobile_application/pages/map/widgets/ride_bus_details.dart';
 import 'package:mobile_application/ui/theme.dart';
