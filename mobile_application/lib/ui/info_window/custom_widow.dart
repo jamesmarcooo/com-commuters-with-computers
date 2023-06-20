@@ -29,7 +29,8 @@ class CustomWindow extends StatelessWidget {
               child: Container(
                 child: Row(
                   children: [
-                    if (info.type == InfoWindowType.position)
+                    if (info.type == InfoWindowType.position ||
+                        info.type == InfoWindowType.bus)
                       Container(
                         width: MediaQuery.of(context).size.width * 0.12,
                         color: CityTheme.cityblue,
@@ -42,7 +43,7 @@ class CustomWindow extends StatelessWidget {
                                     .textTheme
                                     .subtitle1
                                     ?.copyWith(color: CityTheme.cityWhite)),
-                            Text('min',
+                            Text('mins',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText2

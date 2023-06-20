@@ -3,10 +3,13 @@ import 'package:mobile_application/pages/map/widgets/at_destination.dart';
 import 'package:mobile_application/pages/map/widgets/confirm_ride.dart';
 import 'package:mobile_application/pages/map/widgets/driver_on_the_way.dart';
 import 'package:mobile_application/pages/map/widgets/in_motion.dart';
+import 'package:mobile_application/pages/map/widgets/select_a_bus.dart';
 import 'package:mobile_application/pages/map/widgets/select_ride.dart';
 import 'package:mobile_application/pages/map/widgets/take_a_ride.dart';
+import 'package:mobile_application/pages/map/widgets/ride_bus_details.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
+import 'package:mobile_application/constant/my_address.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 
@@ -48,13 +51,16 @@ class _BottomSliderState extends State<BottomSlider> {
       child: PageView(
         onPageChanged: state.onPageChanged,
         controller: state.pageController,
-        physics: NeverScrollableScrollPhysics(),
+        // physics: NeverScrollableScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         children: [
           TakeARide(),
           ConfirmLocation(),
-          SelectRide(),
-          ConfirmRide(),
-          DriverOnTheWay(),
+          // SelectRide(),
+          // ConfirmRide(),
+          // DriverOnTheWay(),
+          SelectBus(),
+          RideBus(),
           InMotion(),
           ArrivedAtDestination(),
         ],
@@ -67,7 +73,7 @@ class _BottomSliderState extends State<BottomSlider> {
 
     if (checkSearching) {
       if (state.endAddress != null) {
-        return size.height * 0.2;
+        return size.height * 0.18;
       } else {
         return size.height;
       }
@@ -102,7 +108,7 @@ class ConfirmLocation extends StatelessWidget {
             runAlignment: WrapAlignment.end,
             children: [
               Padding(
-                padding: const EdgeInsets.all(CityTheme.elementSpacing),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   children: [
                     state.endAddress != null
@@ -110,24 +116,26 @@ class ConfirmLocation extends StatelessWidget {
                         : SizedBox(
                             height: MediaQuery.of(context).size.height * 0.65,
                             child: Builder(builder: (context) {
-                              if (state.searchedAddress.isEmpty) {
-                                return Center(
-                                  child: Text('No Address Found'),
-                                );
-                              }
-                              return ListView.builder(
+                              // if (state.searchedAddress.isEmpty) {
+                              //   return Center(
+                              //     child: Text('No Address Found'),
+                              //   );
+                              // }
+                              return Scrollbar(
+                                  child: ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: state.searchedAddress.length,
+                                // itemCount: state.searchedAddress.length,
+                                itemCount: myAddresses.length,
                                 itemBuilder: (context, index) {
-                                  final address = state.searchedAddress[index];
+                                  // final address = state.searchedAddress[index];
+                                  final address = myAddresses[index];
                                   return ListTile(
-                                    contentPadding: const EdgeInsets.all(0),
+                                    contentPadding: const EdgeInsets.all(1),
                                     horizontalTitleGap: 0,
                                     trailing: Icon(Icons.north_west, size: 16),
-                                    title: Text(
-                                        '${address.street}, ${address.city}'),
+                                    title: Text('${address.title}'),
                                     subtitle: Text(
-                                        '${address.state}, ${address.country}'),
+                                        '${address.street}, ${address.city}'),
                                     leading: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -142,22 +150,42 @@ class ConfirmLocation extends StatelessWidget {
                                     },
                                   );
                                 },
-                              );
+                              ));
                             }),
                           ),
-                    const SizedBox(height: CityTheme.elementSpacing * 2),
-                    CityCabButton(
-                      title: 'Request Bus ETA',
-                      color: CityTheme.cityblue,
-                      textColor: CityTheme.cityWhite,
-                      disableColor: CityTheme.cityLightGrey,
-                      buttonState: checkSearchingEndLocation
-                          ? ButtonState.initial
-                          : ButtonState.disabled,
-                      onTap: () {
-                        state.requestRide();
-                      },
-                    ),
+                    // const SizedBox(height: CityTheme.elementSpacing * 3),
+                    Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 8),
+                            CityCabButton(
+                              title: 'Request Bus ETA',
+                              color: CityTheme.cityblue,
+                              textColor: CityTheme.cityWhite,
+                              disableColor: CityTheme.cityLightGrey,
+                              buttonState: checkSearchingEndLocation
+                                  ? ButtonState.initial
+                                  : ButtonState.disabled,
+                              onTap: () {
+                                state.requestRide();
+                              },
+                            ),
+                            Padding(padding: const EdgeInsets.only(top: 4)),
+                            CityCabButton(
+                              title: 'Clear',
+                              color: CityTheme.cityWhite,
+                              textColor: CityTheme.cityblue,
+                              disableColor: CityTheme.cityWhite,
+                              buttonState: checkSearchingEndLocation
+                                  ? ButtonState.initial
+                                  : ButtonState.disabled,
+                              onTap: () {
+                                state.requestRide();
+                              },
+                            ),
+                          ],
+                        ))
                   ],
                 ),
               ),

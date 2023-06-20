@@ -38,7 +38,7 @@ class SelectRide extends StatelessWidget {
                     child: RideOptionCard(
                       isSelected: state.isSelectedOptions[index],
                       onTap: (option) {
-                        state.onTapRideOption(option, index);
+                        // state.onTapRideOption(option, index);
                       },
                       option: option,
                     ),
@@ -51,7 +51,8 @@ class SelectRide extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: CityCabButton(
-            title: 'PROCEED WITH ${state.selectedOption?.title.toUpperCase()}',
+            // title: 'PROCEED WITH ${state.selectedOption?.title.toUpperCase()}',
+            title: 'PROCEED WITH',
             color: CityTheme.cityblue,
             textColor: CityTheme.cityWhite,
             disableColor: CityTheme.cityLightGrey,

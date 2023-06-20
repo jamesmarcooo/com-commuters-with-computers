@@ -1,4 +1,7 @@
 import 'package:mobile_application/pages/auth/auth_state.dart';
+import 'package:mobile_application/pages/home/home.dart';
+import 'package:mobile_application/pages/onboarding/onboarding.dart';
+import 'package:mobile_application/main.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
 import 'package:flutter/material.dart';
@@ -19,17 +22,19 @@ class AuthButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            if (state.pageIndex != 0)
-              Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CityCabButton(
-                    textColor: CityTheme.cityblue,
-                    color: CityTheme.cityLightGrey,
-                    title: 'Back',
-                    onTap: () {
-                      state.previousPage();
-                    },
-                  )),
+            Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: CityCabButton(
+                  textColor: CityTheme.cityblue,
+                  color: CityTheme.cityLightGrey,
+                  title: 'Back',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                    );
+                  },
+                )),
             CityCabButton(
               textColor: Colors.white,
               color: state.phoneAuthState == PhoneAuthState.loading ||
@@ -58,6 +63,12 @@ class AuthButton extends StatelessWidget {
                             state.verificationId,
                             state.otpController.text,
                             state.phoneController.text);
+
+                        //go back to homepage to recheck if the user is verified
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyApp()),
+                        );
                       } else if (state.pageIndex == 2) {
                         state.signUp();
                       }

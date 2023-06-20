@@ -6,7 +6,13 @@ import 'package:mobile_application/models/ride_option.dart';
 import 'package:mobile_application/models/user.dart';
 import 'package:mobile_application/repositories/ride_repository.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
+import 'package:mobile_application/repositories/bus_repository.dart';
+import 'package:mobile_application/models/bus.dart';
+import 'package:mobile_application/models/eta.dart';
 import 'package:mobile_application/services/code_generator.dart';
+import 'package:mobile_application/models/info_window.dart';
+import 'package:mobile_application/ui/info_window/custom_info_window.dart';
+import 'package:mobile_application/ui/info_window/custom_widow.dart';
 import 'package:mobile_application/services/map_services.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +25,11 @@ enum RideState {
   selectRide,
   requestRide,
   driverIsComing,
+  // inMotion,
+  arrived,
+  selectBus,
+  busDetails,
   inMotion,
-  arrived
 }
 
 class MapState extends ChangeNotifier {
@@ -28,16 +37,25 @@ class MapState extends ChangeNotifier {
   final currentPosition = MapService.instance!.currentPosition;
   final userRepo = UserRepository.instance;
   final rideRepo = RideRepository.instance;
+  final busRepo = BusRepository.instance;
 
   final currentAddressController = TextEditingController();
+  final startingAddressController = TextEditingController();
   final destinationAddressController = TextEditingController();
 
   Address? startAddress;
   Address? endAddress;
+  Address? currentAddress;
+  Address? busSelectedAddress;
 
-  RideOption? selectedOption;
+  Address? endTempAddress;
+
+  // RideOption? selectedOption;
+  Eta? selectedOption;
 
   List<Address> searchedAddress = [];
+  List<Address> sliderAddresses = [];
+  List<Eta> sliderEtaBuses = [];
   List<bool> isSelectedOptions = [];
 
   FocusNode? focusNode;
@@ -62,16 +80,15 @@ class MapState extends ChangeNotifier {
     focusNode = FocusNode();
     isSelectedOptions =
         List.generate(rideOptions.length, (index) => index == 0 ? true : false);
-    selectedOption = rideOptions[0];
-    destinationAddressController
-      ..addListener(() {
-        if (destinationAddressController.text.isEmpty) {
-          searchedAddress.clear();
-          notifyListeners();
-        }
-        endAddress = null;
+    // selectedOption = rideOptions[0];
+    destinationAddressController.addListener(() {
+      if (destinationAddressController.text.isEmpty) {
+        searchedAddress.clear();
         notifyListeners();
-      });
+      }
+      endAddress = null;
+      notifyListeners();
+    });
     getCurrentLocation();
     isActive = userRepo.currentUser?.isActive ?? false;
     notifyListeners();
@@ -126,8 +143,9 @@ class MapState extends ChangeNotifier {
       animateCamera(startAddress!.latLng);
       notifyListeners();
     } else {
-      final myPosition = await MapService.instance?.getPosition(position);
-      startAddress = myPosition;
+      // final myPosition = await MapService.instance?.getPosition(position);
+      // startAddress = myPosition;
+      startAddress = currentPosition.value;
 
       animateCamera(startAddress!.latLng);
       notifyListeners();
@@ -141,6 +159,15 @@ class MapState extends ChangeNotifier {
   Future<void> loadRouteCoordinates(LatLng start, LatLng end) async {
     final endPosition =
         await MapService.instance?.getRouteCoordinates(start, end);
+    startAddress = MapService.instance?.currentPosition.value;
+    endAddress = endPosition;
+    endTempAddress = endPosition;
+    notifyListeners();
+  }
+
+  Future<void> loadBusRouteCoordinates(LatLng start, LatLng end) async {
+    final endPosition =
+        await MapService.instance?.getBusRouteCoordinates(start, end);
     startAddress = MapService.instance?.currentPosition.value;
     endAddress = endPosition;
     notifyListeners();
@@ -178,34 +205,36 @@ class MapState extends ChangeNotifier {
     loadMyPosition(address.latLng);
     if (currentAddressController.text.isNotEmpty &&
         destinationAddressController.text.isEmpty) {
-      currentAddressController.text = "${address.street}, ${address.city}";
+      currentAddressController.text = "${address.title}, ${address.city}";
       MapService.instance?.currentPosition.value = address;
       notifyListeners();
       animateCamera(address.latLng);
     } else if (currentAddressController.text.isNotEmpty &&
         destinationAddressController.text.isNotEmpty) {
-      destinationAddressController.text = "${address.street}, ${address.city}";
+      destinationAddressController.text = "${address.title}, ${address.city}";
       notifyListeners();
       loadRouteCoordinates(
           MapService.instance!.currentPosition.value!.latLng, address.latLng);
-      animateCamera(address.latLng);
+      animateCamera(
+          endTempAddress == address ? startAddress!.latLng : address.latLng);
     }
   }
 
   void getCurrentLocation() async {
     final address = await loadMyPosition(null);
     currentAddressController.text = "${address?.street}, ${address?.city}";
+    getNearestAddresses();
     notifyListeners();
   }
 
-  void onTapRideOption(RideOption option, int index) {
-    for (var i = 0; i < isSelectedOptions.length; i++) {
-      isSelectedOptions[i] = false;
-    }
-    isSelectedOptions[index] = true;
-    selectedOption = option;
-    notifyListeners();
-  }
+  // void onTapRideOption(RideOption option, int index) {
+  //   for (var i = 0; i < isSelectedOptions.length; i++) {
+  //     isSelectedOptions[i] = false;
+  //   }
+  //   isSelectedOptions[index] = true;
+  //   selectedOption = option;
+  //   notifyListeners();
+  // }
 
   void onPageChanged(int value) {
     pageIndex = value;
@@ -221,36 +250,60 @@ class MapState extends ChangeNotifier {
     animateToPage(pageIndex: 1, state: RideState.searchingAddress);
   }
 
-  void proceedRide() {
-    animateToPage(pageIndex: 3, state: RideState.confirmAddress);
-  }
-
-  void confirmRide() async {
-    animateToPage(pageIndex: 4, state: RideState.confirmAddress);
+  void selectNearbyBus() async {
+    // animateToPage(pageIndex: 7, state: RideState.selectBus);
     final ownerUID = userRepo.currentUser?.uid;
     if (ownerUID != null && ownerUID != '') {
-      final ride = _initializeRide(ownerUID);
-      await rideRepo?.boardRide(ride);
+      final bus = await _initializeBus(ownerUID);
+      await busRepo.boardBus(bus);
     }
   }
 
-  Ride _initializeRide(String uid) {
-    final id = CodeGenerator.instance!.generateCode('city-id');
-    final ride = Ride(
-      createdAt: DateTime.now(),
-      driverUID: '',
-      endAddress: endAddress!,
-      id: id,
-      ownerUID: uid,
-      passengers: [uid],
-      rate: Rate(uid: uid, subject: '', body: '', stars: 0),
-      rideOption: selectedOption!,
-      startAddress: startAddress!,
-      status: RideStatus.initial,
-    );
+  void proceedRide() {
+    animateToPage(pageIndex: 4, state: RideState.inMotion);
+    onTapAddressList(endTempAddress!);
 
-    return ride;
+    MapService.instance?.controller.addInfoWindow!(
+      CustomWindow(
+        info: CityCabInfoWindow(
+          name:
+              "${currentPosition.value!.street}, ${currentPosition.value!.city}",
+          position: currentPosition.value!.latLng,
+          type: InfoWindowType.position,
+          time: Duration(),
+        ),
+      ),
+      currentPosition.value!.latLng,
+    );
+    // animateCamera(currentPosition.value!.latLng);
   }
+
+  // void confirmRide() async {
+  //   animateToPage(pageIndex: 4, state: RideState.confirmAddress);
+  //   final ownerUID = userRepo.currentUser?.uid;
+  //   if (ownerUID != null && ownerUID != '') {
+  //     final ride = _initializeRide(ownerUID);
+  //     await rideRepo?.boardRide(ride);
+  //   }
+  // }
+
+  // Ride _initializeRide(String uid) {
+  //   final id = CodeGenerator.instance!.generateCode('city-id');
+  //   final ride = Ride(
+  //     createdAt: DateTime.now(),
+  //     driverUID: '',
+  //     endAddress: endAddress!,
+  //     id: id,
+  //     ownerUID: uid,
+  //     passengers: [uid],
+  //     rate: Rate(uid: uid, subject: '', body: '', stars: 0),
+  //     rideOption: selectedOption!,
+  //     startAddress: startAddress!,
+  //     status: RideStatus.initial,
+  //   );
+
+  //   return ride;
+  // }
 
   void callDriver() {}
 
@@ -258,12 +311,155 @@ class MapState extends ChangeNotifier {
     animateToPage(pageIndex: 0, state: RideState.initial);
   }
 
+  void dropOffRestart() {
+    animateToPage(pageIndex: 0, state: RideState.initial);
+    searchedAddress.clear();
+    sliderEtaBuses.clear();
+    sliderAddresses.clear();
+    getCurrentLocation();
+    startAddress = null;
+    endAddress = null;
+    currentAddress = null;
+    busSelectedAddress = null;
+
+    endTempAddress = null;
+    destinationAddressController.clear();
+    startingAddressController.clear();
+    MapService.instance?.controller.hideInfoWindow!();
+    notifyListeners();
+  }
+
   void closeSearching() {
     animateToPage(pageIndex: 0, state: RideState.initial);
   }
 
+  void loadBusMarkers() {
+    MapService.instance?.getCurrentPosition().then((value) {
+      MapService.instance?.loadBusMarkersWithinDistance(
+          value!.latLng, MapService.instance!.searchedAddress[0].latLng);
+      var address = MapService.instance
+          ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+          .then((address) => animateCamera(address?.latLng ?? value.latLng));
+    });
+  }
+
+  //function to get the first 3 nearest address from the current position
+  Future<void> getNearestAddresses() async {
+    final nearestAddress = await MapService.instance
+        ?.getNearestAddressesesList(startAddress!.latLng);
+    sliderAddresses = nearestAddress ?? [];
+    notifyListeners();
+  }
+
   void requestRide() {
-    animateToPage(pageIndex: 2, state: RideState.requestRide);
+    //call addBusMarkers from map_service.dart
+    // MapService.instance?.loadBusMarkers();
+    MapService.instance?.getCurrentPosition().then((value) {
+      MapService.instance
+          ?.loadBusMarkersWithinDistance(value!.latLng, endAddress!.latLng);
+      MapService.instance
+          ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+          .then((address) => {
+                // loadBusRouteCoordinates(address!.latLng, value.latLng),
+                // animateCamera(address.latLng),
+                // MapService.instance?.controller.addInfoWindow!(
+                //   CustomWindow(
+                //     info: CityCabInfoWindow(
+                //       name: "${address.street}, ${address.city}",
+                //       position: address.latLng,
+                //       type: InfoWindowType.bus,
+                //       time: Duration(),
+                //     ),
+                //   ),
+                //   address.latLng,
+                // )
+                onTapSliderAddress(address!, value)
+              });
+    });
+    // pageController.nextPage(
+    //     duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+    selectNearbyBus();
+    animateToPage(pageIndex: 2, state: RideState.selectBus);
+  }
+
+  Future<Bus> _initializeBus(String uid) async {
+    final id = CodeGenerator.instance!.generateCode('bus-id');
+    final bus = Bus(
+      id: id,
+      busList: await _initializeEta(startAddress!.latLng, endAddress!.latLng),
+      ownerUID: uid,
+      startAddress: startAddress!,
+      endAddress: endAddress!,
+    );
+    return bus;
+  }
+
+  Future<List<Eta>> _initializeEta(LatLng startLatLng, LatLng endLatLng) async {
+    final eta = <Eta>[];
+    final buses = await MapService.instance!.getBusList(startLatLng, endLatLng);
+    print("initializing eta");
+    for (var bus in buses) {
+      // final id = CodeGenerator.instance!.generateCode('eta-id');
+      final etaItem = Eta(
+        driver: {
+          'uid': bus.uid,
+          'isActive': bus.isActive,
+          'firstname': bus.firstname,
+          'lastname': bus.lastname,
+          'createdAt': bus.createdAt,
+          'licensePlate': bus.licensePlate,
+          'vehicleType': bus.vehicleType,
+          'latlng': {
+            'latitude': bus.latlng!.latitude,
+            'longitude': bus.latlng!.longitude,
+          },
+        },
+        eta: 0,
+        timeOfArrival: DateTime.now(),
+      );
+      eta.add(etaItem);
+    }
+    sliderEtaBuses = eta;
+    return eta;
+  }
+
+  void onTapSliderAddress(Address BusAddress, Address CurrentAddress) {
+    notifyListeners();
+    loadBusRouteCoordinates(
+        // address.latLng, MapService.instance!.currentPosition.value!.latLng);
+        BusAddress.latLng,
+        startAddress!.latLng);
+    animateCamera(BusAddress.latLng);
+    MapService.instance?.controller.addInfoWindow!(
+      CustomWindow(
+        info: CityCabInfoWindow(
+          name: "${BusAddress.street}, ${BusAddress.city}",
+          position: BusAddress.latLng,
+          type: InfoWindowType.bus,
+          time: Duration(),
+        ),
+      ),
+      BusAddress.latLng,
+    );
+    // searchLocation();
+  }
+
+  //craate a function that gets an input of Eta and calls proceedRide()
+  void onTapEtaBus(Eta eta) async {
+    // destinationAddressController.text = "${address.street}, ${address.city}";
+    //call getAddressFromCoodinate() from map_services.dart
+    // final currentAddress = await MapService.instance!.currentPosition.value;
+    var etaDriverLatLng = LatLng(
+        eta.driver['latlng']['latitude'], eta.driver['latlng']['longitude']);
+    var etaBusAddress =
+        await MapService.instance?.getAddressFromCoodinate(etaDriverLatLng);
+    onTapSliderAddress(etaBusAddress!, startAddress!);
+    // proceedRide();
+    // animateToPage(pageIndex: 7, state: RideState.confirmAddress);
+    selectedOption = eta;
+    pageController.nextPage(
+        duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+    changeRideState = RideState.busDetails;
   }
 
   void onTapMyAddresses(Address address) {
@@ -278,6 +474,6 @@ class MapState extends ChangeNotifier {
   void changeActivePresence() async {
     isActive = !isActive;
     notifyListeners();
-    await userRepo.updateOnlinePresense(userRepo.currentUser?.uid, isActive);
+    await userRepo.updateOnlinePresence(userRepo.currentUser?.uid, isActive);
   }
 }
