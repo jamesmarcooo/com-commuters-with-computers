@@ -89,7 +89,7 @@ class MapState extends ChangeNotifier {
       if (endAddress?.polylines != [])
         Polyline(
           polylineId: const PolylineId('overview_polyline'),
-          color: CityTheme.cityBlack,
+          color: ComTheme.cityBlack,
           width: 5,
           points: endAddress?.polylines
                   .map((e) => LatLng(e.latitude, e.longitude))

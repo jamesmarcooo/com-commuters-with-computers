@@ -21,7 +21,7 @@ class OnboardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: CityTheme.cityWhite,
+      color: ComTheme.cityWhite,
       child: Stack(
         children: [
           Center(
@@ -36,8 +36,8 @@ class OnboardingPage extends StatelessWidget {
                     //add style to the button
                     style: ElevatedButton.styleFrom(
                       fixedSize: const Size(256, 64),
-                      primary: CityTheme.cityblue,
-                      onPrimary: CityTheme.cityWhite,
+                      primary: ComTheme.cityPurple,
+                      onPrimary: ComTheme.cityWhite,
                       textStyle: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -57,8 +57,8 @@ class OnboardingPage extends StatelessWidget {
                     //add style to the button
                     style: ElevatedButton.styleFrom(
                       fixedSize: const Size(256, 64),
-                      primary: CityTheme.cityLightGrey,
-                      onPrimary: CityTheme.cityblue,
+                      primary: ComTheme.cityLightGrey,
+                      onPrimary: ComTheme.cityPurple,
                       textStyle: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -95,7 +95,7 @@ class AuthHeader extends StatelessWidget {
       style: Theme.of(context).textTheme.headline1?.copyWith(
             fontWeight: FontWeight.bold,
             fontSize: 72,
-            color: CityTheme.cityblue,
+            color: ComTheme.cityPurple,
             height: 1,
           ),
     );

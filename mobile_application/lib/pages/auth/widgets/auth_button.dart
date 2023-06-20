@@ -17,7 +17,7 @@ class AuthButton extends StatelessWidget {
       bottom: 0,
       right: 0,
       child: Padding(
-        padding: const EdgeInsets.all(CityTheme.elementSpacing),
+        padding: const EdgeInsets.all(ComTheme.elementSpacing),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
@@ -25,8 +25,8 @@ class AuthButton extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: CityCabButton(
-                  textColor: CityTheme.cityblue,
-                  color: CityTheme.cityLightGrey,
+                  textColor: ComTheme.cityPurple,
+                  color: ComTheme.cityLightGrey,
                   title: 'Back',
                   onTap: () {
                     Navigator.push(
@@ -39,8 +39,8 @@ class AuthButton extends StatelessWidget {
               textColor: Colors.white,
               color: state.phoneAuthState == PhoneAuthState.loading ||
                       state.phoneAuthState == PhoneAuthState.codeSent
-                  ? CityTheme.cityblue
-                  : CityTheme.cityblue,
+                  ? ComTheme.cityPurple
+                  : ComTheme.cityPurple,
               title: state.phoneAuthState == PhoneAuthState.loading
                   ? 'Loading...'
                   : state.phoneAuthState == PhoneAuthState.codeSent

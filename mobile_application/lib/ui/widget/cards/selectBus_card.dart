@@ -24,7 +24,7 @@ class AddressCard extends StatelessWidget {
               ? Icons.pin_drop
               : Icons.pin_drop_outlined,
           size: 30,
-          color: CityTheme.cityblue),
+          color: ComTheme.cityPurple),
       title: Text(
         '${address?.title}',
         style: TextStyle(

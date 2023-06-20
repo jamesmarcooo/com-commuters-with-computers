@@ -26,7 +26,7 @@ class ArrivedAtDestination extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         RideDetailCard(),
-        const SizedBox(height: CityTheme.elementSpacing * 0.5),
+        const SizedBox(height: ComTheme.elementSpacing * 0.5),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Stack(
@@ -46,7 +46,7 @@ class ArrivedAtDestination extends StatelessWidget {
                   Row(
                     children: [
                       Icon(CupertinoIcons.circle_fill,
-                          color: CityTheme.cityblue),
+                          color: ComTheme.cityPurple),
                       const SizedBox(width: 8),
                       Expanded(
                         child: SizedBox(
@@ -67,11 +67,11 @@ class ArrivedAtDestination extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: CityTheme.elementSpacing),
+                  const SizedBox(height: ComTheme.elementSpacing),
                   Row(
                     children: [
                       const Icon(CupertinoIcons.placemark_fill,
-                          color: CityTheme.cityblue),
+                          color: ComTheme.cityPurple),
                       const SizedBox(width: 8),
                       Expanded(
                         child: SizedBox(
@@ -100,12 +100,12 @@ class ArrivedAtDestination extends StatelessWidget {
         const Spacer(),
         Padding(
           padding:
-              const EdgeInsets.symmetric(horizontal: CityTheme.elementSpacing),
+              const EdgeInsets.symmetric(horizontal: ComTheme.elementSpacing),
           child: CityCabButton(
             title: 'DROP-OFF & RESTART',
-            color: CityTheme.cityblue,
-            textColor: CityTheme.cityWhite,
-            disableColor: CityTheme.cityLightGrey,
+            color: ComTheme.cityPurple,
+            textColor: ComTheme.cityWhite,
+            disableColor: ComTheme.cityLightGrey,
             buttonState: ButtonState.initial,
             onTap: () {
               state.dropOffRestart();
@@ -132,7 +132,7 @@ class RideDetailCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: CityTheme.cityblue.withOpacity(.08),
+        color: ComTheme.cityPurple.withOpacity(.08),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -164,7 +164,7 @@ class RideDetailCard extends StatelessWidget {
                             'Drop-off in ',
                             style: TextStyle(
                               fontSize: 14,
-                              color: CityTheme.cityblue,
+                              color: ComTheme.cityPurple,
                             ),
                           ),
                           Text(
@@ -172,7 +172,7 @@ class RideDetailCard extends StatelessWidget {
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
-                              color: CityTheme.cityblue,
+                              color: ComTheme.cityPurple,
                             ),
                           ),
                         ],
@@ -190,7 +190,7 @@ class RideDetailCard extends StatelessWidget {
                             timeOfArrival,
                             style: const TextStyle(
                               fontSize: 14,
-                              color: CityTheme.cityblue,
+                              color: ComTheme.cityPurple,
                             ),
                           ),
                         ],
@@ -211,7 +211,7 @@ class RideDetailCard extends StatelessWidget {
                             'Distance is ',
                             style: TextStyle(
                               fontSize: 14,
-                              color: CityTheme.cityblue,
+                              color: ComTheme.cityPurple,
                             ),
                           ),
                           Text(
@@ -219,7 +219,7 @@ class RideDetailCard extends StatelessWidget {
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
-                              color: CityTheme.cityblue,
+                              color: ComTheme.cityPurple,
                             ),
                           ),
                         ],

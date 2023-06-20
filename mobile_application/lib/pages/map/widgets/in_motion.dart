@@ -1,7 +1,6 @@
 import 'package:mobile_application/pages/map/map_state.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/titles/bottom_slider_title.dart';
-import 'package:mobile_application/utils/icons_assets.dart';
 import 'package:mobile_application/utils/images_assets.dart';
 import 'package:provider/src/provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,7 +31,7 @@ class InMotion extends StatelessWidget {
           height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            color: CityTheme.cityblue.withOpacity(.08),
+            color: ComTheme.cityPurple.withOpacity(.08),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +63,7 @@ class InMotion extends StatelessWidget {
                                 'Drop-off in ',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: CityTheme.cityblue,
+                                  color: ComTheme.cityPurple,
                                 ),
                               ),
                               Text(
@@ -72,7 +71,7 @@ class InMotion extends StatelessWidget {
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,
-                                  color: CityTheme.cityblue,
+                                  color: ComTheme.cityPurple,
                                 ),
                               ),
                             ],
@@ -90,7 +89,7 @@ class InMotion extends StatelessWidget {
                                 timeOfArrival,
                                 style: const TextStyle(
                                   fontSize: 14,
-                                  color: CityTheme.cityblue,
+                                  color: ComTheme.cityPurple,
                                 ),
                               ),
                             ],
@@ -111,7 +110,7 @@ class InMotion extends StatelessWidget {
                                 'Distance is ',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: CityTheme.cityblue,
+                                  color: ComTheme.cityPurple,
                                 ),
                               ),
                               Text(
@@ -119,7 +118,7 @@ class InMotion extends StatelessWidget {
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,
-                                  color: CityTheme.cityblue,
+                                  color: ComTheme.cityPurple,
                                 ),
                               ),
                             ],
@@ -168,7 +167,7 @@ class InMotion extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: CityTheme.elementSpacing),
+        const SizedBox(height: ComTheme.elementSpacing),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Stack(
@@ -188,7 +187,7 @@ class InMotion extends StatelessWidget {
                   Row(
                     children: [
                       Icon(CupertinoIcons.circle_fill,
-                          color: CityTheme.cityblue),
+                          color: ComTheme.cityPurple),
                       const SizedBox(width: 8),
                       Expanded(
                         child: SizedBox(
@@ -210,11 +209,11 @@ class InMotion extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: CityTheme.elementSpacing),
+                  const SizedBox(height: ComTheme.elementSpacing),
                   Row(
                     children: [
                       Icon(CupertinoIcons.placemark_fill,
-                          color: CityTheme.cityblue),
+                          color: ComTheme.cityPurple),
                       const SizedBox(width: 8),
                       Expanded(
                         child: SizedBox(

@@ -35,7 +35,7 @@ class _PhoneTextFieldState extends State<PhoneTextField> {
             enabledBorder: const OutlineInputBorder(),
             hintText: 'Enter Phone Number',
             focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: CityTheme.cityblue),
+              borderSide: BorderSide(color: ComTheme.cityPurple),
             ),
             border: const OutlineInputBorder(),
             disabledBorder: const OutlineInputBorder(),

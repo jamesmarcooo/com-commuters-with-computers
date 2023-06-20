@@ -43,7 +43,7 @@ class RideBus extends StatelessWidget {
               height: 80,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: CityTheme.cityblue.withOpacity(.08),
+                color: ComTheme.cityPurple.withOpacity(.08),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +75,7 @@ class RideBus extends StatelessWidget {
                                     'Will arrive in ',
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: CityTheme.cityblue,
+                                      color: ComTheme.cityPurple,
                                     ),
                                   ),
                                   Text(
@@ -83,7 +83,7 @@ class RideBus extends StatelessWidget {
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
-                                      color: CityTheme.cityblue,
+                                      color: ComTheme.cityPurple,
                                     ),
                                   ),
                                 ],
@@ -101,7 +101,7 @@ class RideBus extends StatelessWidget {
                                     timeOfArrival,
                                     style: const TextStyle(
                                       fontSize: 14,
-                                      color: CityTheme.cityblue,
+                                      color: ComTheme.cityPurple,
                                     ),
                                   ),
                                 ],
@@ -122,7 +122,7 @@ class RideBus extends StatelessWidget {
                                     'Distance is ',
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: CityTheme.cityblue,
+                                      color: ComTheme.cityPurple,
                                     ),
                                   ),
                                   Text(
@@ -130,7 +130,7 @@ class RideBus extends StatelessWidget {
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
-                                      color: CityTheme.cityblue,
+                                      color: ComTheme.cityPurple,
                                     ),
                                   ),
                                 ],
@@ -186,7 +186,7 @@ class RideBus extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Icon(CupertinoIcons.smallcircle_fill_circle_fill,
-                      color: CityTheme.cityblue),
+                      color: ComTheme.cityPurple),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -208,9 +208,9 @@ class RideBus extends StatelessWidget {
         //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
         //   child: CityCabButton(
         //     title: 'RIDE BUS',
-        //     color: CityTheme.cityblue,
-        //     textColor: CityTheme.cityWhite,
-        //     disableColor: CityTheme.cityLightGrey,
+        //     color: ComTheme.cityPurple,
+        //     textColor: ComTheme.cityWhite,
+        //     disableColor: ComTheme.cityLightGrey,
         //     buttonState: ButtonState.initial,
         //     onTap: () {
         //       // state.confirmRide();
@@ -225,9 +225,9 @@ class RideBus extends StatelessWidget {
               Expanded(
                 child: CityCabButton(
                   title: 'BACK',
-                  color: CityTheme.cityWhite,
-                  textColor: CityTheme.cityBlack,
-                  disableColor: CityTheme.cityLightGrey,
+                  color: ComTheme.cityWhite,
+                  textColor: ComTheme.cityBlack,
+                  disableColor: ComTheme.cityLightGrey,
                   buttonState: ButtonState.initial,
                   borderColor: Colors.grey[800],
                   onTap: () {
@@ -243,9 +243,9 @@ class RideBus extends StatelessWidget {
               Expanded(
                 child: CityCabButton(
                   title: 'RIDE BUS',
-                  color: CityTheme.cityblue,
-                  textColor: CityTheme.cityWhite,
-                  disableColor: CityTheme.cityLightGrey,
+                  color: ComTheme.cityPurple,
+                  textColor: ComTheme.cityWhite,
+                  disableColor: ComTheme.cityLightGrey,
                   // buttonState: ButtonState.initial,
                   buttonState: state.selectedOption!.etaStartBus < 1
                       ? ButtonState.initial

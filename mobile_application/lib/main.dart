@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'City Cab',
-      theme: CityTheme.theme,
+      theme: ComTheme.theme,
       home: SplashScreen(
           seconds: 2,
           navigateAfterSeconds: const HomePage(),
