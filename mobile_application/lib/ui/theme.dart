@@ -62,7 +62,8 @@ class ComTheme {
   static const Color cityOrange = Color(0xFFE39219);
 
   static ThemeData theme = ThemeData(
-    primaryColor: cityPurple,
+    // primaryColor: cityPurple,
+    primaryColor: cityWhite,
     backgroundColor: cityWhite,
   );
 }
