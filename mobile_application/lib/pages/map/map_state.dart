@@ -24,12 +24,10 @@ enum RideState {
   confirmAddress,
   selectRide,
   requestRide,
-  driverIsComing,
-  // inMotion,
-  arrived,
   selectBus,
   busDetails,
   inMotion,
+  arrived,
 }
 
 class MapState extends ChangeNotifier {
@@ -51,6 +49,7 @@ class MapState extends ChangeNotifier {
   Address? endTempAddress;
 
   // RideOption? selectedOption;
+  String? requestedBusId;
   Eta? selectedOption;
 
   List<Address> searchedAddress = [];
@@ -255,8 +254,18 @@ class MapState extends ChangeNotifier {
     final ownerUID = userRepo.currentUser?.uid;
     if (ownerUID != null && ownerUID != '') {
       final bus = await _initializeBus(ownerUID);
-      await busRepo.boardBus(bus);
+      print('requesting bus: ${requestedBusId}');
+      if (requestedBusId == null) {
+        sliderEtaBuses = await busRepo.boardBus(bus);
+        requestedBusId = bus.id;
+      } else {
+        sliderEtaBuses = await busRepo.updateBus(bus);
+      }
+
+      notifyListeners();
     }
+
+    //check if owerUID has already a bus, then update the bus instead of boarding a new one
   }
 
   void proceedRide() {
@@ -383,14 +392,24 @@ class MapState extends ChangeNotifier {
   }
 
   Future<Bus> _initializeBus(String uid) async {
-    final id = CodeGenerator.instance!.generateCode('bus-id');
+    var id;
+    if (requestedBusId == null) {
+      id = CodeGenerator.instance!.generateCode('bus-id');
+    } else {
+      id = requestedBusId;
+    }
+    //TODO: fix creating a new bus-id document everytime a user views the bus list
     final bus = Bus(
       id: id,
       busList: await _initializeEta(startAddress!.latLng, endAddress!.latLng),
       ownerUID: uid,
       startAddress: startAddress!,
       endAddress: endAddress!,
+      eta: 0,
+      timeOfArrival: DateTime.now(),
     );
+    //call getEtaList from bus_repository.dart
+    // sliderEtaBuses = await busRepo.getEtaList(bus.id);
     return bus;
   }
 
@@ -399,6 +418,14 @@ class MapState extends ChangeNotifier {
     final buses = await MapService.instance!.getBusList(startLatLng, endLatLng);
     print("initializing eta");
     for (var bus in buses) {
+      var distanceStartBus = await MapService.instance!
+          .getPositionBetweenKilometers(
+              startLatLng, LatLng(bus.latlng!.latitude, bus.latlng!.longitude));
+      var distanceEndBus = await MapService.instance!
+          .getPositionBetweenKilometers(
+              LatLng(bus.latlng!.latitude, bus.latlng!.longitude), endLatLng);
+      print(
+          '${double.parse((distanceStartBus).toStringAsFixed(2))}, ${double.parse((distanceEndBus).toStringAsFixed(2))}');
       // final id = CodeGenerator.instance!.generateCode('eta-id');
       final etaItem = Eta(
         driver: {
@@ -416,10 +443,12 @@ class MapState extends ChangeNotifier {
         },
         eta: 0,
         timeOfArrival: DateTime.now(),
+        distanceStartBus: distanceStartBus,
+        distanceEndBus: distanceEndBus,
       );
       eta.add(etaItem);
     }
-    sliderEtaBuses = eta;
+    // sliderEtaBuses = eta;
     return eta;
   }
 
@@ -456,10 +485,14 @@ class MapState extends ChangeNotifier {
     onTapSliderAddress(etaBusAddress!, startAddress!);
     // proceedRide();
     // animateToPage(pageIndex: 7, state: RideState.confirmAddress);
-    selectedOption = eta;
+
+    print(requestedBusId);
+    selectedOption = await busRepo.getEta(
+        requestedBusId!, 'eta-${eta.driver['licensePlate']}');
+    notifyListeners();
     pageController.nextPage(
         duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
-    changeRideState = RideState.busDetails;
+    changeRideState = RideState.inMotion;
   }
 
   void onTapMyAddresses(Address address) {
