@@ -239,18 +239,25 @@ class BusRepository {
       final etaCollectionRef = busDocRef.collection('eta');
 
       for (final eta in bus.busList) {
-        final etaDocRef =
-            etaCollectionRef.doc('eta-${eta.driver['licensePlate']}');
-        await etaDocRef.update({
-          'driver': eta.driver,
-          'etaStartBus': eta.etaStartBus,
-          'etaEndBus': eta.etaEndBus,
-          'timeOfArrival': eta.timeOfArrival,
-          'distanceStartBus': eta.distanceStartBus,
-          'distanceEndBus': eta.distanceEndBus,
-        });
-        print(
-            'Updated bus ID ${bus.id} and ETA document with ID ${etaDocRef.id}');
+        var checkDocRef = await etaCollectionRef
+            .doc('eta-${eta.driver['licensePlate']}')
+            .get();
+
+        if (checkDocRef.exists) {
+          final etaDocRef =
+              etaCollectionRef.doc('eta-${eta.driver['licensePlate']}');
+
+          await etaDocRef.update({
+            'driver': eta.driver,
+            'etaStartBus': eta.etaStartBus,
+            'etaEndBus': eta.etaEndBus,
+            'timeOfArrival': eta.timeOfArrival,
+            'distanceStartBus': eta.distanceStartBus,
+            'distanceEndBus': eta.distanceEndBus,
+          });
+          print(
+              'Updated bus ID ${bus.id} and ETA document with ID ${etaDocRef.id}');
+        }
       }
 
       final updatedRide = await loadRide(busDocRef.id);
