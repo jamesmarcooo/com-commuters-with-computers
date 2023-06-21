@@ -115,7 +115,8 @@ class BusRepository {
             etaCollectionRef.doc('eta-${eta.driver['licensePlate']}');
         await etaDocRef.set({
           'driver': eta.driver,
-          'eta': eta.eta,
+          'etaStartBus': eta.etaStartBus,
+          'etaEndBus': eta.etaEndBus,
           'timeOfArrival': eta.timeOfArrival,
           'distanceStartBus': eta.distanceStartBus,
           'distanceEndBus': eta.distanceEndBus,
@@ -242,7 +243,8 @@ class BusRepository {
             etaCollectionRef.doc('eta-${eta.driver['licensePlate']}');
         await etaDocRef.update({
           'driver': eta.driver,
-          'eta': eta.eta,
+          'etaStartBus': eta.etaStartBus,
+          'etaEndBus': eta.etaEndBus,
           'timeOfArrival': eta.timeOfArrival,
           'distanceStartBus': eta.distanceStartBus,
           'distanceEndBus': eta.distanceEndBus,

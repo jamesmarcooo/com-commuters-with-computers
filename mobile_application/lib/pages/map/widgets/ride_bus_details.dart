@@ -80,7 +80,7 @@ class RideBus extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    '${state.selectedOption?.eta} mins',
+                                    '${state.selectedOption?.etaStartBus} mins',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
@@ -248,7 +248,7 @@ class RideBus extends StatelessWidget {
                   textColor: CityTheme.cityWhite,
                   disableColor: CityTheme.cityLightGrey,
                   // buttonState: ButtonState.initial,
-                  buttonState: state.selectedOption!.eta < 1
+                  buttonState: state.selectedOption!.etaStartBus < 1
                       ? ButtonState.initial
                       : ButtonState.disabled,
                   onTap: () {

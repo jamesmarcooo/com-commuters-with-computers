@@ -169,7 +169,7 @@ class RideDetailCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${state.selectedOption?.eta} mins',
+                            '${state.selectedOption?.etaEndBus} mins',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
