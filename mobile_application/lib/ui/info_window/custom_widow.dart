@@ -15,11 +15,11 @@ class CustomWindow extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: Container(
               decoration: BoxDecoration(
-                color: CityTheme.cityWhite,
+                color: ComTheme.cityWhite,
                 borderRadius: BorderRadius.circular(6),
                 boxShadow: [
                   BoxShadow(
-                      color: CityTheme.cityBlack.withOpacity(.4),
+                      color: ComTheme.cityBlack.withOpacity(.4),
                       spreadRadius: 2,
                       blurRadius: 5),
                 ],
@@ -33,7 +33,7 @@ class CustomWindow extends StatelessWidget {
                         info.type == InfoWindowType.bus)
                       Container(
                         width: MediaQuery.of(context).size.width * 0.12,
-                        color: CityTheme.cityblue,
+                        color: ComTheme.cityPurple,
                         height: double.infinity,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -42,12 +42,12 @@ class CustomWindow extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
-                                    ?.copyWith(color: CityTheme.cityWhite)),
+                                    ?.copyWith(color: ComTheme.cityWhite)),
                             Text('mins',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
-                                    ?.copyWith(color: CityTheme.cityWhite)),
+                                    ?.copyWith(color: ComTheme.cityWhite)),
                           ],
                         ),
                       ),
@@ -57,10 +57,10 @@ class CustomWindow extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
-                          ?.copyWith(color: CityTheme.cityBlack),
+                          ?.copyWith(color: ComTheme.cityBlack),
                     ).paddingAll(8)),
                     Icon(Icons.arrow_forward_ios,
-                        size: 16, color: CityTheme.cityBlack),
+                        size: 16, color: ComTheme.cityBlack),
                     const SizedBox(width: 4),
                   ],
                 ),

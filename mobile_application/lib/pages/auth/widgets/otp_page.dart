@@ -30,7 +30,7 @@ class _OtpPageState extends State<OtpPage> {
                 Text(
                   'Enter Code',
                   style: Theme.of(context).textTheme.headline5,
-                ).paddingBottom(CityTheme.elementSpacing),
+                ).paddingBottom(ComTheme.elementSpacing),
                 Text(
                   'A 6 digit code has been sent to',
                   style: Theme.of(context).textTheme.bodyText1,
@@ -41,7 +41,7 @@ class _OtpPageState extends State<OtpPage> {
                       .textTheme
                       .headline6!
                       .copyWith(fontWeight: FontWeight.bold),
-                ).paddingBottom(CityTheme.elementSpacing),
+                ).paddingBottom(ComTheme.elementSpacing),
                 CityTextField(
                   controller: state.otpController,
                   label: 'O T P',

@@ -28,8 +28,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'City Cab',
-      theme: CityTheme.theme,
+      title: 'Com: Commuters with Computers',
+      theme: ComTheme.theme,
       home: SplashScreen(
           seconds: 2,
           navigateAfterSeconds: const HomePage(),

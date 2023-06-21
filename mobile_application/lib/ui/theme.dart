@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 extension XPadding on Widget {
@@ -53,18 +51,19 @@ extension XPadding on Widget {
   }
 }
 
-class CityTheme {
+class ComTheme {
   static const double elementSpacing = 16;
 
-  static const Color cityblue = const Color(0xFF5644B2);
-  static const Color cityWhite = const Color(0xFFFFFFFF);
-  static const Color cityBlack = const Color(0xFF5644B2);
-  static const Color cityLightGrey = const Color(0xFFE6E7E8);
+  static const Color cityPurple = Color(0xFF5644B2);
+  static const Color cityWhite = Color(0xFFFFFFFF);
+  static const Color cityBlack = Color(0xFF5644B2);
+  static const Color cityLightGrey = Color(0xFFE6E7E8);
   static const Color cityGrey = Color(0xFF707070);
   static const Color cityOrange = Color(0xFFE39219);
 
   static ThemeData theme = ThemeData(
-    primaryColor: cityblue,
+    // primaryColor: cityPurple,
+    primaryColor: cityWhite,
     backgroundColor: cityWhite,
   );
 }

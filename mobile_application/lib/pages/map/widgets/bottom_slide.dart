@@ -1,10 +1,8 @@
 import 'package:mobile_application/models/user.dart';
 import 'package:mobile_application/pages/map/widgets/at_destination.dart';
 import 'package:mobile_application/pages/map/widgets/confirm_ride.dart';
-import 'package:mobile_application/pages/map/widgets/driver_on_the_way.dart';
 import 'package:mobile_application/pages/map/widgets/in_motion.dart';
 import 'package:mobile_application/pages/map/widgets/select_a_bus.dart';
-import 'package:mobile_application/pages/map/widgets/select_ride.dart';
 import 'package:mobile_application/pages/map/widgets/take_a_ride.dart';
 import 'package:mobile_application/pages/map/widgets/ride_bus_details.dart';
 import 'package:mobile_application/ui/theme.dart';
@@ -33,16 +31,16 @@ class _BottomSliderState extends State<BottomSlider> {
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
       padding: const EdgeInsets.only(
-          bottom: CityTheme.elementSpacing, top: CityTheme.elementSpacing),
+          bottom: ComTheme.elementSpacing, top: ComTheme.elementSpacing),
       height: _getSliderHeight(state, size),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-        color: CityTheme.cityWhite,
+        color: ComTheme.cityWhite,
         boxShadow: [
           BoxShadow(
-            color: CityTheme.cityBlack.withOpacity(.1),
+            color: ComTheme.cityBlack.withOpacity(.1),
             spreadRadius: 6,
             blurRadius: 6,
           )
@@ -141,7 +139,7 @@ class ConfirmLocation extends StatelessWidget {
                                           MainAxisAlignment.center,
                                       children: [
                                         Icon(Icons.place_outlined,
-                                            color: CityTheme.cityblue,
+                                            color: ComTheme.cityPurple,
                                             size: 18),
                                       ],
                                     ),
@@ -153,7 +151,7 @@ class ConfirmLocation extends StatelessWidget {
                               ));
                             }),
                           ),
-                    // const SizedBox(height: CityTheme.elementSpacing * 3),
+                    // const SizedBox(height: ComTheme.elementSpacing * 3),
                     Padding(
                         padding: const EdgeInsets.all(2),
                         child: Column(
@@ -161,9 +159,9 @@ class ConfirmLocation extends StatelessWidget {
                             const SizedBox(height: 8),
                             CityCabButton(
                               title: 'Request Bus ETA',
-                              color: CityTheme.cityblue,
-                              textColor: CityTheme.cityWhite,
-                              disableColor: CityTheme.cityLightGrey,
+                              color: ComTheme.cityPurple,
+                              textColor: ComTheme.cityWhite,
+                              disableColor: ComTheme.cityLightGrey,
                               buttonState: checkSearchingEndLocation
                                   ? ButtonState.initial
                                   : ButtonState.disabled,
@@ -174,9 +172,9 @@ class ConfirmLocation extends StatelessWidget {
                             Padding(padding: const EdgeInsets.only(top: 4)),
                             CityCabButton(
                               title: 'Clear',
-                              color: CityTheme.cityWhite,
-                              textColor: CityTheme.cityblue,
-                              disableColor: CityTheme.cityWhite,
+                              color: ComTheme.cityWhite,
+                              textColor: ComTheme.cityPurple,
+                              disableColor: ComTheme.cityWhite,
                               buttonState: checkSearchingEndLocation
                                   ? ButtonState.initial
                                   : ButtonState.disabled,

@@ -17,7 +17,7 @@ class CityCabButton extends StatelessWidget {
       {Key? key,
       this.buttonState,
       this.title,
-      this.color = CityTheme.cityblue,
+      this.color = ComTheme.cityPurple,
       this.textColor,
       this.disableColor,
       this.onTap,
@@ -50,8 +50,8 @@ class CityCabButton extends StatelessWidget {
                 child: SizedBox(
                   child: Transform.scale(
                       scale: 0.8,
-                      child: CircularProgressIndicator.adaptive(
-                        valueColor: AlwaysStoppedAnimation(CityTheme.cityWhite),
+                      child: const CircularProgressIndicator.adaptive(
+                        valueColor: AlwaysStoppedAnimation(ComTheme.cityWhite),
                       )),
                 ),
               );
@@ -77,9 +77,9 @@ class CityCabButton extends StatelessWidget {
     final isLoading = buttonState == ButtonState.loading;
 
     if (isDisabled) {
-      return CityTheme.cityLightGrey;
+      return ComTheme.cityLightGrey;
     } else if (isLoading) {
-      return CityTheme.cityblue.withOpacity(.5);
+      return ComTheme.cityPurple.withOpacity(.5);
     } else {
       return color;
     }

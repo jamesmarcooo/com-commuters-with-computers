@@ -1,4 +1,3 @@
-import 'package:mobile_application/models/address.dart';
 import 'package:mobile_application/models/eta.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +25,7 @@ class EtaBusCard extends StatelessWidget {
               ? Icons.directions_bus_filled_rounded
               : Icons.directions_bus_outlined,
           size: 40,
-          color: CityTheme.cityblue),
+          color: ComTheme.cityPurple),
       title: Text(
         '${etaBus?.driver['licensePlate']} | EDSA Bus Carousel',
         style: TextStyle(

@@ -22,11 +22,11 @@ class SetUpAccount extends StatelessWidget {
             Text(
               'Set Up Account',
               style: Theme.of(context).textTheme.headline5,
-            ).paddingBottom(CityTheme.elementSpacing / 2),
+            ).paddingBottom(ComTheme.elementSpacing / 2),
             Text(
               'Fill the details below...',
               style: Theme.of(context).textTheme.bodyText1,
-            ).paddingBottom(CityTheme.elementSpacing),
+            ).paddingBottom(ComTheme.elementSpacing),
             Row(
               children: [
                 Expanded(
@@ -35,7 +35,7 @@ class SetUpAccount extends StatelessWidget {
                     controller: state.firstNameController,
                   ),
                 ),
-                SizedBox(width: CityTheme.elementSpacing),
+                SizedBox(width: ComTheme.elementSpacing),
                 Expanded(
                   child: CityTextField(
                     label: 'Last Name',
@@ -43,11 +43,11 @@ class SetUpAccount extends StatelessWidget {
                   ),
                 ),
               ],
-            ).paddingBottom(CityTheme.elementSpacing),
+            ).paddingBottom(ComTheme.elementSpacing),
             CityTextField(
               label: 'Email',
               controller: state.emailController,
-            ).paddingBottom(CityTheme.elementSpacing),
+            ).paddingBottom(ComTheme.elementSpacing),
             Row(
               children: [
                 CupertinoSwitch(
@@ -56,13 +56,13 @@ class SetUpAccount extends StatelessWidget {
                     state.changeRoleState = v == true ? 1 : 0;
                   },
                 ),
-                SizedBox(width: CityTheme.elementSpacing * 0.5),
+                SizedBox(width: ComTheme.elementSpacing * 0.5),
                 Text(
                   'I\'m a Driver',
                   style: Theme.of(context).textTheme.headline6,
                 ),
               ],
-            ).paddingBottom(CityTheme.elementSpacing),
+            ).paddingBottom(ComTheme.elementSpacing),
             Builder(builder: (context) {
               if (state.isRoleDriver == false) return const SizedBox.shrink();
               return Column(
@@ -70,11 +70,11 @@ class SetUpAccount extends StatelessWidget {
                   CityTextField(
                     label: 'Vehicle Type',
                     controller: state.vehicleTypeController,
-                  ).paddingBottom(CityTheme.elementSpacing),
+                  ).paddingBottom(ComTheme.elementSpacing),
                   CityTextField(
                     label: 'Vehicle Manufacturer',
                     controller: state.vehicleManufacturersController,
-                  ).paddingBottom(CityTheme.elementSpacing),
+                  ).paddingBottom(ComTheme.elementSpacing),
                   Row(
                     children: [
                       Expanded(
@@ -83,7 +83,7 @@ class SetUpAccount extends StatelessWidget {
                           controller: state.vehicleColorController,
                         ),
                       ),
-                      SizedBox(width: CityTheme.elementSpacing),
+                      SizedBox(width: ComTheme.elementSpacing),
                       Expanded(
                         child: CityTextField(
                           label: 'License Plate',
@@ -91,7 +91,7 @@ class SetUpAccount extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ).paddingBottom(CityTheme.elementSpacing),
+                  ).paddingBottom(ComTheme.elementSpacing),
                 ],
               );
             }),

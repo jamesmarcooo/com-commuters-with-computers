@@ -2,7 +2,6 @@ import 'package:mobile_application/pages/map/map_state.dart';
 import 'package:mobile_application/ui/theme.dart';
 import 'package:mobile_application/ui/widget/buttons/bus_button.dart';
 import 'package:mobile_application/ui/widget/titles/bottom_slider_title.dart';
-import 'package:mobile_application/utils/icons_assets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
@@ -32,7 +31,7 @@ class ConfirmRide extends StatelessWidget {
               height: 80,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: CityTheme.cityblue.withOpacity(.08),
+                color: ComTheme.cityPurple.withOpacity(.08),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,7 +72,7 @@ class ConfirmRide extends StatelessWidget {
                             'Pickup in ${state.selectedOption?.timeOfArrival.difference(DateTime.now()).inMinutes} mins',
                             style: TextStyle(
                               fontSize: 12,
-                              color: CityTheme.cityblue,
+                              color: ComTheme.cityPurple,
                             ),
                           ),
                         ],
@@ -95,7 +94,7 @@ class ConfirmRide extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(CupertinoIcons.placemark_fill,
-                      color: CityTheme.cityblue),
+                      color: ComTheme.cityPurple),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -117,9 +116,9 @@ class ConfirmRide extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: CityCabButton(
             title: 'CONFIRM',
-            color: CityTheme.cityblue,
-            textColor: CityTheme.cityWhite,
-            disableColor: CityTheme.cityLightGrey,
+            color: ComTheme.cityPurple,
+            textColor: ComTheme.cityWhite,
+            disableColor: ComTheme.cityLightGrey,
             buttonState: ButtonState.initial,
             onTap: () {
               // state.confirmRide();

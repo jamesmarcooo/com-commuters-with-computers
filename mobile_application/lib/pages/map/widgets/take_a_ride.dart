@@ -25,7 +25,7 @@ class TakeARide extends StatelessWidget {
       }
       if (isUserDriver == true) {
         return Padding(
-          padding: const EdgeInsets.all(CityTheme.elementSpacing),
+          padding: const EdgeInsets.all(ComTheme.elementSpacing),
           child: CityCabButton(
             title: state.isActive ? 'Go Offline' : 'Go Online',
             textColor: Colors.white,
