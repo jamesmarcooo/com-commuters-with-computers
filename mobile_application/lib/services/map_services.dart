@@ -85,6 +85,7 @@ class MapService {
     if (check == true) {
       final position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best);
+
       final address = await getAddressFromCoodinate(
           LatLng(position.latitude, position.longitude));
 
@@ -92,6 +93,7 @@ class MapService {
       await addMarker(address, icon,
           time: DateTime.now(), type: InfoWindowType.position);
 
+      print(address.toString());
       currentPosition.value = address;
 
       // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
@@ -115,17 +117,34 @@ class MapService {
               .listen((position) async {
         eventFiring(currentPosition.value);
 
-        currentPosition.value = await getAddressFromCoodinate(
-            LatLng(position.latitude, position.longitude));
+        late LocationSettings locationSettings;
+        locationSettings = const LocationSettings(
+            accuracy: LocationAccuracy.high, distanceFilter: 5);
 
-        final icon = await getMapIcon(getUserMapIcon);
-        await addMarker(currentPosition.value, icon,
-            time: DateTime.now(),
-            type: InfoWindowType.position,
-            position: position);
-        // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-        currentPosition.notifyListeners();
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position? position) async {
+          print(position == null
+              ? 'Unknown'
+              : '${position.latitude.toString()}, ${position.longitude.toString()}');
 
+          currentPosition.value = await getAddressFromCoodinate(
+              LatLng(position!.latitude, position.longitude));
+
+          if (UserRepository.instance.currentUserRole == Roles.driver) {
+            print('updating bus driver location');
+            await UserRepository.instance.updateDriverLocation(
+                UserRepository.instance.currentUser?.uid,
+                currentPosition.value!.latLng);
+          }
+
+          final icon = await getMapIcon(getUserMapIcon);
+          await addMarker(currentPosition.value, icon,
+              time: DateTime.now(),
+              type: InfoWindowType.position,
+              position: position);
+          // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+          currentPosition.notifyListeners();
+        });
         print('updating location');
       });
     }
