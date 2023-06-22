@@ -80,6 +80,7 @@ class MapState extends ChangeNotifier {
       notifyListeners();
     });
     getCurrentLocation();
+    requestedBusId = userRepo.currentUser?.busId;
     isActive = userRepo.currentUser?.isActive ?? false;
     notifyListeners();
   }
@@ -248,10 +249,13 @@ class MapState extends ChangeNotifier {
     final ownerUID = userRepo.currentUser?.uid;
     if (ownerUID != null && ownerUID != '') {
       final bus = await _initializeBus(ownerUID);
+
+      print('bbbbbbbus: ${bus.id}');
       print('requesting bus: ${requestedBusId}');
-      if (requestedBusId == null) {
+      if (requestedBusId == '') {
         sliderEtaBuses = await busRepo.boardBus(bus);
         requestedBusId = bus.id;
+        await userRepo.updateBusId(ownerUID, bus.id);
       } else {
         sliderEtaBuses = await busRepo.updateBus(bus);
       }
@@ -389,7 +393,7 @@ class MapState extends ChangeNotifier {
 
   Future<Bus> _initializeBus(String uid) async {
     var id;
-    if (requestedBusId == null) {
+    if (requestedBusId == '') {
       id = CodeGenerator.instance!.generateCode('bus-id');
     } else {
       id = requestedBusId;

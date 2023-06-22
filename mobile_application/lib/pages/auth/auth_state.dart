@@ -16,7 +16,6 @@ class AuthState extends ChangeNotifier {
   PhoneAuthState _phoneAuthState = PhoneAuthState.initial;
 
   String verificationId = '';
-  String requestedBusId = '';
 
   TextEditingController phoneController = TextEditingController();
   TextEditingController otpController = TextEditingController();
