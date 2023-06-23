@@ -54,7 +54,8 @@ class ArrivedAtDestination extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              '${state.startAddress?.street}, ${state.startAddress?.city}',
+                              // '${state.startAddress?.street}, ${state.startAddress?.city}',
+                              state.startingAddressController.text,
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 16,
@@ -79,7 +80,7 @@ class ArrivedAtDestination extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              '${state.endAddress?.street}, ${state.endAddress?.city}',
+                              state.destinationAddressController.text,
                               maxLines: 1,
                               style: TextStyle(
                                 fontSize: 16,
