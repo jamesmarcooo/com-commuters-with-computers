@@ -145,6 +145,9 @@ class ConfirmLocation extends StatelessWidget {
                                     ),
                                     onTap: () {
                                       state.onTapAddressList(address);
+                                      // if (state.endAddress == null) {
+                                      //   state.closeSearching();
+                                      // }
                                     },
                                   );
                                 },

@@ -197,20 +197,25 @@ class MapState extends ChangeNotifier {
   }
 
   void onTapAddressList(Address address) {
-    focusNode?.unfocus();
+    print(startingAddressController.text);
+    print(currentAddressController.text);
+    // focusNode?.unfocus();
     loadMyPosition(address.latLng);
-    if (currentAddressController.text.isNotEmpty &&
+    if ((currentAddressController.text != startingAddressController.text) &&
+        currentAddressController.text.isNotEmpty &&
         destinationAddressController.text.isEmpty) {
       currentAddressController.text = "${address.title}, ${address.city}";
+      startingAddressController.text = "${address.title}, ${address.city}";
       MapService.instance?.currentPosition.value = address;
       notifyListeners();
       animateCamera(address.latLng);
-    } else if (currentAddressController.text.isNotEmpty &&
-        destinationAddressController.text.isNotEmpty) {
+    } else if ((currentAddressController.text.isNotEmpty &&
+            destinationAddressController.text.isNotEmpty) ||
+        (currentAddressController.text == startingAddressController.text)) {
       destinationAddressController.text = "${address.title}, ${address.city}";
       notifyListeners();
-      loadRouteCoordinates(
-          MapService.instance!.currentPosition.value!.latLng, address.latLng);
+      loadRouteCoordinates(startAddress!.latLng, address.latLng);
+      // loadRouteCoordinates(MapService.instance!.currentPosition.value!.latLng, address.latLng);
       animateCamera(
           endTempAddress == address ? startAddress!.latLng : address.latLng);
     }
@@ -499,11 +504,15 @@ class MapState extends ChangeNotifier {
   }
 
   void onTapMyAddresses(Address address) {
-    destinationAddressController.text =
-        "${address.title}, ${address.street}, ${address.city}";
+    // destinationAddressController.text =
+
+    // startingAddressController.text =
+    //     "${address.title}, ${address.street}, ${address.city}";
+    startingAddressController.text = "${address.title}, ${address.city}";
+    currentAddressController.text = "${address.title}, ${address.city}";
+
     notifyListeners();
-    loadRouteCoordinates(
-        MapService.instance!.currentPosition.value!.latLng, address.latLng);
+    // loadRouteCoordinates(MapService.instance!.currentPosition.value!.latLng, address.latLng);
     animateCamera(address.latLng);
     searchLocation();
   }
