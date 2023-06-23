@@ -172,7 +172,9 @@ class MapState extends ChangeNotifier {
       await MapService.instance!.getAddressFromQuery(query);
       searchedAddress = MapService.instance?.searchedAddress
               .where((q) =>
-                  query.contains("${q.street}") || query.contains("${q.city}"))
+                  query.contains("${q.title}") ||
+                  query.contains("${q.street}") ||
+                  query.contains("${q.city}"))
               .toList() ??
           [];
     }
@@ -497,7 +499,8 @@ class MapState extends ChangeNotifier {
   }
 
   void onTapMyAddresses(Address address) {
-    destinationAddressController.text = "${address.street}, ${address.city}";
+    destinationAddressController.text =
+        "${address.title}, ${address.street}, ${address.city}";
     notifyListeners();
     loadRouteCoordinates(
         MapService.instance!.currentPosition.value!.latLng, address.latLng);
