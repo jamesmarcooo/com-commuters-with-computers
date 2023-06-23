@@ -182,7 +182,7 @@ class ConfirmLocation extends StatelessWidget {
                                   ? ButtonState.initial
                                   : ButtonState.disabled,
                               onTap: () {
-                                state.requestRide();
+                                state.dropOffRestart();
                               },
                             ),
                           ],
