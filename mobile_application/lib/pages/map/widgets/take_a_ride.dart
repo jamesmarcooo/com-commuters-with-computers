@@ -25,16 +25,62 @@ class TakeARide extends StatelessWidget {
       }
       if (isUserDriver == true) {
         return Padding(
-          padding: const EdgeInsets.all(ComTheme.elementSpacing),
-          child: CityCabButton(
-            title: state.isActive ? 'Go Offline' : 'Go Online',
-            textColor: Colors.white,
-            color: state.isActive ? Colors.green : Colors.red,
-            onTap: () {
-              state.changeActivePresence();
-            },
-          ),
-        );
+            padding: const EdgeInsets.all(ComTheme.elementSpacing),
+            child: Column(
+              children: [
+                // const SizedBox(height: 8),
+                CityCabButton(
+                  title: state.isActive ? 'END RIDE' : 'START RIDE',
+                  textColor: Colors.white,
+                  color: state.isActive ? Colors.green : Colors.red,
+                  onTap: () {
+                    state.changeActivePresence();
+                  },
+                ),
+                Padding(padding: const EdgeInsets.only(top: 8)),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(
+                        child: CityCabButton(
+                          title: 'South-bound',
+                          color: ComTheme.cityWhite,
+                          textColor: ComTheme.cityBlack,
+                          disableColor: ComTheme.cityLightGrey,
+                          buttonState: ButtonState.initial,
+                          borderColor: Colors.grey[800],
+                          onTap: () {
+                            // state.cancelRide();
+                            state.pageController.previousPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeIn);
+                            state.selectNearbyBus();
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: CityCabButton(
+                          title: 'North-bound',
+                          color: ComTheme.cityPurple,
+                          textColor: ComTheme.cityWhite,
+                          disableColor: ComTheme.cityLightGrey,
+                          // buttonState: ButtonState.initial,
+                          buttonState: ButtonState.initial,
+                          onTap: () {
+                            // state.callDriver();
+                            state.proceedRide();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ));
       }
       return Padding(
         // padding: const EdgeInsets.all(16),
