@@ -169,7 +169,7 @@ class RideDetailCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${state.selectedOption?.etaEndBus} mins',
+                            '${double.parse((state.selectedOption?.etaEndBus)!.toStringAsFixed(1))} mins',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,

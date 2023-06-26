@@ -79,7 +79,7 @@ class RideBus extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    '${state.selectedOption?.etaStartBus} mins',
+                                    '${double.parse((state.selectedOption?.etaStartBus)!.toStringAsFixed(1))} mins',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
