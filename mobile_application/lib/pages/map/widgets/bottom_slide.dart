@@ -77,7 +77,7 @@ class _BottomSliderState extends State<BottomSlider> {
       }
     } else {
       if (state.userRepo.currentUserRole == Roles.driver) {
-        return size.height * 0.15;
+        return size.height * 0.22;
       }
       return size.height * 0.4;
     }
