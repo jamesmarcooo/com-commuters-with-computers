@@ -10,6 +10,8 @@ class Address {
   final String country;
   final String postcode;
   final LatLng latLng;
+  final LatLng latLngSouth;
+  final LatLng latLngNorth;
   final List<PointLatLng> polylines;
 
   const Address(
@@ -17,6 +19,8 @@ class Address {
       this.title,
       required this.polylines,
       required this.latLng,
+      required this.latLngSouth,
+      required this.latLngNorth,
       required this.street,
       required this.city,
       required this.state,
@@ -29,6 +33,8 @@ class Address {
       city: data['city'] ?? '',
       country: data['country'] ?? '',
       latLng: LatLng(data['latlng']['lat'], data['latlng']['lng']),
+      latLngSouth: LatLng(data['latlngSouth']['lat'], data['latlngSouth']['lng']),
+      latLngNorth: LatLng(data['latlngNorth']['lat'], data['latlngNorth']['lng']),
       polylines: [],
       postcode: data['post_code'] ?? '',
       state: data['state'] ?? '',
