@@ -74,22 +74,23 @@ class AuthState extends ChangeNotifier {
     final address = await MapService.instance?.getCurrentPosition();
     try {
       final user = User(
-        uid: uid,
-        busId: '',
-        isActive: true,
-        firstname: firstNameController.text,
-        lastname: lastNameController.text,
-        email: emailController.text,
-        createdAt: DateTime.now(),
-        isVerified: true,
-        licensePlate: licensePlateController.text,
-        phone: "234${phoneController.text}",
-        vehicleType: vehicleTypeController.text,
-        vehicleColor: vehicleColorController.text,
-        vehicleManufacturer: vehicleManufacturersController.text,
-        role: role,
-        latlng: address?.latLng,
-      );
+          uid: uid,
+          busId: '',
+          isActive: true,
+          firstname: firstNameController.text,
+          lastname: lastNameController.text,
+          email: emailController.text,
+          createdAt: DateTime.now(),
+          isVerified: true,
+          licensePlate: licensePlateController.text,
+          phone: "234${phoneController.text}",
+          vehicleType: vehicleTypeController.text,
+          vehicleColor: vehicleColorController.text,
+          vehicleManufacturer: vehicleManufacturersController.text,
+          role: role,
+          latlng: address?.latLng,
+          isSouthBound: false,
+          isNorthBound: false);
       await userRepo.setUpAccount(user);
       phoneAuthStateChange = PhoneAuthState.success;
     } on FirebaseException catch (e) {

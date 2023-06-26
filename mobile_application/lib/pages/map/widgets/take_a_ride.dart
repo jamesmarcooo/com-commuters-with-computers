@@ -48,13 +48,16 @@ class TakeARide extends StatelessWidget {
                       Expanded(
                         child: CityCabButton(
                           title: 'South-bound',
-                          color: ComTheme.cityWhite,
-                          textColor: ComTheme.cityBlack,
-                          disableColor: ComTheme.cityLightGrey,
-                          buttonState: state.isSouthBound
-                              ? ButtonState.initial
-                              : ButtonState.disabled,
-                          borderColor: Colors.grey[800],
+                          color: state.isSouthBound
+                              ? ComTheme.cityPurple
+                              : ComTheme.cityWhite,
+                          textColor: state.isSouthBound
+                              ? ComTheme.cityWhite
+                              : ComTheme.cityPurple,
+                          borderColor: state.isSouthBound
+                              ? Colors.grey[800]
+                              : ComTheme.cityPurple,
+                          buttonState: ButtonState.initial,
                           onTap: () {
                             state.setIsSouthBound();
                           },
@@ -64,13 +67,18 @@ class TakeARide extends StatelessWidget {
                       Expanded(
                         child: CityCabButton(
                           title: 'North-bound',
-                          color: ComTheme.cityPurple,
-                          textColor: ComTheme.cityWhite,
+                          color: state.isNorthBound
+                              ? ComTheme.cityPurple
+                              : ComTheme.cityWhite,
+                          textColor: state.isNorthBound
+                              ? ComTheme.cityWhite
+                              : ComTheme.cityPurple,
+                          borderColor: state.isNorthBound
+                              ? Colors.grey[800]
+                              : ComTheme.cityPurple,
                           disableColor: ComTheme.cityLightGrey,
                           // buttonState: ButtonState.initial,
-                          buttonState: state.isNorthBound
-                              ? ButtonState.initial
-                              : ButtonState.disabled,
+                          buttonState: ButtonState.initial,
                           onTap: () {
                             state.setIsNorthBound();
                           },
