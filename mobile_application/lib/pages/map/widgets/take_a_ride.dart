@@ -29,14 +29,15 @@ class TakeARide extends StatelessWidget {
             child: Column(
               children: [
                 // const SizedBox(height: 8),
-                CityCabButton(
-                  title: state.isActive ? 'END RIDE' : 'START RIDE',
-                  textColor: Colors.white,
-                  color: state.isActive ? Colors.green : Colors.red,
-                  onTap: () {
-                    state.changeActivePresence();
-                  },
-                ),
+
+                // CityCabButton(
+                //   title: state.isActive ? 'END RIDE' : 'START RIDE',
+                //   textColor: Colors.white,
+                //   color: state.isActive ? Colors.green : Colors.red,
+                //   onTap: () {
+                //     state.changeActivePresence();
+                //   },
+                // ),
                 Padding(padding: const EdgeInsets.only(top: 8)),
 
                 Padding(
@@ -50,14 +51,12 @@ class TakeARide extends StatelessWidget {
                           color: ComTheme.cityWhite,
                           textColor: ComTheme.cityBlack,
                           disableColor: ComTheme.cityLightGrey,
-                          buttonState: ButtonState.initial,
+                          buttonState: state.isSouthBound
+                              ? ButtonState.initial
+                              : ButtonState.disabled,
                           borderColor: Colors.grey[800],
                           onTap: () {
-                            // state.cancelRide();
-                            state.pageController.previousPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeIn);
-                            state.selectNearbyBus();
+                            state.setIsSouthBound();
                           },
                         ),
                       ),
@@ -69,10 +68,11 @@ class TakeARide extends StatelessWidget {
                           textColor: ComTheme.cityWhite,
                           disableColor: ComTheme.cityLightGrey,
                           // buttonState: ButtonState.initial,
-                          buttonState: ButtonState.initial,
+                          buttonState: state.isNorthBound
+                              ? ButtonState.initial
+                              : ButtonState.disabled,
                           onTap: () {
-                            // state.callDriver();
-                            state.proceedRide();
+                            state.setIsNorthBound();
                           },
                         ),
                       ),
