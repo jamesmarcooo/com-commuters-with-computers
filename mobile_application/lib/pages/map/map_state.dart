@@ -153,7 +153,9 @@ class MapState extends ChangeNotifier {
   Future<void> loadRouteCoordinates(LatLng start, LatLng end) async {
     final endPosition =
         await MapService.instance?.getRouteCoordinates(start, end);
-    startAddress = MapService.instance?.currentPosition.value;
+    if (rideState == RideState.inMotion) {
+      startAddress = MapService.instance?.currentPosition.value;
+    }
     endAddress = endPosition;
     endTempAddress = endPosition;
     notifyListeners();
@@ -162,7 +164,7 @@ class MapState extends ChangeNotifier {
   Future<void> loadBusRouteCoordinates(LatLng start, LatLng end) async {
     final endPosition =
         await MapService.instance?.getBusRouteCoordinates(start, end);
-    startAddress = MapService.instance?.currentPosition.value;
+    // startAddress = MapService.instance?.currentPosition.value;
     endAddress = endPosition;
     notifyListeners();
   }
@@ -172,7 +174,9 @@ class MapState extends ChangeNotifier {
       await MapService.instance!.getAddressFromQuery(query);
       searchedAddress = MapService.instance?.searchedAddress
               .where((q) =>
-                  query.contains("${q.street}") || query.contains("${q.city}"))
+                  query.contains("${q.title}") ||
+                  query.contains("${q.street}") ||
+                  query.contains("${q.city}"))
               .toList() ??
           [];
     }
@@ -195,20 +199,35 @@ class MapState extends ChangeNotifier {
   }
 
   void onTapAddressList(Address address) {
-    focusNode?.unfocus();
-    loadMyPosition(address.latLng);
-    if (currentAddressController.text.isNotEmpty &&
+    print(startingAddressController.text);
+    print(currentAddressController.text);
+    // focusNode?.unfocus();
+    // loadMyPosition(address.latLng);
+    if ((currentAddressController.text != startingAddressController.text) &&
+        currentAddressController.text.isNotEmpty &&
         destinationAddressController.text.isEmpty) {
       currentAddressController.text = "${address.title}, ${address.city}";
+      startingAddressController.text = "${address.title}, ${address.city}";
       MapService.instance?.currentPosition.value = address;
+      startAddress = address;
+      print('startAddress in start: ${startAddress!.title}');
       notifyListeners();
       animateCamera(address.latLng);
-    } else if (currentAddressController.text.isNotEmpty &&
-        destinationAddressController.text.isNotEmpty) {
+    } else if ((currentAddressController.text.isNotEmpty &&
+            destinationAddressController.text.isNotEmpty) ||
+        (currentAddressController.text == startingAddressController.text)) {
       destinationAddressController.text = "${address.title}, ${address.city}";
+      print(destinationAddressController.text);
+      print('startAddress in end: ${startAddress!.title}');
+
       notifyListeners();
-      loadRouteCoordinates(
-          MapService.instance!.currentPosition.value!.latLng, address.latLng);
+      print('ridestate: $rideState');
+      rideState == RideState.inMotion
+          ? loadRouteCoordinates(
+              MapService.instance!.currentPosition.value!.latLng,
+              address.latLng)
+          : loadRouteCoordinates(startAddress!.latLng, address.latLng);
+      // loadRouteCoordinates(MapService.instance!.currentPosition.value!.latLng, address.latLng);
       animateCamera(
           endTempAddress == address ? startAddress!.latLng : address.latLng);
     }
@@ -341,14 +360,15 @@ class MapState extends ChangeNotifier {
   }
 
   void loadBusMarkers() {
-    MapService.instance?.getCurrentPosition().then((value) {
-      MapService.instance?.loadBusMarkersWithinDistance(
-          value!.latLng, MapService.instance!.searchedAddress[0].latLng);
-      var address = MapService.instance
-          ?.getNearestDriver(value!.latLng, endAddress!.latLng)
-          .then((address) => animateCamera(address?.latLng ?? value.latLng));
-      notifyListeners();
-    });
+    var value = startAddress;
+    // MapService.instance?.getCurrentPosition().then((value) {
+    MapService.instance?.loadBusMarkersWithinDistance(
+        value!.latLng, MapService.instance!.searchedAddress[0].latLng);
+    var address = MapService.instance
+        ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+        .then((address) => animateCamera(address?.latLng ?? value.latLng));
+    notifyListeners();
+    // });
   }
 
   //function to get the first 3 nearest address from the current position
@@ -362,28 +382,30 @@ class MapState extends ChangeNotifier {
   void requestRide() {
     //call addBusMarkers from map_service.dart
     // MapService.instance?.loadBusMarkers();
-    MapService.instance?.getCurrentPosition().then((value) {
-      MapService.instance
-          ?.loadBusMarkersWithinDistance(value!.latLng, endAddress!.latLng);
-      MapService.instance
-          ?.getNearestDriver(value!.latLng, endAddress!.latLng)
-          .then((address) => {
-                // loadBusRouteCoordinates(address!.latLng, value.latLng),
-                // animateCamera(address.latLng),
-                // MapService.instance?.controller.addInfoWindow!(
-                //   CustomWindow(
-                //     info: CityCabInfoWindow(
-                //       name: "${address.street}, ${address.city}",
-                //       position: address.latLng,
-                //       type: InfoWindowType.bus,
-                //       time: Duration(),
-                //     ),
-                //   ),
-                //   address.latLng,
-                // )
-                onTapSliderAddress(address!, value)
-              });
-    });
+
+    // MapService.instance?.getCurrentPosition().then((value) {
+    var value = startAddress;
+    MapService.instance
+        ?.loadBusMarkersWithinDistance(value!.latLng, endAddress!.latLng);
+    MapService.instance
+        ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+        .then((address) => {
+              // loadBusRouteCoordinates(address!.latLng, value.latLng),
+              // animateCamera(address.latLng),
+              // MapService.instance?.controller.addInfoWindow!(
+              //   CustomWindow(
+              //     info: CityCabInfoWindow(
+              //       name: "${address.street}, ${address.city}",
+              //       position: address.latLng,
+              //       type: InfoWindowType.bus,
+              //       time: Duration(),
+              //     ),
+              //   ),
+              //   address.latLng,
+              // )
+              onTapSliderAddress(address!, value)
+            });
+    // });
     // pageController.nextPage(
     //     duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
     notifyListeners();
@@ -497,10 +519,17 @@ class MapState extends ChangeNotifier {
   }
 
   void onTapMyAddresses(Address address) {
-    destinationAddressController.text = "${address.street}, ${address.city}";
+    // destinationAddressController.text =
+
+    // startingAddressController.text =
+    //     "${address.title}, ${address.street}, ${address.city}";
+    startingAddressController.text = "${address.title}, ${address.city}";
+    currentAddressController.text = "${address.title}, ${address.city}";
+
+    startAddress = address;
+
     notifyListeners();
-    loadRouteCoordinates(
-        MapService.instance!.currentPosition.value!.latLng, address.latLng);
+    // loadRouteCoordinates(MapService.instance!.currentPosition.value!.latLng, address.latLng);
     animateCamera(address.latLng);
     searchLocation();
   }

@@ -221,7 +221,7 @@ class InMotion extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              '${state.endAddress?.street}, ${state.endAddress?.city}, ${state.endAddress?.state}, ${state.endAddress?.country}',
+                              '${state.endAddress?.title}, ${state.endAddress?.street}, ${state.endAddress?.city}, ${state.endAddress?.country}',
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 16,

@@ -133,7 +133,7 @@ class ConfirmLocation extends StatelessWidget {
                                     trailing: Icon(Icons.north_west, size: 16),
                                     title: Text('${address.title}'),
                                     subtitle: Text(
-                                        '${address.street}, ${address.city}'),
+                                        '${address.street}, ${address.city}, ${address.country}'),
                                     leading: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -145,6 +145,9 @@ class ConfirmLocation extends StatelessWidget {
                                     ),
                                     onTap: () {
                                       state.onTapAddressList(address);
+                                      // if (state.endAddress == null) {
+                                      //   state.closeSearching();
+                                      // }
                                     },
                                   );
                                 },
@@ -179,7 +182,7 @@ class ConfirmLocation extends StatelessWidget {
                                   ? ButtonState.initial
                                   : ButtonState.disabled,
                               onTap: () {
-                                state.requestRide();
+                                state.dropOffRestart();
                               },
                             ),
                           ],

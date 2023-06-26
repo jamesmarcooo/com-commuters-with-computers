@@ -11,7 +11,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: 'Morning Breeze Subdivision',
-    street: 'Asuncion Street',
+    street: 'Monumento Bus Stop, Asuncion Street',
   ),
   Address(
     id: '2',
@@ -22,7 +22,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'Bagong Barrio West',
+    street: 'Bagong Barrio Bus Stop, Bagong Barrio West',
   ),
   Address(
     id: '3',
@@ -33,7 +33,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'Balintawak',
+    street: 'Balintawak Bus Stop, Balintawak',
   ),
   Address(
     id: '4',
@@ -44,7 +44,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'Balintawak',
+    street: 'Kaingin Bus Stop, Balintawak',
   ),
   Address(
     id: '5',
@@ -55,21 +55,10 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'Bago Bantay',
+    street: 'Roosevelt Bus Stop, Bago Bantay',
   ),
   Address(
     id: '6',
-    title: 'North Avenue Bus Stop',
-    city: 'Quezon City',
-    country: 'Philippines',
-    latLng: LatLng(14.6514, 121.0329),
-    polylines: [],
-    postcode: '',
-    state: 'Diliman',
-    street: 'North Avenue',
-  ),
-  Address(
-    id: '7',
     title: 'Quezon Avenue Bus Stop',
     city: 'Quezon City',
     country: 'Philippines',
@@ -77,7 +66,18 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: 'Bagong Pag-asa',
-    street: 'Quezon Avenue',
+    street: 'Quezon Avenue Bus Stop, Quezon Avenue',
+  ),
+  Address(
+    id: '7',
+    title: 'North Avenue Bus Stop',
+    city: 'Quezon City',
+    country: 'Philippines',
+    latLng: LatLng(14.6514, 121.0329),
+    polylines: [],
+    postcode: '',
+    state: 'Diliman',
+    street: 'North Avenue Bus Stop, North Avenue',
   ),
   Address(
     id: '8',
@@ -88,7 +88,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: 'Diliman',
-    street: 'Quezon City',
+    street: 'Q-Mart Bus Stop, Quezon City',
   ),
   Address(
     id: '9',
@@ -99,7 +99,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: 'North Bound',
-    street: 'Epifanio de los Santos Ave',
+    street: 'Main Avenue Bus Stop, Epifanio de los Santos Ave',
   ),
   Address(
     id: '10',
@@ -110,7 +110,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'Quezon City',
+    street: 'Santolan Bus Stop, Quezon City',
   ),
   Address(
     id: '11',
@@ -121,7 +121,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'Ortigas Center',
+    street: 'Ortigas Bus Stop, Ortigas Center',
   ),
   Address(
     id: '12',
@@ -132,7 +132,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'Epifanio de los Santos Ave',
+    street: 'Guadalupe Bus Stop, Epifanio de los Santos Ave',
   ),
   Address(
     id: '13',
@@ -143,7 +143,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'Service Road',
+    street: 'Buendia Bus Stop, Service Road',
   ),
   Address(
     id: '14',
@@ -154,7 +154,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'Makati',
+    street: 'Ayala Bus Stop, Makati',
   ),
   Address(
     id: '15',
@@ -165,7 +165,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'Pasay',
+    street: 'Taft Avenue Bus Stop, Pasay',
   ),
   Address(
     id: '16',
@@ -176,7 +176,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'Pacific Dr',
+    street: 'Macapagal Ave Bus Stop, Pacific Dr',
   ),
   Address(
     id: '17',
@@ -187,7 +187,7 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'SM Mall of Asia',
+    street: 'SM MOA Bus Stop, SM Mall of Asia',
   ),
   Address(
     id: '18',
@@ -198,6 +198,6 @@ const List<Address> myAddresses = [
     polylines: [],
     postcode: '',
     state: '',
-    street: 'PITX, Tambo',
+    street: 'PITX Bus Stop, PITX, Tambo',
   ),
 ];
