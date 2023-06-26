@@ -238,16 +238,32 @@ class BusRepository {
       });
       final etaCollectionRef = busDocRef.collection('eta');
 
+      await etaCollectionRef.get().then((snapshot) {
+        for (DocumentSnapshot ds in snapshot.docs) {
+          ds.reference.delete();
+        }
+      });
+
       for (final eta in bus.busList) {
         var checkDocRef = await etaCollectionRef
             .doc('eta-${eta.driver['licensePlate']}')
             .get();
+        final etaDocRef =
+            etaCollectionRef.doc('eta-${eta.driver['licensePlate']}');
 
         if (checkDocRef.exists) {
-          final etaDocRef =
-              etaCollectionRef.doc('eta-${eta.driver['licensePlate']}');
-
           await etaDocRef.update({
+            'driver': eta.driver,
+            // 'etaStartBus': eta.etaStartBus,
+            // 'etaEndBus': eta.etaEndBus,
+            'timeOfArrival': eta.timeOfArrival,
+            'distanceStartBus': eta.distanceStartBus,
+            'distanceEndBus': eta.distanceEndBus,
+          });
+          print(
+              'Updated bus ID ${bus.id} and ETA document with ID ${etaDocRef.id}');
+        } else {
+          await etaDocRef.set({
             'driver': eta.driver,
             'etaStartBus': eta.etaStartBus,
             'etaEndBus': eta.etaEndBus,
@@ -255,8 +271,7 @@ class BusRepository {
             'distanceStartBus': eta.distanceStartBus,
             'distanceEndBus': eta.distanceEndBus,
           });
-          print(
-              'Updated bus ID ${bus.id} and ETA document with ID ${etaDocRef.id}');
+          print('Added ETA document with ID: ${etaDocRef.id}');
         }
       }
 
