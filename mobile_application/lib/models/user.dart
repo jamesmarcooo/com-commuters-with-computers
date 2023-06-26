@@ -4,6 +4,7 @@ enum Roles { passenger, driver, admin }
 
 class User {
   final String uid;
+  final String busId;
   final String firstname;
   final String lastname;
   final String email;
@@ -27,6 +28,7 @@ class User {
   const User({
     required this.isActive,
     required this.uid,
+    required this.busId,
     required this.firstname,
     required this.lastname,
     required this.email,
@@ -44,11 +46,13 @@ class User {
   factory User.fromMap(Map<String, dynamic> data) {
     return User(
       uid: data['uid'] ?? '',
+      busId: data['busId'] ?? '',
       isActive: data['is_active'] ?? false,
       firstname: data['firstname'] ?? '',
       lastname: data['lastname'] ?? '',
       email: data['email'] ?? '',
-      createdAt: DateTime.fromMillisecondsSinceEpoch(data['createdAt'].millisecondsSinceEpoch),
+      createdAt: DateTime.fromMillisecondsSinceEpoch(
+          data['createdAt'].millisecondsSinceEpoch),
       isVerified: data['is_verified'] ?? false,
       licensePlate: data['license_plate'] ?? '',
       phone: data['phone'] ?? '',
@@ -56,7 +60,9 @@ class User {
       vehicleColor: data['vehicle_color'] ?? '',
       vehicleManufacturer: data['vehicle_manufacturer'] ?? '',
       role: Roles.values[data['role'] ?? 0],
-      latlng: data['latlng'] == null ? LatLng(0, 0) : LatLng(data['latlng']['lat'], data['latlng']['lng']),
+      latlng: data['latlng'] == null
+          ? LatLng(0, 0)
+          : LatLng(data['latlng']['lat'], data['latlng']['lng']),
     );
   }
 }

@@ -39,6 +39,7 @@ class UserRepository {
         'lat': user.latlng?.latitude,
         'lng': user.latlng?.longitude,
       },
+      'busId': '',
     });
     userNotifier.value = await UserRepository.instance.getUser(user.uid);
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
@@ -99,6 +100,34 @@ class UserRepository {
           .update({'is_active': isActive});
       return userNotifier.value;
     }
+    return null;
+  }
+
+  //update the busId in the current user
+  Future<User?> updateBusId(String? uid, String? busId) async {
+    if (uid != null) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update({'busId': busId});
+      return userNotifier.value;
+    }
+    return null;
+  }
+
+  //returns the busId in the current user
+  Future<String?> getBusId(String? uid) async {
+    if (uid != null) {
+      DocumentSnapshot userSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      if (!userSnapshot.exists) {
+        return null;
+      } else {
+        Map<String, dynamic> data = userSnapshot.data() as Map<String, dynamic>;
+        return data['busId'];
+      }
+    }
+    return null;
   }
 
   //returns a list of users with role 1 (driver) and is_active = true (online) and is_verified = true (verified) and not equal to current user id (uid)

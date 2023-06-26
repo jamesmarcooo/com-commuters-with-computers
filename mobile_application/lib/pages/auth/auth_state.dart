@@ -75,6 +75,7 @@ class AuthState extends ChangeNotifier {
     try {
       final user = User(
         uid: uid,
+        busId: '',
         isActive: true,
         firstname: firstNameController.text,
         lastname: lastNameController.text,
