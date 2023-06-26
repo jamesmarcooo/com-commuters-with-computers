@@ -546,6 +546,8 @@ class MapState extends ChangeNotifier {
   void setIsSouthBound() async {
     isSouthBound = true;
     isNorthBound = false;
+    print(isNorthBound);
+    print(isSouthBound);
     await userRepo.updateIsSouthBound(userRepo.currentUser?.uid);
     notifyListeners();
   }
@@ -553,6 +555,8 @@ class MapState extends ChangeNotifier {
   void setIsNorthBound() async {
     isSouthBound = false;
     isNorthBound = true;
+    print(isNorthBound);
+    print(isSouthBound);
     await userRepo.updateIsNorthBound(userRepo.currentUser?.uid);
     notifyListeners();
   }

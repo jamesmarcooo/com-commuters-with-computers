@@ -32,7 +32,7 @@ class _BottomSliderState extends State<BottomSlider> {
       duration: Duration(milliseconds: 150),
       padding: const EdgeInsets.only(
           bottom: ComTheme.elementSpacing, top: ComTheme.elementSpacing),
-      height: _getSliderHeight(state, size * 1.4),
+      height: _getSliderHeight(state, size),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
