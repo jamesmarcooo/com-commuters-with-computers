@@ -55,6 +55,8 @@ class MapState extends ChangeNotifier {
   RideState _rideState = RideState.initial;
 
   bool isActive = false;
+  bool isSouthBound = false;
+  bool isNorthBound = false;
 
   RideState get rideState {
     return _rideState;
@@ -538,5 +540,20 @@ class MapState extends ChangeNotifier {
     isActive = !isActive;
     notifyListeners();
     await userRepo.updateOnlinePresence(userRepo.currentUser?.uid, isActive);
+  }
+
+  //function that sets isSouthBound to true, and isNorthBound to false
+  void setIsSouthBound() async {
+    isSouthBound = true;
+    isNorthBound = false;
+    await userRepo.updateIsSouthBound(userRepo.currentUser?.uid);
+    notifyListeners();
+  }
+
+  void setIsNorthBound() async {
+    isSouthBound = false;
+    isNorthBound = true;
+    await userRepo.updateIsNorthBound(userRepo.currentUser?.uid);
+    notifyListeners();
   }
 }
