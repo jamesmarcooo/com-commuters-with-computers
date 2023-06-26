@@ -81,7 +81,7 @@ const List<Address> myAddresses = [
   ),
   Address(
     id: '8',
-    title: 'Q-Mart Bus Stop',
+    title: 'Nepa Q-Mart Bus Stop',
     city: 'Quezon City',
     country: 'Philippines',
     latLng: LatLng(14.6290, 121.0467),
