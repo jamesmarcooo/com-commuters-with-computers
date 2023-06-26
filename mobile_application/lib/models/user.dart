@@ -18,6 +18,8 @@ class User {
   final Roles role;
   final bool isActive;
   final LatLng? latlng;
+  final bool isSouthBound;
+  final bool isNorthBound;
 
   bool get isPassengerRole => role == Roles.passenger;
   bool get isDriverRole => role == Roles.driver;
@@ -41,6 +43,8 @@ class User {
     required this.vehicleManufacturer,
     required this.role,
     this.latlng,
+    required this.isSouthBound,
+    required this.isNorthBound,
   });
 
   factory User.fromMap(Map<String, dynamic> data) {
@@ -63,6 +67,8 @@ class User {
       latlng: data['latlng'] == null
           ? LatLng(0, 0)
           : LatLng(data['latlng']['lat'], data['latlng']['lng']),
+      isSouthBound: data['is_south_bound'] ?? false,
+      isNorthBound: data['is_north_bound'] ?? false,
     );
   }
 }
