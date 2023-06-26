@@ -17,6 +17,7 @@ class TakeARide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<MapState>();
+    final size = MediaQuery.of(context).size;
 
     return Builder(builder: (context) {
       final isUserDriver = state.userRepo.currentUser?.isDriverRole ?? false;
@@ -29,17 +30,16 @@ class TakeARide extends StatelessWidget {
             child: Column(
               children: [
                 // const SizedBox(height: 8),
-
-                // CityCabButton(
-                //   title: state.isActive ? 'END RIDE' : 'START RIDE',
-                //   textColor: Colors.white,
-                //   color: state.isActive ? Colors.green : Colors.red,
-                //   onTap: () {
-                //     state.changeActivePresence();
-                //   },
-                // ),
+                const SizedBox(height: 0.1),
+                CityCabButton(
+                  title: state.isActive ? 'END RIDE' : 'START RIDE',
+                  textColor: Colors.white,
+                  color: state.isActive ? Colors.green : Colors.red,
+                  onTap: () {
+                    state.changeActivePresence();
+                  },
+                ),
                 Padding(padding: const EdgeInsets.only(top: 8)),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2.0),
                   child: Row(
