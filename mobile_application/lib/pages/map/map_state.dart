@@ -54,9 +54,14 @@ class MapState extends ChangeNotifier {
   FocusNode? focusNode;
   RideState _rideState = RideState.initial;
 
+  //bus
   bool isActive = false;
   bool isSouthBound = false;
   bool isNorthBound = false;
+
+  //route start-destination
+  bool toSouthBound = false;
+  bool toNorthBound = false;
 
   RideState get rideState {
     return _rideState;
@@ -220,15 +225,37 @@ class MapState extends ChangeNotifier {
         (currentAddressController.text == startingAddressController.text)) {
       destinationAddressController.text = "${address.title}, ${address.city}";
       print(destinationAddressController.text);
+      print(int.parse(startAddress!.id));
+      print(int.parse(address.id));
       print('startAddress in end: ${startAddress!.title}');
 
       notifyListeners();
       print('ridestate: $rideState');
-      rideState == RideState.inMotion
-          ? loadRouteCoordinates(
-              MapService.instance!.currentPosition.value!.latLng,
-              address.latLng)
-          : loadRouteCoordinates(startAddress!.latLng, address.latLng);
+
+      //convert startAddress id to integer and get the difference with address id
+      if (int.parse(startAddress!.id) - int.parse(address.id) > 0) {
+        toSouthBound = false;
+        toNorthBound = true;
+        print('going north');
+        print(int.parse(startAddress!.id) - int.parse(address.id));
+      } else if (int.parse(startAddress!.id) - int.parse(address.id) < 0) {
+        toSouthBound = true;
+        toNorthBound = false;
+        print('going south');
+        print(int.parse(startAddress!.id) - int.parse(address.id));
+      }
+
+      if (rideState == RideState.inMotion) {
+        loadRouteCoordinates(
+            MapService.instance!.currentPosition.value!.latLng, address.latLng);
+      } else {
+        if (toSouthBound == false && toNorthBound == true) {
+          loadRouteCoordinates(startAddress!.latLngNorth, address.latLngNorth);
+        } else if (toSouthBound == true && toNorthBound == false) {
+          loadRouteCoordinates(startAddress!.latLngSouth, address.latLngSouth);
+        }
+      }
+
       // loadRouteCoordinates(MapService.instance!.currentPosition.value!.latLng, address.latLng);
       animateCamera(
           endTempAddress == address ? startAddress!.latLng : address.latLng);

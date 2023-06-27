@@ -162,6 +162,8 @@ class MapService {
       state: placemark.administrativeArea ?? '',
       country: placemark.country ?? '',
       latLng: latLng,
+      latLngSouth: latLng,
+      latLngNorth: latLng,
       polylines: polylines ?? [],
       postcode: placemark.postalCode ?? '',
     );
@@ -186,6 +188,8 @@ class MapService {
                 state: placemark.administrativeArea ?? '',
                 country: placemark.country ?? '',
                 latLng: LatLng(location.latitude, location.longitude),
+                latLngSouth: LatLng(location.latitude, location.longitude),
+                latLngNorth: LatLng(location.latitude, location.longitude),
                 polylines: [],
                 postcode: placemark.postalCode ?? '',
               );
@@ -453,6 +457,8 @@ class MapService {
             state: driver.vehicleType,
             country: driver.vehicleColor,
             latLng: driver.latlng!,
+            latLngSouth: driver.latlng!,
+            latLngNorth: driver.latlng!,
             polylines: [],
             postcode: driver.licensePlate,
           ),
