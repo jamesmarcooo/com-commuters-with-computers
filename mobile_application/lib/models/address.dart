@@ -33,8 +33,10 @@ class Address {
       city: data['city'] ?? '',
       country: data['country'] ?? '',
       latLng: LatLng(data['latlng']['lat'], data['latlng']['lng']),
-      latLngSouth: LatLng(data['latlngSouth']['lat'], data['latlngSouth']['lng']),
-      latLngNorth: LatLng(data['latlngNorth']['lat'], data['latlngNorth']['lng']),
+      latLngSouth:
+          LatLng(data['latlngSouth']['lat'], data['latlngSouth']['lng']),
+      latLngNorth:
+          LatLng(data['latlngNorth']['lat'], data['latlngNorth']['lng']),
       polylines: [],
       postcode: data['post_code'] ?? '',
       state: data['state'] ?? '',
