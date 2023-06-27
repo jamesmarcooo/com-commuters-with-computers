@@ -526,6 +526,7 @@ class MapService {
       bool toSouthBound, bool toNorthBound) async {
     final drivers = await UserRepository.instance
         .getActiveDrivers(toSouthBound, toNorthBound);
+    print('Bus Listtttt $drivers');
     final List<User> buses = [];
     for (var i = 0; i < drivers.length; i++) {
       final driver = drivers[i];

@@ -396,9 +396,15 @@ class MapState extends ChangeNotifier {
 
   void loadBusMarkers() {
     var value = startAddress;
+    var valueLatLng;
+    if (toNorthBound == true && toSouthBound == false) {
+      valueLatLng = value!.latLngNorth;
+    } else if (toNorthBound == false && toSouthBound == true) {
+      valueLatLng = value!.latLngSouth;
+    }
     // MapService.instance?.getCurrentPosition().then((value) {
     MapService.instance?.loadBusMarkersWithinDistance(
-        value!.latLng,
+        valueLatLng,
         MapService.instance!.searchedAddress[0].latLng,
         toSouthBound,
         toNorthBound);
@@ -460,10 +466,20 @@ class MapState extends ChangeNotifier {
     } else {
       id = requestedBusId;
     }
+
+    var startAddressLatLng;
+    var endAddressLatLng;
+    if (toNorthBound == true && toSouthBound == false) {
+      startAddressLatLng = startAddress!.latLngNorth;
+      endAddressLatLng = endAddress!.latLngNorth;
+    } else if (toNorthBound == false && toSouthBound == true) {
+      startAddressLatLng = startAddress!.latLngSouth;
+      endAddressLatLng = endAddress!.latLngSouth;
+    }
     //TODO: fix creating a new bus-id document everytime a user views the bus list
     final bus = Bus(
       id: id,
-      busList: await _initializeEta(startAddress!.latLng, endAddress!.latLng),
+      busList: await _initializeEta(startAddressLatLng, endAddressLatLng),
       ownerUID: uid,
       startAddress: startAddress!,
       endAddress: endAddress!,
@@ -519,11 +535,17 @@ class MapState extends ChangeNotifier {
   }
 
   void onTapSliderAddress(Address BusAddress, Address CurrentAddress) {
+    var startAddressLatLng;
+    if (toNorthBound == true && toSouthBound == false) {
+      startAddressLatLng = startAddress!.latLngNorth;
+    } else if (toNorthBound == false && toSouthBound == true) {
+      startAddressLatLng = startAddress!.latLngSouth;
+    }
     notifyListeners();
     loadBusRouteCoordinates(
         // address.latLng, MapService.instance!.currentPosition.value!.latLng);
         BusAddress.latLng,
-        startAddress!.latLng);
+        startAddressLatLng);
     animateCamera(BusAddress.latLng);
     MapService.instance?.controller.addInfoWindow!(
       CustomWindow(
