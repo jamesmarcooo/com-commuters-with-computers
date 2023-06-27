@@ -200,7 +200,8 @@ class InMotion extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               // 'Woji, Port Harcourt, Nigeria',
-                              '${state.startAddress?.street}, ${state.startAddress?.city}, ${state.startAddress?.state}, ${state.startAddress?.country}',
+                              // '${state.startAddress?.street}, ${state.startAddress?.city}, ${state.startAddress?.state}, ${state.startAddress?.country}',
+                              state.startingAddressController.text,
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 16,
@@ -225,7 +226,8 @@ class InMotion extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              '${state.endAddress?.title}, ${state.endAddress?.street}, ${state.endAddress?.city}, ${state.endAddress?.country}',
+                              // '${state.endAddress?.title}, ${state.endAddress?.street}, ${state.endAddress?.city}, ${state.endAddress?.country}',
+                              state.endAddressController.text,
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 16,

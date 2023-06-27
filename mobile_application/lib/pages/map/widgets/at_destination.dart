@@ -84,7 +84,7 @@ class ArrivedAtDestination extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              state.destinationAddressController.text,
+                              state.endAddressController.text,
                               maxLines: 1,
                               style: TextStyle(
                                 fontSize: 16,

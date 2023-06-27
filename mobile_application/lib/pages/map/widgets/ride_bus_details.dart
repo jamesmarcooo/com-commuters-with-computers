@@ -194,7 +194,8 @@ class RideBus extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      '${state.startAddress?.street}, ${state.startAddress?.city}, ${state.startAddress?.state}, ${state.startAddress?.country}',
+                      // '${state.startAddress?.street}, ${state.startAddress?.city}, ${state.startAddress?.state}, ${state.startAddress?.country}',
+                      state.startingAddressController.text,
                       style: TextStyle(
                         fontSize: 16,
                         height: 1.5,
