@@ -392,9 +392,13 @@ class MapState extends ChangeNotifier {
     var value = startAddress;
     // MapService.instance?.getCurrentPosition().then((value) {
     MapService.instance?.loadBusMarkersWithinDistance(
-        value!.latLng, MapService.instance!.searchedAddress[0].latLng);
+        value!.latLng,
+        MapService.instance!.searchedAddress[0].latLng,
+        toSouthBound,
+        toNorthBound);
     var address = MapService.instance
-        ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+        ?.getNearestDriver(
+            value!.latLng, endAddress!.latLng, toSouthBound, toNorthBound)
         .then((address) => animateCamera(address?.latLng ?? value.latLng));
     notifyListeners();
     // });
@@ -414,10 +418,11 @@ class MapState extends ChangeNotifier {
 
     // MapService.instance?.getCurrentPosition().then((value) {
     var value = startAddress;
+    MapService.instance?.loadBusMarkersWithinDistance(
+        value!.latLng, endAddress!.latLng, toSouthBound, toNorthBound);
     MapService.instance
-        ?.loadBusMarkersWithinDistance(value!.latLng, endAddress!.latLng);
-    MapService.instance
-        ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+        ?.getNearestDriver(
+            value!.latLng, endAddress!.latLng, toSouthBound, toNorthBound)
         .then((address) => {
               // loadBusRouteCoordinates(address!.latLng, value.latLng),
               // animateCamera(address.latLng),
@@ -466,7 +471,8 @@ class MapState extends ChangeNotifier {
 
   Future<List<Eta>> _initializeEta(LatLng startLatLng, LatLng endLatLng) async {
     final eta = <Eta>[];
-    final buses = await MapService.instance!.getBusList(startLatLng, endLatLng);
+    final buses = await MapService.instance!
+        .getBusList(startLatLng, endLatLng, toSouthBound, toNorthBound);
     print("initializing eta");
     for (var bus in buses) {
       var distanceStartBus = await MapService.instance!
@@ -491,9 +497,11 @@ class MapState extends ChangeNotifier {
             'latitude': bus.latlng!.latitude,
             'longitude': bus.latlng!.longitude,
           },
+          'isSouthBound': bus.isSouthBound,
+          'isNorthBound': bus.isNorthBound,
         },
-        etaStartBus: 0,
-        etaEndBus: 0,
+        etaStartBus: 0.0,
+        etaEndBus: 0.0,
         timeOfArrival: DateTime.now(),
         distanceStartBus: distanceStartBus,
         distanceEndBus: distanceEndBus,

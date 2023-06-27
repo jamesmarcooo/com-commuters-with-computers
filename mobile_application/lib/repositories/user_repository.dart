@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile_application/pages/map/map_state.dart';
 
 class UserRepository {
   UserRepository._();
@@ -154,13 +155,16 @@ class UserRepository {
   }
 
   //returns a list of users with role 1 (driver) and is_active = true (online) and is_verified = true (verified) and not equal to current user id (uid)
-  Future<List<User>> getActiveDrivers() async {
+  Future<List<User>> getActiveDrivers(
+      bool toSouthBound, bool toNorthBound) async {
     List<User> drivers = [];
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('role', isEqualTo: 1)
         .where('is_active', isEqualTo: true)
         .where('is_verified', isEqualTo: true)
+        .where('isSouthBound', isEqualTo: toSouthBound)
+        .where('isNorthBound', isEqualTo: toNorthBound)
         .get();
     querySnapshot.docs.forEach((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
