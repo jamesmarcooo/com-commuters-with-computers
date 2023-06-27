@@ -15,8 +15,12 @@ class InMotion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<MapState>();
-    var timeOfArrival = DateFormat('hh:mm a')
-        .format(state.selectedOption?.timeOfArrival ?? DateTime.now());
+    var timeOfArrival = DateFormat('hh:mm a').format(state
+            .selectedOption?.timeOfArrival
+            .add(Duration(
+                minutes: state.selectedOption?.etaEndBus.toInt() ?? 0)) ??
+        DateTime.now().add(
+            Duration(minutes: state.selectedOption?.etaEndBus.toInt() ?? 0)));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
