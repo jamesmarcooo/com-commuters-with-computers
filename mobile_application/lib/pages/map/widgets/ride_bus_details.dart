@@ -22,12 +22,11 @@ class RideBus extends StatelessWidget {
     //             DateTime.now().toString(),
     //         pattern: 'h:mm:ss a')
     //     .yMMMMdjm;
-    var timeOfArrival = DateFormat('hh:mm a').format(state
-            .selectedOption?.timeOfArrival
-            .add(Duration(
-                minutes: state.selectedOption?.etaStartBus.toInt() ?? 0)) ??
-        DateTime.now().add(
-            Duration(minutes: state.selectedOption?.etaStartBus.toInt() ?? 0)));
+    var timeOfArrival = DateFormat('hh:mm a').format(
+        state.selectedOption?.timeOfArrival.add(Duration(
+                minutes: state.selectedOption?.etaStartBus?.toInt() ?? 0)) ??
+            DateTime.now().add(Duration(
+                minutes: state.selectedOption?.etaStartBus?.toInt() ?? 0)));
     // String timeOfArrival =
     //     Jiffy.parse(DateTime.now()).format('yyyy-MMMM-do, h:mm:ss a');
     return Wrap(
@@ -252,7 +251,7 @@ class RideBus extends StatelessWidget {
                   textColor: ComTheme.cityWhite,
                   disableColor: ComTheme.cityLightGrey,
                   // buttonState: ButtonState.initial,
-                  buttonState: state.selectedOption!.etaStartBus < 1
+                  buttonState: state.selectedOption!.etaStartBus! < 1
                       ? ButtonState.initial
                       : ButtonState.disabled,
                   onTap: () {

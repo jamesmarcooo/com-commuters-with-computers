@@ -18,9 +18,9 @@ class InMotion extends StatelessWidget {
     var timeOfArrival = DateFormat('hh:mm a').format(state
             .selectedOption?.timeOfArrival
             .add(Duration(
-                minutes: state.selectedOption?.etaEndBus.toInt() ?? 0)) ??
+                minutes: state.selectedOption?.etaEndBus?.toInt() ?? 0)) ??
         DateTime.now().add(
-            Duration(minutes: state.selectedOption?.etaEndBus.toInt() ?? 0)));
+            Duration(minutes: state.selectedOption?.etaEndBus?.toInt() ?? 0)));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
