@@ -177,6 +177,21 @@ class BusRepository {
     }
   }
 
+  //function Stream<QuerySnapshot> that returns a stream of the requested bus
+  Stream<QuerySnapshot<Map<String, dynamic>>> getEtaBusStream(String id) {
+    try {
+      final stream = _firestoreBusCollection
+          .doc(id)
+          .collection('eta')
+          .orderBy('distanceStartBus', descending: false)
+          .snapshots();
+      return stream;
+    } on FirebaseException catch (_) {
+      print('something occurred');
+      return Stream.empty();
+    }
+  }
+
   //function that returns list of eta of the requested bus
   Future<List<Eta>> getEtaList(String id) async {
     try {
