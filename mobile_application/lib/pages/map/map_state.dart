@@ -473,10 +473,10 @@ class MapState extends ChangeNotifier {
     var endAddressLatLng;
     if (toNorthBound == true && toSouthBound == false) {
       startAddressLatLng = startAddress!.latLngNorth;
-      endAddressLatLng = endAddress!.latLngNorth;
+      endAddressLatLng = endTempAddress!.latLngNorth;
     } else if (toNorthBound == false && toSouthBound == true) {
       startAddressLatLng = startAddress!.latLngSouth;
-      endAddressLatLng = endAddress!.latLngSouth;
+      endAddressLatLng = endTempAddress!.latLngSouth;
     }
     //TODO: fix creating a new bus-id document everytime a user views the bus list
     final bus = Bus(
