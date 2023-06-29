@@ -81,6 +81,7 @@ class SelectBus extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final etaBus = busList[index];
                         if (etaBus.etaStartBus != null) {
+                          state.onTapEta = etaBus.etaStartBus!.toInt();
                           return EtaBusCard(
                             etaBus: etaBus,
                             onTap: () {

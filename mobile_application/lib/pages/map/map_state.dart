@@ -64,6 +64,8 @@ class MapState extends ChangeNotifier {
   bool toSouthBound = false;
   bool toNorthBound = false;
 
+  int onTapEta = 0;
+
   RideState get rideState {
     return _rideState;
   }
@@ -331,7 +333,7 @@ class MapState extends ChangeNotifier {
               "${currentPosition.value!.street}, ${currentPosition.value!.city}",
           position: currentPosition.value!.latLng,
           type: InfoWindowType.position,
-          time: Duration(),
+          time: Duration(minutes: onTapEta),
         ),
       ),
       currentPosition.value!.latLng,
@@ -553,7 +555,7 @@ class MapState extends ChangeNotifier {
           name: "${BusAddress.street}, ${BusAddress.city}",
           position: BusAddress.latLng,
           type: InfoWindowType.bus,
-          time: Duration(),
+          time: Duration(minutes: onTapEta),
         ),
       ),
       BusAddress.latLng,
