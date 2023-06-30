@@ -155,7 +155,7 @@ class RideBus extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          '${double.parse((busList[index].distanceStartBus)!.toStringAsFixed(2))} km',
+                                          '${double.parse((busList[index].distanceStartBus).toStringAsFixed(2))} km',
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 12,

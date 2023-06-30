@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_application/models/bus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -322,6 +323,55 @@ class BusRepository {
       print('could not update ride');
       print(e.message);
       return List<Eta>.empty();
+    }
+  }
+
+  //function that iterates every document in the collection('buses') where the subcollection 'eta' has the same licensePlate as the driver and updates its distanceStartBus and distanceEndBus
+  Future<void> updateEtaDistance(String licensePlate, double distanceStartBus,
+      double distanceEndBus) async {
+    try {
+      _firestoreBusCollection.get().then((snapshot) {
+        for (DocumentSnapshot ds in snapshot.docs) {
+          ds.reference
+              // _firestoreBusCollection.doc('bus-id-95021762')
+              .collection('eta')
+              .doc('eta-$licensePlate')
+              .update({'distanceStartBus': distanceStartBus});
+          ds.reference
+              // _firestoreBusCollection.doc('bus-id-95021762')
+              .collection('eta')
+              .doc('eta-$licensePlate')
+              .update({'distanceEndBus': distanceEndBus});
+
+          // var value =
+          //     ds.reference.collection('eta').doc('eta-$licensePlate').get();
+          print(
+              'eta-$licensePlate distance updated: ${distanceStartBus} ${distanceEndBus}');
+        }
+      });
+    } on FirebaseException catch (e) {
+      print(e.message);
+    }
+  }
+
+  //function that iterates every document in the collection('buses') and returns the end_address latlng property and start_address latlng property
+  Future<List<List<LatLng>>> getLatLngList() async {
+    try {
+      final snapshot = await _firestoreBusCollection.get();
+      final latLngList = snapshot.docs.map((doc) {
+        final startAddress = doc.data()['start_address'];
+        final endAddress = doc.data()['end_address'];
+        final startLatLng = LatLng(
+            startAddress['latlng']['lat'], startAddress['latlng']['lng']);
+        final endLatLng =
+            LatLng(endAddress['latlng']['lat'], endAddress['latlng']['lng']);
+        return [startLatLng, endLatLng];
+      });
+      print(latLngList.toList());
+      return latLngList.toList();
+    } on FirebaseException catch (e) {
+      print(e.message);
+      return List<List<LatLng>>.empty();
     }
   }
 }
