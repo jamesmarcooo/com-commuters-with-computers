@@ -17,6 +17,7 @@ class TakeARide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<MapState>();
+    final size = MediaQuery.of(context).size;
 
     return Builder(builder: (context) {
       final isUserDriver = state.userRepo.currentUser?.isDriverRole ?? false;
@@ -25,16 +26,69 @@ class TakeARide extends StatelessWidget {
       }
       if (isUserDriver == true) {
         return Padding(
-          padding: const EdgeInsets.all(ComTheme.elementSpacing),
-          child: CityCabButton(
-            title: state.isActive ? 'Go Offline' : 'Go Online',
-            textColor: Colors.white,
-            color: state.isActive ? Colors.green : Colors.red,
-            onTap: () {
-              state.changeActivePresence();
-            },
-          ),
-        );
+            padding: const EdgeInsets.all(ComTheme.elementSpacing),
+            child: Column(
+              children: [
+                // const SizedBox(height: 8),
+                const SizedBox(height: 0.1),
+                CityCabButton(
+                  title: state.isActive ? 'END RIDE' : 'START RIDE',
+                  textColor: Colors.white,
+                  color: state.isActive ? Colors.green : Colors.red,
+                  onTap: () {
+                    state.changeActivePresence();
+                  },
+                ),
+                Padding(padding: const EdgeInsets.only(top: 8)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(
+                        child: CityCabButton(
+                          title: 'South-bound',
+                          color: state.isSouthBound
+                              ? ComTheme.cityPurple
+                              : ComTheme.cityWhite,
+                          textColor: state.isSouthBound
+                              ? ComTheme.cityWhite
+                              : ComTheme.cityPurple,
+                          borderColor: state.isSouthBound
+                              ? Colors.grey[800]
+                              : ComTheme.cityPurple,
+                          buttonState: ButtonState.initial,
+                          onTap: () {
+                            state.setIsSouthBound();
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: CityCabButton(
+                          title: 'North-bound',
+                          color: state.isNorthBound
+                              ? ComTheme.cityPurple
+                              : ComTheme.cityWhite,
+                          textColor: state.isNorthBound
+                              ? ComTheme.cityWhite
+                              : ComTheme.cityPurple,
+                          borderColor: state.isNorthBound
+                              ? Colors.grey[800]
+                              : ComTheme.cityPurple,
+                          disableColor: ComTheme.cityLightGrey,
+                          // buttonState: ButtonState.initial,
+                          buttonState: ButtonState.initial,
+                          onTap: () {
+                            state.setIsNorthBound();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ));
       }
       return Padding(
         // padding: const EdgeInsets.all(16),

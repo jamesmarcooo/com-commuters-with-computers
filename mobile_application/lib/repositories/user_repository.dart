@@ -103,6 +103,29 @@ class UserRepository {
     return null;
   }
 
+  //function that updates isSouthBound to true or false
+  Future<User?> updateIsSouthBound(String? uid) async {
+    if (uid != null) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update({'isSouthBound': true, 'isNorthBound': false});
+      return userNotifier.value;
+    }
+    return null;
+  }
+
+  Future<User?> updateIsNorthBound(String? uid) async {
+    if (uid != null) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update({'isNorthBound': true, 'isSouthBound': false});
+      return userNotifier.value;
+    }
+    return null;
+  }
+
   //update the busId in the current user
   Future<User?> updateBusId(String? uid, String? busId) async {
     if (uid != null) {
