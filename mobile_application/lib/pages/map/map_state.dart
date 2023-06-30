@@ -54,9 +54,14 @@ class MapState extends ChangeNotifier {
   FocusNode? focusNode;
   RideState _rideState = RideState.initial;
 
+  //bus
   bool isActive = false;
   bool isSouthBound = false;
   bool isNorthBound = false;
+
+  //route start-destination
+  bool toSouthBound = false;
+  bool toNorthBound = false;
 
   RideState get rideState {
     return _rideState;
@@ -220,15 +225,37 @@ class MapState extends ChangeNotifier {
         (currentAddressController.text == startingAddressController.text)) {
       destinationAddressController.text = "${address.title}, ${address.city}";
       print(destinationAddressController.text);
+      print(int.parse(startAddress!.id));
+      print(int.parse(address.id));
       print('startAddress in end: ${startAddress!.title}');
 
       notifyListeners();
       print('ridestate: $rideState');
-      rideState == RideState.inMotion
-          ? loadRouteCoordinates(
-              MapService.instance!.currentPosition.value!.latLng,
-              address.latLng)
-          : loadRouteCoordinates(startAddress!.latLng, address.latLng);
+
+      //convert startAddress id to integer and get the difference with address id
+      if (int.parse(startAddress!.id) - int.parse(address.id) > 0) {
+        toSouthBound = false;
+        toNorthBound = true;
+        print('going north');
+        print(int.parse(startAddress!.id) - int.parse(address.id));
+      } else if (int.parse(startAddress!.id) - int.parse(address.id) < 0) {
+        toSouthBound = true;
+        toNorthBound = false;
+        print('going south');
+        print(int.parse(startAddress!.id) - int.parse(address.id));
+      }
+
+      if (rideState == RideState.inMotion) {
+        loadRouteCoordinates(
+            MapService.instance!.currentPosition.value!.latLng, address.latLng);
+      } else {
+        if (toSouthBound == false && toNorthBound == true) {
+          loadRouteCoordinates(startAddress!.latLngNorth, address.latLngNorth);
+        } else if (toSouthBound == true && toNorthBound == false) {
+          loadRouteCoordinates(startAddress!.latLngSouth, address.latLngSouth);
+        }
+      }
+
       // loadRouteCoordinates(MapService.instance!.currentPosition.value!.latLng, address.latLng);
       animateCamera(
           endTempAddress == address ? startAddress!.latLng : address.latLng);
@@ -365,9 +392,13 @@ class MapState extends ChangeNotifier {
     var value = startAddress;
     // MapService.instance?.getCurrentPosition().then((value) {
     MapService.instance?.loadBusMarkersWithinDistance(
-        value!.latLng, MapService.instance!.searchedAddress[0].latLng);
+        value!.latLng,
+        MapService.instance!.searchedAddress[0].latLng,
+        toSouthBound,
+        toNorthBound);
     var address = MapService.instance
-        ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+        ?.getNearestDriver(
+            value!.latLng, endAddress!.latLng, toSouthBound, toNorthBound)
         .then((address) => animateCamera(address?.latLng ?? value.latLng));
     notifyListeners();
     // });
@@ -387,10 +418,11 @@ class MapState extends ChangeNotifier {
 
     // MapService.instance?.getCurrentPosition().then((value) {
     var value = startAddress;
+    MapService.instance?.loadBusMarkersWithinDistance(
+        value!.latLng, endAddress!.latLng, toSouthBound, toNorthBound);
     MapService.instance
-        ?.loadBusMarkersWithinDistance(value!.latLng, endAddress!.latLng);
-    MapService.instance
-        ?.getNearestDriver(value!.latLng, endAddress!.latLng)
+        ?.getNearestDriver(
+            value!.latLng, endAddress!.latLng, toSouthBound, toNorthBound)
         .then((address) => {
               // loadBusRouteCoordinates(address!.latLng, value.latLng),
               // animateCamera(address.latLng),
@@ -439,7 +471,8 @@ class MapState extends ChangeNotifier {
 
   Future<List<Eta>> _initializeEta(LatLng startLatLng, LatLng endLatLng) async {
     final eta = <Eta>[];
-    final buses = await MapService.instance!.getBusList(startLatLng, endLatLng);
+    final buses = await MapService.instance!
+        .getBusList(startLatLng, endLatLng, toSouthBound, toNorthBound);
     print("initializing eta");
     for (var bus in buses) {
       var distanceStartBus = await MapService.instance!
@@ -464,9 +497,11 @@ class MapState extends ChangeNotifier {
             'latitude': bus.latlng!.latitude,
             'longitude': bus.latlng!.longitude,
           },
+          'isSouthBound': bus.isSouthBound,
+          'isNorthBound': bus.isNorthBound,
         },
-        etaStartBus: 0,
-        etaEndBus: 0,
+        etaStartBus: 0.0,
+        etaEndBus: 0.0,
         timeOfArrival: DateTime.now(),
         distanceStartBus: distanceStartBus,
         distanceEndBus: distanceEndBus,

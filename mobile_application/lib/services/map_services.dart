@@ -162,6 +162,8 @@ class MapService {
       state: placemark.administrativeArea ?? '',
       country: placemark.country ?? '',
       latLng: latLng,
+      latLngSouth: latLng,
+      latLngNorth: latLng,
       polylines: polylines ?? [],
       postcode: placemark.postalCode ?? '',
     );
@@ -186,6 +188,8 @@ class MapService {
                 state: placemark.administrativeArea ?? '',
                 country: placemark.country ?? '',
                 latLng: LatLng(location.latitude, location.longitude),
+                latLngSouth: LatLng(location.latitude, location.longitude),
+                latLngNorth: LatLng(location.latitude, location.longitude),
                 polylines: [],
                 postcode: placemark.postalCode ?? '',
               );
@@ -432,9 +436,10 @@ class MapService {
   }
 
   // create a loadBusMarkers function that call getActiveDrivers from user_repository.dart and call addMarker function only if the bus is within 500 meters of the user
-  Future<void> loadBusMarkersWithinDistance(
-      LatLng startLatLng, LatLng endLatLng) async {
-    final drivers = await UserRepository.instance.getActiveDrivers();
+  Future<void> loadBusMarkersWithinDistance(LatLng startLatLng,
+      LatLng endLatLng, bool toSouthBound, bool toNorthBound) async {
+    final drivers = await UserRepository.instance
+        .getActiveDrivers(toSouthBound, toNorthBound);
     print(endLatLng);
     for (var i = 0; i < drivers.length; i++) {
       final driver = drivers[i];
@@ -453,6 +458,8 @@ class MapService {
             state: driver.vehicleType,
             country: driver.vehicleColor,
             latLng: driver.latlng!,
+            latLngSouth: driver.latlng!,
+            latLngNorth: driver.latlng!,
             polylines: [],
             postcode: driver.licensePlate,
           ),
@@ -491,11 +498,12 @@ class MapService {
   }
 
   //function that returns the address of the driver (role 1) nearest to the currentposition of the user
-  Future<Address?> getNearestDriver(
-      LatLng startLatLng, LatLng endLatLng) async {
+  Future<Address?> getNearestDriver(LatLng startLatLng, LatLng endLatLng,
+      bool toSouthBound, bool toNorthBound) async {
     final List<Address> addresses = [];
 
-    final buses = await getBusList(startLatLng, endLatLng);
+    final buses =
+        await getBusList(startLatLng, endLatLng, toSouthBound, toNorthBound);
 
     //iterate through the list of buses, call getAddressFromCoodinate then add it to the list of addresses
     for (var i = 0; i < buses.length; i++) {
@@ -514,8 +522,10 @@ class MapService {
   }
 
   //create a function that accepts startLatLng and endLatLng and returns a list of addresses
-  Future<List<User>> getBusList(LatLng startLatLng, LatLng endLatLng) async {
-    final drivers = await UserRepository.instance.getActiveDrivers();
+  Future<List<User>> getBusList(LatLng startLatLng, LatLng endLatLng,
+      bool toSouthBound, bool toNorthBound) async {
+    final drivers = await UserRepository.instance
+        .getActiveDrivers(toSouthBound, toNorthBound);
     final List<User> buses = [];
     for (var i = 0; i < drivers.length; i++) {
       final driver = drivers[i];

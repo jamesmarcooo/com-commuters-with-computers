@@ -87,6 +87,14 @@ class BusRepository {
             'lat': startAddress.latLng.latitude,
             'lng': startAddress.latLng.longitude,
           },
+          'latlngSouth': {
+            'lat': startAddress.latLngSouth.latitude,
+            'lng': startAddress.latLngSouth.longitude,
+          },
+          'latlngNorth': {
+            'lat': startAddress.latLngNorth.latitude,
+            'lng': startAddress.latLngNorth.longitude,
+          },
           'post_code': startAddress.postcode,
           'state': startAddress.state,
         },
@@ -220,6 +228,14 @@ class BusRepository {
             'lat': startAddress.latLng.latitude,
             'lng': startAddress.latLng.longitude,
           },
+          'latlngSouth': {
+            'lat': startAddress.latLngSouth.latitude,
+            'lng': startAddress.latLngSouth.longitude,
+          },
+          'latlngNorth': {
+            'lat': startAddress.latLngNorth.latitude,
+            'lng': startAddress.latLngNorth.longitude,
+          },
           'post_code': startAddress.postcode,
           'state': startAddress.state,
         },
@@ -229,6 +245,14 @@ class BusRepository {
           'latlng': {
             'lat': endAddress.latLng.latitude,
             'lng': endAddress.latLng.longitude,
+          },
+          'latlngSouth': {
+            'lat': endAddress.latLngSouth.latitude,
+            'lng': endAddress.latLngSouth.longitude,
+          },
+          'latlngNorth': {
+            'lat': endAddress.latLngNorth.latitude,
+            'lng': endAddress.latLngNorth.longitude,
           },
           'post_code': endAddress.postcode,
           'state': endAddress.state,
