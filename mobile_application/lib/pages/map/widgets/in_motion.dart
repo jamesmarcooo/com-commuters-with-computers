@@ -15,8 +15,12 @@ class InMotion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<MapState>();
-    var timeOfArrival = DateFormat('hh:mm a')
-        .format(state.selectedOption?.timeOfArrival ?? DateTime.now());
+    var timeOfArrival = DateFormat('hh:mm a').format(state
+            .selectedOption?.timeOfArrival
+            .add(Duration(
+                minutes: state.selectedOption?.etaEndBus.toInt() ?? 0)) ??
+        DateTime.now().add(
+            Duration(minutes: state.selectedOption?.etaEndBus.toInt() ?? 0)));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -196,7 +200,8 @@ class InMotion extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               // 'Woji, Port Harcourt, Nigeria',
-                              '${state.startAddress?.street}, ${state.startAddress?.city}, ${state.startAddress?.state}, ${state.startAddress?.country}',
+                              // '${state.startAddress?.street}, ${state.startAddress?.city}, ${state.startAddress?.state}, ${state.startAddress?.country}',
+                              state.startingAddressController.text,
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 16,
@@ -221,7 +226,8 @@ class InMotion extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              '${state.endAddress?.title}, ${state.endAddress?.street}, ${state.endAddress?.city}, ${state.endAddress?.country}',
+                              // '${state.endAddress?.title}, ${state.endAddress?.street}, ${state.endAddress?.city}, ${state.endAddress?.country}',
+                              state.endAddressController.text,
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 16,

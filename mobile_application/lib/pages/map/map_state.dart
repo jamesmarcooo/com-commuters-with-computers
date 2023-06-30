@@ -35,6 +35,7 @@ class MapState extends ChangeNotifier {
   final currentAddressController = TextEditingController();
   final startingAddressController = TextEditingController();
   final destinationAddressController = TextEditingController();
+  final endAddressController = TextEditingController();
 
   Address? startAddress;
   Address? endAddress;
@@ -224,10 +225,15 @@ class MapState extends ChangeNotifier {
             destinationAddressController.text.isNotEmpty) ||
         (currentAddressController.text == startingAddressController.text)) {
       destinationAddressController.text = "${address.title}, ${address.city}";
+
+      if (RideState.searchingAddress == rideState) {
+        endAddressController.text = "${address.title}, ${address.city}";
+      }
       print(destinationAddressController.text);
       print(int.parse(startAddress!.id));
       print(int.parse(address.id));
       print('startAddress in end: ${startAddress!.title}');
+      print('destinationAddress in end: ${endAddressController.text}');
 
       notifyListeners();
       print('ridestate: $rideState');

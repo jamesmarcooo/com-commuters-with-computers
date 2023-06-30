@@ -16,14 +16,18 @@ class RideBus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<MapState>();
-    print(state.selectedOption?.timeOfArrival.toString());
+    print('ETAAAA ${state.selectedOption?.timeOfArrival.toString()}');
     // String timeOfArrival = Jiffy.parse(
     //         state.selectedOption?.timeOfArrival.toString() ??
     //             DateTime.now().toString(),
     //         pattern: 'h:mm:ss a')
     //     .yMMMMdjm;
-    var timeOfArrival = DateFormat('hh:mm a')
-        .format(state.selectedOption?.timeOfArrival ?? DateTime.now());
+    var timeOfArrival = DateFormat('hh:mm a').format(state
+            .selectedOption?.timeOfArrival
+            .add(Duration(
+                minutes: state.selectedOption?.etaStartBus.toInt() ?? 0)) ??
+        DateTime.now().add(
+            Duration(minutes: state.selectedOption?.etaStartBus.toInt() ?? 0)));
     // String timeOfArrival =
     //     Jiffy.parse(DateTime.now()).format('yyyy-MMMM-do, h:mm:ss a');
     return Wrap(
@@ -190,7 +194,8 @@ class RideBus extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      '${state.startAddress?.street}, ${state.startAddress?.city}, ${state.startAddress?.state}, ${state.startAddress?.country}',
+                      // '${state.startAddress?.street}, ${state.startAddress?.city}, ${state.startAddress?.state}, ${state.startAddress?.country}',
+                      state.startingAddressController.text,
                       style: TextStyle(
                         fontSize: 16,
                         height: 1.5,

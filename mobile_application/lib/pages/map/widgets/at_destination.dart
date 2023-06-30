@@ -15,8 +15,12 @@ class ArrivedAtDestination extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<MapState>();
-    var timeOfArrival = DateFormat('hh:mm a')
-        .format(state.selectedOption?.timeOfArrival ?? DateTime.now());
+    var timeOfArrival = DateFormat('hh:mm a').format(state
+            .selectedOption?.timeOfArrival
+            .add(Duration(
+                minutes: state.selectedOption?.etaEndBus.toInt() ?? 0)) ??
+        DateTime.now().add(
+            Duration(minutes: state.selectedOption?.etaEndBus.toInt() ?? 0)));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -80,7 +84,7 @@ class ArrivedAtDestination extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              state.destinationAddressController.text,
+                              state.endAddressController.text,
                               maxLines: 1,
                               style: TextStyle(
                                 fontSize: 16,
@@ -126,8 +130,12 @@ class RideDetailCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<MapState>();
-    var timeOfArrival = DateFormat('hh:mm a')
-        .format(state.selectedOption?.timeOfArrival ?? DateTime.now());
+    var timeOfArrival = DateFormat('hh:mm a').format(state
+            .selectedOption?.timeOfArrival
+            .add(Duration(
+                minutes: state.selectedOption?.etaEndBus.toInt() ?? 0)) ??
+        DateTime.now().add(
+            Duration(minutes: state.selectedOption?.etaEndBus.toInt() ?? 0)));
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
