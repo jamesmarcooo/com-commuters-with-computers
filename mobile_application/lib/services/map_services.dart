@@ -5,6 +5,7 @@ import 'package:mobile_application/constant/google_map_key.dart';
 import 'package:mobile_application/models/address.dart';
 import 'package:mobile_application/models/info_window.dart';
 import 'package:mobile_application/models/user.dart';
+import 'package:mobile_application/repositories/bus_repository.dart';
 import 'package:mobile_application/repositories/user_repository.dart';
 import 'package:mobile_application/ui/info_window/custom_info_window.dart';
 import 'package:mobile_application/ui/info_window/custom_widow.dart';
@@ -119,7 +120,7 @@ class MapService {
 
         late LocationSettings locationSettings;
         locationSettings = const LocationSettings(
-            accuracy: LocationAccuracy.high, distanceFilter: 5);
+            accuracy: LocationAccuracy.high, distanceFilter: 20);
 
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position? position) async {
@@ -135,6 +136,40 @@ class MapService {
             await UserRepository.instance.updateDriverLocation(
                 UserRepository.instance.currentUser?.uid,
                 currentPosition.value!.latLng);
+
+            var startEndLatLng = await BusRepository.instance.getLatLngList();
+
+            LatLng startLatLng, endLatLng;
+            double distanceStartBus, distanceEndBus;
+
+            print('PLS LUMABAS KA ${startEndLatLng}');
+
+            if (startEndLatLng.isNotEmpty) {
+              startLatLng = startEndLatLng[0][0];
+              endLatLng = startEndLatLng[0][1];
+
+              distanceStartBus = Geolocator.distanceBetween(
+                      startLatLng.latitude,
+                      startLatLng.longitude,
+                      currentPosition.value!.latLng.latitude,
+                      currentPosition.value!.latLng.longitude) /
+                  500;
+
+              distanceEndBus = Geolocator.distanceBetween(
+                      currentPosition.value!.latLng.latitude,
+                      currentPosition.value!.latLng.longitude,
+                      endLatLng.latitude,
+                      endLatLng.longitude) /
+                  500;
+
+              print('distanceStartBus >>>> ${distanceStartBus}');
+              print('distanceEndBus   >>>> ${distanceEndBus}');
+
+              await BusRepository.instance.updateEtaDistance(
+                  UserRepository.instance.currentUser?.licensePlate ?? '',
+                  distanceStartBus,
+                  distanceEndBus);
+            }
           }
 
           final icon = await getMapIcon(getUserMapIcon);
@@ -444,7 +479,7 @@ class MapService {
     for (var i = 0; i < drivers.length; i++) {
       final driver = drivers[i];
       final icon = await getMapIcon(getDriverMapIcon);
-      final isWithinDistance = await checkDriverDistance(2, startLatLng,
+      final isWithinDistance = await checkDriverDistance(4, startLatLng,
           LatLng(driver.latlng!.latitude, driver.latlng!.longitude));
       final isBusPassed = await checkBusPassed(startLatLng, endLatLng,
           LatLng(driver.latlng!.latitude, driver.latlng!.longitude));
@@ -526,6 +561,7 @@ class MapService {
       bool toSouthBound, bool toNorthBound) async {
     final drivers = await UserRepository.instance
         .getActiveDrivers(toSouthBound, toNorthBound);
+    print('Bus Listtttt $drivers');
     final List<User> buses = [];
     for (var i = 0; i < drivers.length; i++) {
       final driver = drivers[i];

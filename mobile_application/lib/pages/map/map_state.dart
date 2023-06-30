@@ -64,6 +64,8 @@ class MapState extends ChangeNotifier {
   bool toSouthBound = false;
   bool toNorthBound = false;
 
+  int onTapEta = 0;
+
   RideState get rideState {
     return _rideState;
   }
@@ -331,7 +333,7 @@ class MapState extends ChangeNotifier {
               "${currentPosition.value!.street}, ${currentPosition.value!.city}",
           position: currentPosition.value!.latLng,
           type: InfoWindowType.position,
-          time: Duration(),
+          time: Duration(minutes: onTapEta),
         ),
       ),
       currentPosition.value!.latLng,
@@ -396,9 +398,15 @@ class MapState extends ChangeNotifier {
 
   void loadBusMarkers() {
     var value = startAddress;
+    var valueLatLng;
+    if (toNorthBound == true && toSouthBound == false) {
+      valueLatLng = value!.latLngNorth;
+    } else if (toNorthBound == false && toSouthBound == true) {
+      valueLatLng = value!.latLngSouth;
+    }
     // MapService.instance?.getCurrentPosition().then((value) {
     MapService.instance?.loadBusMarkersWithinDistance(
-        value!.latLng,
+        valueLatLng,
         MapService.instance!.searchedAddress[0].latLng,
         toSouthBound,
         toNorthBound);
@@ -460,10 +468,20 @@ class MapState extends ChangeNotifier {
     } else {
       id = requestedBusId;
     }
+
+    var startAddressLatLng;
+    var endAddressLatLng;
+    if (toNorthBound == true && toSouthBound == false) {
+      startAddressLatLng = startAddress!.latLngNorth;
+      endAddressLatLng = endTempAddress!.latLngNorth;
+    } else if (toNorthBound == false && toSouthBound == true) {
+      startAddressLatLng = startAddress!.latLngSouth;
+      endAddressLatLng = endTempAddress!.latLngSouth;
+    }
     //TODO: fix creating a new bus-id document everytime a user views the bus list
     final bus = Bus(
       id: id,
-      busList: await _initializeEta(startAddress!.latLng, endAddress!.latLng),
+      busList: await _initializeEta(startAddressLatLng, endAddressLatLng),
       ownerUID: uid,
       startAddress: startAddress!,
       endAddress: endAddress!,
@@ -506,8 +524,8 @@ class MapState extends ChangeNotifier {
           'isSouthBound': bus.isSouthBound,
           'isNorthBound': bus.isNorthBound,
         },
-        etaStartBus: 0.0,
-        etaEndBus: 0.0,
+        // etaStartBus: 0.0,
+        // etaEndBus: 0.0,
         timeOfArrival: DateTime.now(),
         distanceStartBus: distanceStartBus,
         distanceEndBus: distanceEndBus,
@@ -519,11 +537,17 @@ class MapState extends ChangeNotifier {
   }
 
   void onTapSliderAddress(Address BusAddress, Address CurrentAddress) {
+    var startAddressLatLng;
+    if (toNorthBound == true && toSouthBound == false) {
+      startAddressLatLng = startAddress!.latLngNorth;
+    } else if (toNorthBound == false && toSouthBound == true) {
+      startAddressLatLng = startAddress!.latLngSouth;
+    }
     notifyListeners();
     loadBusRouteCoordinates(
         // address.latLng, MapService.instance!.currentPosition.value!.latLng);
         BusAddress.latLng,
-        startAddress!.latLng);
+        startAddressLatLng);
     animateCamera(BusAddress.latLng);
     MapService.instance?.controller.addInfoWindow!(
       CustomWindow(
@@ -531,7 +555,7 @@ class MapState extends ChangeNotifier {
           name: "${BusAddress.street}, ${BusAddress.city}",
           position: BusAddress.latLng,
           type: InfoWindowType.bus,
-          time: Duration(),
+          time: Duration(minutes: onTapEta),
         ),
       ),
       BusAddress.latLng,
