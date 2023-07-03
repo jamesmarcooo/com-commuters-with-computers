@@ -334,7 +334,7 @@ class MapState extends ChangeNotifier {
               "${currentPosition.value!.street}, ${currentPosition.value!.city}",
           position: currentPosition.value!.latLng,
           type: InfoWindowType.position,
-          time: Duration(minutes: onTapEta),
+          // time: Duration(minutes: onTapEta),
         ),
       ),
       currentPosition.value!.latLng,
@@ -452,7 +452,7 @@ class MapState extends ChangeNotifier {
               //   ),
               //   address.latLng,
               // )
-              onTapSliderAddress(address!, value)
+              onTapSliderAddress(address!, value, '')
             });
     // });
     // pageController.nextPage(
@@ -537,7 +537,8 @@ class MapState extends ChangeNotifier {
     return eta;
   }
 
-  void onTapSliderAddress(Address BusAddress, Address CurrentAddress) {
+  void onTapSliderAddress(
+      Address BusAddress, Address CurrentAddress, String licensePlate) {
     var startAddressLatLng;
     if (toNorthBound == true && toSouthBound == false) {
       startAddressLatLng = startAddress!.latLngNorth;
@@ -555,8 +556,10 @@ class MapState extends ChangeNotifier {
         info: CityCabInfoWindow(
           name: "${BusAddress.street}, ${BusAddress.city}",
           position: BusAddress.latLng,
-          type: InfoWindowType.bus,
-          time: Duration(minutes: onTapEta),
+          type: licensePlate.isNotEmpty
+              ? InfoWindowType.bus
+              : InfoWindowType.destination,
+          licensePlate: licensePlate,
         ),
       ),
       BusAddress.latLng,
@@ -573,7 +576,8 @@ class MapState extends ChangeNotifier {
         eta.driver['latlng']['latitude'], eta.driver['latlng']['longitude']);
     var etaBusAddress =
         await MapService.instance?.getAddressFromCoodinate(etaDriverLatLng);
-    onTapSliderAddress(etaBusAddress!, startAddress!);
+    onTapSliderAddress(
+        etaBusAddress!, startAddress!, eta.driver['licensePlate']);
     // proceedRide();
     // animateToPage(pageIndex: 7, state: RideState.confirmAddress);
 

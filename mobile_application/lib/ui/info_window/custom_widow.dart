@@ -38,12 +38,17 @@ class CustomWindow extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('${(info.time!.inMinutes) % 60}',
+                            // Text('${(info.time?.inMinutes ?? 0) % 60}',
+                            //     style: Theme.of(context)
+                            //         .textTheme
+                            //         .subtitle1
+                            //         ?.copyWith(color: ComTheme.cityWhite)),
+                            Text('${info.licensePlate?.substring(0, 3) ?? ''}',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle1
+                                    .bodyText2
                                     ?.copyWith(color: ComTheme.cityWhite)),
-                            Text('mins',
+                            Text('${info.licensePlate?.substring(3) ?? ''}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText2

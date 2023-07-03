@@ -7,7 +7,12 @@ class CityCabInfoWindow {
   final Duration? time;
   final LatLng? position;
   final InfoWindowType type;
+  final String? licensePlate;
 
   const CityCabInfoWindow(
-      {this.name, this.time, this.position, required this.type});
+      {this.name,
+      this.time,
+      this.position,
+      required this.type,
+      this.licensePlate});
 }
