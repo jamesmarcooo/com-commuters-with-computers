@@ -32,7 +32,9 @@ class CustomWindow extends StatelessWidget {
                     if (info.type == InfoWindowType.position ||
                         info.type == InfoWindowType.bus)
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.12,
+                        width: info.licensePlate == null
+                            ? MediaQuery.of(context).size.width * 0.06
+                            : MediaQuery.of(context).size.width * 0.12,
                         color: ComTheme.cityPurple,
                         height: double.infinity,
                         child: Column(

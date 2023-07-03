@@ -23,49 +23,51 @@ class SelectBus extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<MapState>();
     final isUserDriver = state.userRepo.currentUser?.isDriverRole ?? false;
-    if (state.sliderAddresses.isEmpty) {
-      return Center(child: const CircularProgressIndicator());
-    }
+
     return StreamBuilder<QuerySnapshot>(
       stream:
           BusRepository.instance.getEtaBusStream(state.requestedBusId ?? ''),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError || !snapshot.hasData) {
-          return const Text(
-              'Something went wrong in etaBusListStream in select a bus slider');
+        if (snapshot.hasError ||
+            !snapshot.hasData ||
+            snapshot.connectionState == ConnectionState.waiting) {
+          // return const Text(
+          // 'Something went wrong in etaBusListStream in select a bus slider');
+          return const Center(child: CircularProgressIndicator());
         }
 
-        final List<Eta> busList =
-            snapshot.data!.docs.map((DocumentSnapshot document) {
-          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-          return Eta.fromMap(data);
-        }).toList();
+        if (snapshot.connectionState == ConnectionState.active) {
+          final List<Eta> busList =
+              snapshot.data!.docs.map((DocumentSnapshot document) {
+            Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+            return Eta.fromMap(data);
+          }).toList();
 
-        if (snapshot.connectionState == ConnectionState.waiting ||
-            busList.isEmpty ||
-            busList[0].etaStartBus == null ||
-            !snapshot.hasData) {
-          return Center(child: const CircularProgressIndicator());
-        }
+          if (busList.isEmpty || busList[0].etaStartBus == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-        if (isUserDriver == true) {
-          return Padding(
-            padding: const EdgeInsets.all(ComTheme.elementSpacing),
-            child: CityCabButton(
-              title: state.isActive ? 'Go Offline' : 'Go Online',
-              textColor: Colors.white,
-              color: state.isActive ? Colors.green : Colors.red,
-              onTap: () {
-                state.changeActivePresence();
-              },
-            ),
-          );
-        }
+          if (isUserDriver == true) {
+            return Padding(
+              padding: const EdgeInsets.all(ComTheme.elementSpacing),
+              child: CityCabButton(
+                title: state.isActive ? 'Go Offline' : 'Go Online',
+                textColor: Colors.white,
+                color: state.isActive ? Colors.green : Colors.red,
+                onTap: () {
+                  state.changeActivePresence();
+                },
+              ),
+            );
+          }
 
-        print(
-            'select bus slider ${busList[0].distanceStartBus} ${busList[0].etaStartBus}}');
+          // if (busList.length != state.sliderEtaBuses.length) {
+          //   state.selectNearbyBus();
+          // }
 
-        if (busList.isNotEmpty) {
+          print(
+              'select bus slider ${busList[0].distanceStartBus} ${busList[0].etaStartBus}}');
+
           return Padding(
             padding:
                 const EdgeInsets.only(bottom: 8, left: 20, right: 16, top: 8),
