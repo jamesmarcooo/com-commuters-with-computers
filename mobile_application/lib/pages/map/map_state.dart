@@ -272,7 +272,8 @@ class MapState extends ChangeNotifier {
 
   void getCurrentLocation() async {
     final address = await loadMyPosition(null);
-    currentAddressController.text = "${address?.street}, ${address?.city}";
+    currentAddressController.text = "Your Current Location";
+    // currentAddressController.text = "${address?.street}, ${address?.city}";
     getNearestAddresses();
     notifyListeners();
   }

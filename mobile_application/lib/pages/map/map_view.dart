@@ -87,7 +87,8 @@ class MapView extends StatelessWidget {
                 bottom: 0,
                 child: BottomSlider(),
               ),
-              state.rideState == RideState.searchingAddress
+              state.rideState == RideState.searchingAddress ||
+                      state.rideState == RideState.initial
                   ? Positioned(
                       top: 10, left: 15, right: 15, child: SearchMapBar())
                   : SizedBox.shrink(),
