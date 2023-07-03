@@ -361,25 +361,26 @@ class MapService {
       Position? position}) async {
     if (address != null) {
       final marker = Marker(
-          markerId: MarkerId(address.id),
-          position: address.latLng,
-          icon: icon,
-          rotation: position?.heading ?? 0,
-          anchor: Offset(0.5, 0.5),
-          zIndex: 2,
-          onTap: () {
-            controller.addInfoWindow!(
-              CustomWindow(
-                info: CityCabInfoWindow(
-                  name: "${address.street}, ${address.city}",
-                  position: address.latLng,
-                  type: type,
-                  time: duration,
-                ),
-              ),
-              address.latLng,
-            );
-          });
+        markerId: MarkerId(address.id),
+        position: address.latLng,
+        icon: icon,
+        rotation: position?.heading ?? 0,
+        anchor: Offset(0.5, 0.5),
+        zIndex: 2,
+        // onTap: () {
+        //   controller.addInfoWindow!(
+        //     CustomWindow(
+        //       info: CityCabInfoWindow(
+        //         name: "${address.street}, ${address.city}",
+        //         position: address.latLng,
+        //         type: type,
+        //         time: duration,
+        //       ),
+        //     ),
+        //     address.latLng,
+        //   );
+        // }
+      );
 
       final markerPositionIndex = markers.value
           .indexWhere((marker) => marker.markerId.value == address.id);

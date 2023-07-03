@@ -587,19 +587,26 @@ class MapState extends ChangeNotifier {
   }
 
   void onTapMyAddresses(Address address) {
-    // destinationAddressController.text =
+    if ((currentAddressController.text.isNotEmpty &&
+            destinationAddressController.text.isNotEmpty) ||
+        (currentAddressController.text == startingAddressController.text)) {
+      onTapAddressList(address);
+      searchLocation();
+    } else {
+      // destinationAddressController.text =
 
-    // startingAddressController.text =
-    //     "${address.title}, ${address.street}, ${address.city}";
-    startingAddressController.text = "${address.title}, ${address.city}";
-    currentAddressController.text = "${address.title}, ${address.city}";
+      // startingAddressController.text =
+      //     "${address.title}, ${address.street}, ${address.city}";
+      startingAddressController.text = "${address.title}, ${address.city}";
+      currentAddressController.text = "${address.title}, ${address.city}";
 
-    startAddress = address;
+      startAddress = address;
 
-    notifyListeners();
-    // loadRouteCoordinates(MapService.instance!.currentPosition.value!.latLng, address.latLng);
-    animateCamera(address.latLng);
-    searchLocation();
+      notifyListeners();
+      // loadRouteCoordinates(MapService.instance!.currentPosition.value!.latLng, address.latLng);
+      animateCamera(address.latLng);
+      searchLocation();
+    }
   }
 
   void changeActivePresence() async {
