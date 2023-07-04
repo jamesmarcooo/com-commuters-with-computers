@@ -25,10 +25,12 @@ class RideBus extends StatelessWidget {
             BusRepository.instance.getEtaBusStream(state.requestedBusId ?? ''),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError ||
-              !snapshot.hasData ||
-              snapshot.connectionState == ConnectionState.waiting) {
+              (!snapshot.hasData &&
+                  snapshot.connectionState == ConnectionState.waiting)) {
             // return const Text(
             // 'Something went wrong in etaBusListStream in select a bus slider');
+            print('1');
+            print(snapshot.connectionState == ConnectionState.waiting);
             return const Center(child: CircularProgressIndicator());
           }
 
@@ -41,6 +43,7 @@ class RideBus extends StatelessWidget {
             }).toList();
 
             if (busList.isEmpty || busList[0].etaStartBus == null) {
+              print('2');
               return const Center(child: CircularProgressIndicator());
             }
 
@@ -55,6 +58,10 @@ class RideBus extends StatelessWidget {
                 .timeOfArrival
                 .add(Duration(
                     minutes: busList[index].etaStartBus?.toInt() ?? 0)));
+
+            // if (busList[0].distanceStartBus < 0.02) {
+            //   state.selectNearbyBus();
+            // }
 
             return Wrap(
               runAlignment: WrapAlignment.spaceBetween,

@@ -61,12 +61,22 @@ class SelectBus extends StatelessWidget {
             );
           }
 
-          // if (busList.length != state.sliderEtaBuses.length) {
-          //   state.selectNearbyBus();
-          // }
+          print('select bus slider ${busList.length}');
+          print('${state.sliderEtaBuses.length}');
+
+          if (busList.length != state.sliderEtaBuses.length) {
+            // state.selectNearbyBus();
+            print('RESET SELECT BUS');
+          }
+
+          print('busList ${busList}');
 
           print(
-              'select bus slider ${busList[0].distanceStartBus} ${busList[0].etaStartBus}}');
+              'select bus slider ${busList[0].driver['lastname']} ${busList[0].distanceStartBus} ${busList[0].etaStartBus}}');
+
+          if (busList[0].distanceStartBus < 0.02) {
+            state.selectNearbyBus();
+          }
 
           return Padding(
             padding:
