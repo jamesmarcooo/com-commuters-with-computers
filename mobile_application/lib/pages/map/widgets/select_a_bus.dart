@@ -74,9 +74,9 @@ class SelectBus extends StatelessWidget {
           print(
               'select bus slider ${busList[0].driver['lastname']} ${busList[0].distanceStartBus} ${busList[0].etaStartBus}}');
 
-          if (busList[0].distanceStartBus < 0.02) {
-            state.selectNearbyBus();
-          }
+          // if (busList[0].distanceStartBus < 0.02) {
+          //   state.selectNearbyBus();
+          // }
 
           return Padding(
             padding:

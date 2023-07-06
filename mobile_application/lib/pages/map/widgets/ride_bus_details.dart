@@ -278,7 +278,7 @@ class RideBus extends StatelessWidget {
                             state.pageController.previousPage(
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeIn);
-                            state.selectNearbyBus();
+                            // state.selectNearbyBus();
                           },
                         ),
                       ),
@@ -290,7 +290,7 @@ class RideBus extends StatelessWidget {
                           textColor: ComTheme.cityWhite,
                           disableColor: ComTheme.cityLightGrey,
                           // buttonState: ButtonState.initial,
-                          buttonState: state.selectedOption!.etaStartBus! < 1
+                          buttonState: state.selectedOption!.etaStartBus! < 2
                               ? ButtonState.initial
                               : ButtonState.disabled,
                           onTap: () {
