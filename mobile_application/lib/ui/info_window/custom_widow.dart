@@ -32,18 +32,25 @@ class CustomWindow extends StatelessWidget {
                     if (info.type == InfoWindowType.position ||
                         info.type == InfoWindowType.bus)
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.12,
+                        width: info.licensePlate == null
+                            ? MediaQuery.of(context).size.width * 0.06
+                            : MediaQuery.of(context).size.width * 0.12,
                         color: ComTheme.cityPurple,
                         height: double.infinity,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('${(info.time!.inMinutes) % 60}',
+                            // Text('${(info.time?.inMinutes ?? 0) % 60}',
+                            //     style: Theme.of(context)
+                            //         .textTheme
+                            //         .subtitle1
+                            //         ?.copyWith(color: ComTheme.cityWhite)),
+                            Text('${info.licensePlate?.substring(0, 3) ?? ''}',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle1
+                                    .bodyText2
                                     ?.copyWith(color: ComTheme.cityWhite)),
-                            Text('mins',
+                            Text('${info.licensePlate?.substring(3) ?? ''}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText2

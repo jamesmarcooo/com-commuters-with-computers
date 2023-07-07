@@ -110,6 +110,8 @@ class ConfirmLocation extends StatelessWidget {
                 child: Column(
                   children: [
                     state.endAddress != null
+                        // || state.currentAddressController.text ==
+                        //             state.startingAddressController.text
                         ? SizedBox.shrink()
                         : SizedBox(
                             height: MediaQuery.of(context).size.height * 0.65,
@@ -144,10 +146,14 @@ class ConfirmLocation extends StatelessWidget {
                                       ],
                                     ),
                                     onTap: () {
-                                      state.onTapAddressList(address);
+                                      // SizedBox.shrink();
                                       // if (state.endAddress == null) {
-                                      //   state.closeSearching();
-                                      // }
+                                      if (state.currentAddressController.text !=
+                                          state
+                                              .startingAddressController.text) {
+                                        state.closeSearching();
+                                      }
+                                      state.onTapAddressList(address);
                                     },
                                   );
                                 },
@@ -178,9 +184,8 @@ class ConfirmLocation extends StatelessWidget {
                               color: ComTheme.cityWhite,
                               textColor: ComTheme.cityPurple,
                               disableColor: ComTheme.cityWhite,
-                              buttonState: checkSearchingEndLocation
-                                  ? ButtonState.initial
-                                  : ButtonState.disabled,
+                              buttonState: ButtonState.initial,
+                              // checkSearchingEndLocation ? ButtonState.initial : ButtonState.disabled,
                               onTap: () {
                                 state.dropOffRestart();
                               },

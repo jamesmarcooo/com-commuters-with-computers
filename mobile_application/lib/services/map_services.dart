@@ -374,7 +374,7 @@ class MapService {
                   name: "${address.street}, ${address.city}",
                   position: address.latLng,
                   type: type,
-                  time: duration,
+                  // time: duration,
                 ),
               ),
               address.latLng,

@@ -44,6 +44,7 @@ class SearchMapBar extends StatelessWidget {
                           controller: state.currentAddressController,
                           onChanged: (v) {
                             state.searchAddress(v);
+                            state.searchLocation();
                           },
                         ).paddingBottom(12),
                       ),
@@ -54,6 +55,7 @@ class SearchMapBar extends StatelessWidget {
                           controller: state.destinationAddressController,
                           onChanged: (v) {
                             state.searchAddress(v);
+                            state.searchLocation();
                           },
                         ),
                       ),

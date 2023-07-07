@@ -112,7 +112,10 @@ class TakeARide extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Enter Your Starting Station...',
+                      state.currentAddressController.text !=
+                              state.startingAddressController.text
+                          ? 'Enter Your Starting Station...'
+                          : 'Enter Your Destination...',
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.grey[600],
